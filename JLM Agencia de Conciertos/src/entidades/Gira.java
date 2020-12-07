@@ -20,18 +20,20 @@ public class Gira {
     private String nombre;
     private Date fechainicio;
     private Date fechacierra;
-    private Informe informe; //Relacion "tener" entre Informe y Gira
+    private Informe idinforme; /*Relacion "tener" entre Informe y Gira la cual es 1:1 y he decidido en este caso meter un atributo de tipo Informe en la clase Gira
+    en este caso el atrbuto seria necesario ya que la cardinalidad minima es superior a 0*/
+    /*Hay que decir que sin la clase Gira no existiria la clase informe y es por eso que se trata de una dependencia*/
     
     //Constructores de la clase Gira
     public Gira() {
     }
 
-    public Gira(long id, String nombre, Date fechainicio, Date fechacierra, Informe informe) {
+    public Gira(long id, String nombre, Date fechainicio, Date fechacierra, Informe idinforme) {
         this.id = id;
         this.nombre = nombre;
         this.fechainicio = fechainicio;
         this.fechacierra = fechacierra;
-        this.informe = informe;
+        this.idinforme = idinforme;
     }
     
     public Gira(Gira g) {
@@ -39,7 +41,7 @@ public class Gira {
         this.nombre = g.nombre;
         this.fechainicio = g.fechainicio;
         this.fechacierra = g.fechacierra;
-        this.informe = g.informe;
+        this.idinforme = g.idinforme;
     }
     
     //Getters de la clase Gira
@@ -60,7 +62,7 @@ public class Gira {
     }
 
     public Informe getInforme() {
-        return informe;
+        return idinforme;
     }
     //Setters de la clase Gira
     public void setId(long id) {
@@ -80,13 +82,13 @@ public class Gira {
     }
 
     public void setInforme(Informe informe) {
-        this.informe = informe;
+        this.idinforme = informe;
     }
 
     //Metodo tooString de la clase Gira
     @Override
     public String toString() {
-        return "Gira{" + "id=" + id + ", nombre=" + nombre + ", fechainicio=" + fechainicio + ", fechacierra=" + fechacierra + ", informe=" + informe + '}';
+        return "Gira{" + "id=" + id + ", nombre=" + nombre + ", fechainicio=" + fechainicio + ", fechacierra=" + fechacierra + ", informe=" + idinforme + '}';
     }
     
     

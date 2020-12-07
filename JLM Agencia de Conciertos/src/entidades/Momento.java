@@ -20,7 +20,9 @@ public class Momento {
     private long id;
     private Date hora;
     private String descripcion;
-    private Reportero reportero; //Relacion capturar" entre Momento y Reportero
+    private Reportero reportero; /*Relacion "capturar" entre Momento y Reportero la cual es 1:N y en este caso he decidido añadir 
+    un atributo de tipo Reportero en la clase Momento,tambien hay que decir que seria obligatorio ya que la cardinalidad minima es superior a 0ç
+    además esta clse Momento depende directamente de que exista reporteros ya que en caso contrario esta clase no existiria*/
 
     //Constructores de la clase Momento
     public Momento() {

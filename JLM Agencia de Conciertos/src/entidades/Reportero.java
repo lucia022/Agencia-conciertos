@@ -21,7 +21,9 @@ public class Reportero {
     private String apellido;
     private String telefono;
     private String nif;
-    private ArrayList<Concierto> conciertos = new ArrayList<Concierto>(); //Relacion "Documentar" entre Reportero y Concierto
+    private ArrayList<Concierto> conciertos = new ArrayList<Concierto>(); /*Relacion "Documentar" entre Reportero y Concierto la cual es N:N por lo que
+    hemos decidido implementar ArrayList tanto en la clase Reportero como en la clase Concierto,este atributo sera obligatorio ya que la cardinalidad minima es 
+    mas de 0*/
 
     //Constructores de la clase Reportero
     public Reportero() {
