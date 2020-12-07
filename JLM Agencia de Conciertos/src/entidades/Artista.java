@@ -1,5 +1,5 @@
 
-package jlm.agencia.de.conciertos;
+package entidades;
 
 import java.util.ArrayList;
 
@@ -40,6 +40,12 @@ public class Artista {
       
     }
     
+    public Artista(Artista a) {
+       this.id = a.id;
+       this.nombre = a.nombre;
+       this.generomusical = a.generomusical;
+    }
+     
      public Artista(long id, String nombre, char generomusical) {
         this.id = id;
         this.nombre = nombre;

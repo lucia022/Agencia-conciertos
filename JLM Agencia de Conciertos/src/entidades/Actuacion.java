@@ -1,5 +1,5 @@
 
-package jlm.agencia.de.conciertos;
+package entidades;
 
 import java.util.ArrayList;
 
@@ -45,6 +45,12 @@ public class Actuacion {
         this.id = id;
         this.numerosecuencia = numerosecuencia;
         this.duracion = duracion;
+    }
+      
+        public Actuacion(Actuacion a){
+        this.id = a.id;
+        this.numerosecuencia = a.numerosecuencia;
+        this.duracion = a.duracion;
     }
       
       @Override

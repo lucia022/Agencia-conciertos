@@ -1,4 +1,4 @@
-package jlm.agencia.de.conciertos;
+package entidades;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -35,6 +35,11 @@ public class Concierto {
         this.id = id;
         this.diahora = diahora;
     }
+     
+     public Concierto (Concierto c){
+         this.id = c.id;
+         this.diahora = c.diahora;
+     }
      
      @Override
     public String toString() {

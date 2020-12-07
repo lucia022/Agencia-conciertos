@@ -1,5 +1,5 @@
 
-package jlm.agencia.de.conciertos;
+package entidades;
 
 
 public class Colaboracion extends Concierto{

@@ -1,5 +1,5 @@
 
-package jlm.agencia.de.conciertos;
+package entidades;
 
 import java.util.ArrayList;
 
@@ -44,6 +44,12 @@ public class Entrada {
         this.id = id;
         this.precio = precio;
         this.VIP = VIP;
+    }
+      
+        public Entrada(Entrada e) {
+        this.id = e.id;
+        this.precio = e.precio;
+        this.VIP = e.VIP;
     }
       
        @Override
