@@ -13,21 +13,22 @@ public class Compra {
     private long id;
     private double precio;
     private String metodopago;
-    /*He tomado la decisión de incluir un atributo identificador de la clase Usuario, ya que nos interesa saber que usuarios han realizado una compra*/
-    private Usuario usuario;
-    /*He tomado la decisión de incluir un atributo identificador de la clase Descuento, ya que nos interesa saber que descuentos se han aplicado en cada compra*/
-    private Descuento descuento;
+    private Usuario idusuario; /*Relación "realiza" entre Usuario y Compra, la cual es N:1, he decidido añadir un atributo de Usuario en la clase Compra, ya que en este caso, el atributo sería necesario, debido a que la cardinalidad mínima es superior a 0*/
+                               /*Cabe destacar, que se trata de una asociación directa entre Usuario y Compra*/
+    
+    private Descuento iddescuento; /*Relación “se aplica” entre Descuento y Compra, la cual es 1:1, he decidido añadir un atributo de Descuento en la clase Compra, ya que en este caso, el atributo sería necesario, debido a que la cardinalidad mínima es superior a 0*/
+                                   /*Cabe destacar, que sin la clase Compra no existiría la clase Descuento, por lo que se trata de una dependencia.*/
     
     /*constructor por defecto*/
     public Compra(){}
     
     /*constructor con parámetros*/
-    public Compra(long id, double precio, String metodopago, Usuario usuario, Descuento descuento) {
+    public Compra(long id, double precio, String metodopago, Usuario idusuario, Descuento iddescuento) {
         this.id = id;
         this.precio = precio;
         this.metodopago = metodopago;
-        this.usuario = usuario;
-        this.descuento = descuento;
+        this.idusuario = idusuario;
+        this.iddescuento = iddescuento;
     }
     
     /*constructor de copia*/
@@ -35,8 +36,8 @@ public class Compra {
          this.id = com.id;
         this.precio = com.precio;
         this.metodopago = com.metodopago;
-        this.usuario = com.usuario;
-        this.descuento = com.descuento;
+        this.idusuario = com.idusuario;
+        this.iddescuento = com.iddescuento;
     }
     
     /*getters y setters de cada atributo*/
@@ -64,25 +65,27 @@ public class Compra {
         this.metodopago = metodopago;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Usuario getIdusuario() {
+        return idusuario;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setIdusuario(Usuario idusuario) {
+        this.idusuario = idusuario;
     }
 
-    public Descuento getDescuento() {
-        return descuento;
+    public Descuento getIddescuento() {
+        return iddescuento;
     }
 
-    public void setDescuento(Descuento descuento) {
-        this.descuento = descuento;
+    public void setIddescuento(Descuento iddescuento) {
+        this.iddescuento = iddescuento;
     }
     
     /*método toString*/
+
     @Override
     public String toString() {
-        return "Compra{" + "id=" + id + ", precio=" + precio + ", metodopago=" + metodopago + ", usuario=" + usuario + ", descuento=" + descuento + '}';
+        return "Compra{" + "id=" + id + ", precio=" + precio + ", metodopago=" + metodopago + ", idusuario=" + idusuario + ", iddescuento=" + iddescuento + '}';
     }
+   
 }

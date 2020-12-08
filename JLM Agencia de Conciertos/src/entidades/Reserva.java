@@ -14,25 +14,24 @@ import java.sql.Date;
 public class Reserva {
      private long id;
     private Date fechamaxima;
-    
-    /*He tomado la decisión de incluir un atributo identificador de la clase Usuario, ya que nos interesa saber que usuarios han realizado una reserva*/
-    private Usuario usuario;
+    private Usuario idusuario; /*Relación "realiza" entre Usuario y Reserva, la cual es N:1, he decidido añadir un atributo de Usuario en la clase Reserva, ya que en este caso, el atributo sería necesario, debido a que la cardinalidad mínima es superior a 0*/
+                               /*Cabe destacar, que se trata de una asociación directa entre Usuario y Reserva*/
     
     /*constructor por defecto*/
     public Reserva(){}
     
     /*constructor con parámetros*/
-    public Reserva(long id, Date fechamaxima, Usuario usuario) {
+    public Reserva(long id, Date fechamaxima, Usuario idusuario) {
         this.id = id;
         this.fechamaxima = fechamaxima;
-        this.usuario = usuario;
+        this.idusuario = idusuario;
     }
     
     /*constructor de copia*/
     public Reserva(Reserva res){
         this.id = res.id;
         this.fechamaxima = res.fechamaxima;
-        this.usuario = res.usuario;
+        this.idusuario = res.idusuario;
     }
     
     /*getters y setters de cada atributo*/
@@ -52,17 +51,19 @@ public class Reserva {
         this.fechamaxima = fechamaxima;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public Usuario getIdusuario() {
+        return idusuario;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setIdusuario(Usuario idusuario) {
+        this.idusuario = idusuario;
     }
     
     /*método toString*/
+
     @Override
     public String toString() {
-        return "Reserva{" + "id=" + id + ", fechamaxima=" + fechamaxima + ", usuario=" + usuario + '}';
+        return "Reserva{" + "id=" + id + ", fechamaxima=" + fechamaxima + ", idusuario=" + idusuario + '}';
     }
+    
 }
