@@ -3,16 +3,17 @@ package entidades;
 
 import java.util.ArrayList;
 
-
+//Clase y Atributos de Artista
 public class Artista {
     
     private long id;
     private String nombre;  
     private char generomusical;
-    private Actuacion actuacion;
-    private ArrayList<Actuacion> actuaciones = new ArrayList<Actuacion>();
+    private ArrayList<Actuacion> actuaciones = new ArrayList<Actuacion>(); /* Relacion "Documentar" entre Artista y Actuación, que es N:N, por lo que
+    hemos decidido implementar ArrayList tanto en la clase Artista como en la clase Actuación, este atributo sera obligatorio ya que la cardinalidad minima es 
+    mas de 0*/
 
-   
+   //Getters y Setters de la clase Artista
     public long getId() {
         return id;
     }
@@ -37,14 +38,8 @@ public class Artista {
         this.generomusical = generomusical;
     }
     
-      public Actuacion getActuacion() {
-        return actuacion;
-    }
-
-    public void setActuacion(Actuacion actuacion) {
-        this.actuacion = actuacion;
-    }
-   
+    //Constructores de la clase Artista
+    
      public Artista() {
       
     }
@@ -53,18 +48,20 @@ public class Artista {
        this.id = a.id;
        this.nombre = a.nombre;
        this.generomusical = a.generomusical;
-       this.actuacion = a.actuacion;
+      
     }
      
-     public Artista(long id, String nombre, char generomusical, Actuacion actuacion) {
+     public Artista(long id, String nombre, char generomusical) {
         this.id = id;
         this.nombre = nombre;
         this.generomusical = generomusical;
-        this.actuacion = actuacion;
+        
     }
+     
+     //Metodo To String de la clase Artista
      
     @Override
     public String toString() {
-        return "Artista{" + "id=" + id + ", nombre=" + nombre + ", generomusical=" + generomusical + ", actuacion=" + actuacion + ", actuaciones=" + actuaciones + '}';
+        return "Artista{" + "id=" + id + ", nombre=" + nombre + ", generomusical=" + generomusical + ", actuaciones=" + actuaciones + '}';
     }
 }

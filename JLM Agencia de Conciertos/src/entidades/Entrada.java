@@ -3,16 +3,19 @@ package entidades;
 
 import java.util.ArrayList;
 
-
+//Clase y Atributos de la clase Entrada
 public class Entrada {
     
     private long id;
     private double precio;
     private boolean VIP;
-    private Compra compra;
-    private ArrayList<Concierto> conciertos = new ArrayList<Concierto>();
+    private Compra idcompra;
+    private ArrayList<Concierto> conciertos = new ArrayList<Concierto>(); /* Relacion "Documentar" entre Entraday Concierto, que es N:N, por lo que
+    hemos decidido implementar ArrayList tanto en la clase Entrada como en la clase Concierto, este atributo sera obligatorio ya que la cardinalidad minima es 
+    mas de 0*/
 
    
+    //Getterrs y Setters de la clase Entrada
     public long getId() {
         return id;
     }
@@ -38,13 +41,15 @@ public class Entrada {
     }
     
     public void setCompra(Compra compra) {
-        this.compra = compra;
+        this.idcompra = compra;
     }
 
     public Compra getCompra() {
-        return compra;
+        return idcompra;
     }
-        
+     
+    //Constructores de la clase ENtrada
+    
       public Entrada() {
        
     }
@@ -53,19 +58,21 @@ public class Entrada {
         this.id = id;
         this.precio = precio;
         this.VIP = VIP;
-        this.compra = compra;
+        this.idcompra = compra;
     }
       
         public Entrada(Entrada e) {
         this.id = e.id;
         this.precio = e.precio;
         this.VIP = e.VIP;
-        this.compra = e.compra;
+        this.idcompra = e.idcompra;
     }
       
+        //Metodo To String de la clase ENtrada
+        
      @Override
     public String toString() {
-        return "Entrada{" + "id=" + id + ", precio=" + precio + ", VIP=" + VIP + ", compra=" + compra + ", conciertos=" + conciertos + '}';
+        return "Entrada{" + "id=" + id + ", precio=" + precio + ", VIP=" + VIP + ", compra=" + idcompra + ", conciertos=" + conciertos + '}';
     }
 
 }
