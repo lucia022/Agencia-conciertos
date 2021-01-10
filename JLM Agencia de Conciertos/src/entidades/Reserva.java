@@ -6,6 +6,7 @@
 package entidades;
 
 import java.sql.Date;
+import java.util.Scanner;
 
 /**
  *
@@ -58,6 +59,32 @@ public class Reserva {
     public void setIdusuario(Usuario idusuario) {
         this.idusuario = idusuario;
     }
+    
+    
+    public static Reserva nuevaReserva(){
+    //En caso de que el id quiera ser pedido por teclado
+        Reserva nueva = new Reserva();
+        Scanner in = new Scanner(System.in);
+
+        long idnuevo;
+    
+    do {//Pedira un id(long) el cual no podra ser menor igual que 0 o este se volvera a pedir hasta que se mayor que cero
+
+            System.out.print("¿Cual es el id de su usuario?: ");
+            idnuevo = in.nextLong();
+            nueva.setId(idnuevo);
+            if (idnuevo <= 0) {
+                System.out.println("El id introducido no es valido,introduzcalo de nuevo"); //En caso de que este sea menor igual que cero se mostrara un mensaje para advertir de que es erroneo.
+            }
+
+        } while (idnuevo <= 0);
+
+        //En caso de que no se quiera pedir por teclado
+        nueva.setId(Utilidades.numReservas + 1); //Se le suma uno a la cantidad de reservas que existan en utilidades
+    
+        return nueva;
+    }
+    
     
     /*método toString*/
 
