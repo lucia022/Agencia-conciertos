@@ -15,7 +15,12 @@ import java.util.Scanner;
  */
 public class Reserva {
 
+   //Todos los atributos no podran quedar vacios
+    ///VALORES VALIDOS: Long mayores que 0.
+    //VALORES INVALIDOS: Todo lo que no sea long y que el long sea menor igual que 0.
     private long id;
+    //VALORES VALIDOS: Date con el formato dd/mm/aaaa.
+    //VALORES INVALIDOS: Todo lo que no sea Date o si el Date no tiene el formato dd/mm/aaaa.
     private Date fechamaxima;
     private Usuario idusuario;
 
@@ -71,13 +76,12 @@ public class Reserva {
         Scanner in = new Scanner(System.in);
 
         long idreserva;
-        Date fechamaximareserva;
         boolean repetir;
 
         //En caso de que el id quiera ser pedido por teclado
         do {//Pedira un id(long) el cual no podra ser menor igual que 0 o este se volvera a pedir hasta que sea mayor que cero
 
-            System.out.print("¿Cual es el id de su reserva?: ");
+            System.out.print("¿Cual es el id de su reserva?: ");//Pide por teclado el id
             idreserva = in.nextLong();
 
             System.out.print("¿" + idreserva + " es su id de reserva?(true en caso afirmativo y false en negativo): ");//Se le dice al usuario lo que ha introducido y le pregunta si esta bien
@@ -96,14 +100,16 @@ public class Reserva {
         nuevareserva.setId(idreserva);
 
         //En caso de que no se quiera pedir por teclado
-        nuevareserva.setId(Utilidades.numReservas + 1); //Se le suma uno a la cantidad de reservas que existan en utilidades
-
+        //nuevareserva.setId(Utilidades.numReservas + 1); Se le suma uno a la cantidad de reservas que existan en utilidades
+        
         
         System.out.println("");
 
         
-        fechamaximareserva = Utilidades.dameFecha();
-        System.out.println(fechamaximareserva);
+        System.out.println("Introduzca la fecha maxima de reserva");
+        Date fechamaximareserva = Fecha.dameFecha();//Se llama a la funcion dame fecha y se setea la fecha dada
+        nuevareserva.setFechamaxima(fechamaximareserva);
+        
 
         return nuevareserva;
     }
