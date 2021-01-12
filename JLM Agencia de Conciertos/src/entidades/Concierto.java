@@ -91,7 +91,7 @@ public class Concierto {
         } while (idconcierto <= 0);
         /*ret.setId(Utilidades.numConciertos + 1);*/
 
-        java.util.Date fecha = (java.util.Date) Utilidades.dameFecha();
+        java.util.Date fecha = (java.util.Date) Fecha.dameFecha();
         return ret;
     }
 }
