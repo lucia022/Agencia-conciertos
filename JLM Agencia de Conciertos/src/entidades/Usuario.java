@@ -14,18 +14,23 @@ import java.util.Scanner;
 public class Usuario {
 
     //Todos los atributos no podran quedar vacios
-    //El id solo podra ser un numero mayor estricto que 0 es decir no podra ser ni 0 ni negativo
+    //VALORES VALIDOS: Long mayores que 0.
+    //VALORES INVALIDOS: Todo lo que no sea long y que el long sea menor igual que 0.
     private long id;
-    //El nombre solo podra ser una cadena de caracteres(String) sin numeros
+    //VALORES VALIDOS: Cadenas de caracteres(String).
+    //VALORES NO VALIDOS: Todo lo que no sean cadenas de caracteres(String) y aquellas cadenas que contengan numeros entre ellas,ya que se trata de un nombre.
     private String nombre;
-    //El nombre solo podra ser una cadena de caracteres(String) sin numeros
+    //VALORES VALIDOS: Cadenas de caracteres(String).
+    //VALORES NO VALIDOS: Todo lo que no sean cadenas de caracteres(String) y aquellas cadenas que contengan numeros entre ellas,ya que se trata de un apellido.
     private String apellido;
-    //El email debera tener un arroba aunque sea
+    //VALORES VALIDOS: Cadenas de caracteres(String).
+    //VALORES NO VALIDOS: Todo lo que no sean cadenas de caracteres(String) y aquellas cadenas que no contengan un @ al menos,ya que se trata de un email.
     private String email;
-    //El NIF debera ser un conjunto de numeros y letras pero que solo podra tener 9 caracteres
+    //VALORES VALIDOS: Cadenas de caracteres(String).
+    //VALORES NO VALIDOS: Todo lo que no sean cadenas de caracteres(String) y aquellas cadenas que contengan mas o menos de 9 caracteres,ya que se trata de un NIF.
     private String nif;
 
-    /*constructor por defecto*/
+       /*constructor por defecto*/
     public Usuario() {
     }
 
@@ -100,7 +105,7 @@ public class Usuario {
         //En caso de que el id quiera ser pedido por teclado
         do {//Pedira un id(long) el cual no podra ser menor igual que 0 o este se volvera a pedir hasta que sea mayor que cero
 
-            System.out.print("¿Cual es el id de su usuario?: ");
+            System.out.print("¿Cual es el id de su usuario?: ");//Pide el id de usuario
             idusuario = in.nextLong();
 
             System.out.print("¿" + idusuario + " es su id?(true en caso afirmativo y false en negativo): ");//Se le dice al usuario lo que ha introducido y le pregunta si esta bien
@@ -119,7 +124,7 @@ public class Usuario {
         nuevousuario.setId(idusuario);
         
         //En caso de que no se quiera pedir por teclado
-        nuevousuario.setId(Utilidades.numUsuarios + 1); //Se le suma uno a la cantidad de usuarios que existan en utilidades
+        //nuevousuario.setId(Utilidades.numUsuarios + 1); Se le suma uno a la cantidad de usuarios que existan en utilidades
 
         
         System.out.println("");
@@ -266,3 +271,4 @@ public class Usuario {
     }
 
 }
+
