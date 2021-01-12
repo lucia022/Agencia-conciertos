@@ -2,18 +2,16 @@
 package entidades;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 //Clase y Atributos de la clase Entrada
 public class Entrada {
     
     private long id;
     private double precio;
-    private boolean VIP;
+    private boolean VIP = false;
     private Compra idcompra;
-    private ArrayList<Concierto> conciertos = new ArrayList<Concierto>(); /* Relacion "Documentar" entre Entraday Concierto, que es N:N, por lo que
-    hemos decidido implementar ArrayList tanto en la clase Entrada como en la clase Concierto, este atributo sera obligatorio ya que la cardinalidad minima es 
-    mas de 0*/
-
+    
    
     //Getterrs y Setters de la clase Entrada
     public long getId() {
@@ -69,10 +67,48 @@ public class Entrada {
     }
       
         //Metodo To String de la clase ENtrada
-        
-     @Override
+
+    @Override
     public String toString() {
-        return "Entrada{" + "id=" + id + ", precio=" + precio + ", VIP=" + VIP + ", compra=" + idcompra + ", conciertos=" + conciertos + '}';
+        return "Entrada{" + "id=" + id + ", precio=" + precio + ", VIP=" + VIP + ", idcompra=" + idcompra + '}';
+    }
+        
+     
+    
+    public static Entrada nuevoEntrada(){
+        Entrada ret = new Entrada();
+        Scanner in = new Scanner(System.in);
+        
+        long identrada;
+        do {
+            System.out.println("Introduzca el id de la entrada:");
+            identrada = in.nextLong();
+            ret.setId(identrada);
+            if (identrada <= 0) {
+                System.out.println("El id introducido no es válido, introduzcalo de nuevo:");
+            }
+        } while (identrada <=0);
+    
+        /*ret.setId(Utilidades.numEntradas + 1);*/
+        
+        double precio;
+        System.out.println("Introduzca el precio de la entrada:");
+        precio = in.nextDouble();
+        ret.setPrecio(precio);
+        
+        boolean VIP;
+        System.out.println("Introduzca la entrada:");
+        VIP = in.nextBoolean();
+        ret.setVIP(VIP);
+        if (VIP == false) {
+            System.out.println("La entrada no es VIP");
+        }else{
+            System.out.println("La entrada es VIP");
+        }
+            
+        return ret;
+        
+  
     }
 
 }

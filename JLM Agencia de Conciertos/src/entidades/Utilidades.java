@@ -89,7 +89,14 @@ public class Utilidades {
     };
     public static final int numCompras = COMPRAS.length;
     
-    
+    public static final Entrada ENTRADAS[] = {
+        new Entrada(1, 12.01, false, COMPRAS[3]),
+        new Entrada(2, 432.1, true, COMPRAS[1]),
+        new Entrada(3, 12.01, false, COMPRAS[5]),
+        new Entrada(4, 432.1, true, COMPRAS[4]),
+        new Entrada(5, 12.01, false, COMPRAS[3]),
+    };
+     public static final int numEntradas = ENTRADAS.length;
     
     //Parte hecha por Jonathan...asi esta...(Escrito or el propio Jonathan....Si es que no se puede dejar todo para el ultimo día...)
 
@@ -118,6 +125,34 @@ public class Utilidades {
     };
 
     public static final int numReporteros = REPORTEROS.length;
+    
+    public static final Concierto CONCIERTOS[] = {
+        new Concierto(1, Date.valueOf(LocalDate.parse("20/01/2026", dateFormatter)), ENTRADAS[1], REPORTEROS[0]),
+        new Concierto(2, Date.valueOf(LocalDate.parse("21/02/2026", dateFormatter)), ENTRADAS[0], REPORTEROS[1]),
+        new Concierto(3, Date.valueOf(LocalDate.parse("23/03/2026", dateFormatter)), ENTRADAS[4], REPORTEROS[3]),
+        new Concierto(4, Date.valueOf(LocalDate.parse("25/04/2026", dateFormatter)), ENTRADAS[2], REPORTEROS[4]),
+        new Concierto(5, Date.valueOf(LocalDate.parse("30/05/2026", dateFormatter)), ENTRADAS[3], REPORTEROS[2]),
+    };
+    public static final int numConciertos = CONCIERTOS.length;
+
+    
+     public static final Actuacion ACTUACIONES[] = {
+        new Actuacion(1, 1, 240.00, CONCIERTOS[1]),
+        new Actuacion(2, 2, 240.00, CONCIERTOS[2]),
+        new Actuacion(3, 3, 240.00, CONCIERTOS[3]),
+        new Actuacion(4, 4, 240.00, CONCIERTOS[4]),
+        new Actuacion(5, 5, 240.00, CONCIERTOS[5]),
+    };
+    public static final int numActuaciones = ACTUACIONES.length;
+    
+    public static final Artista ARTISTAS[] = {
+        new Artista(1, "La Rosalia", 'F', ACTUACIONES[0]),
+        new Artista(2, "Ozuna", 'R', ACTUACIONES[1]),
+        new Artista(3, "Anuel", 'R', ACTUACIONES[4]),
+        new Artista(4, "j Balvin", 'U', ACTUACIONES[2]),
+        new Artista(5, "Prince Roice", 'S', ACTUACIONES[3]),
+    };
+    public static final int numArtistas = ARTISTAS.length;
 
     public static final Momento MOMENTOS[] = {
         new Momento(0, Date.valueOf(LocalDate.parse("22:35", dateFormatter)), "DescripcionGiraEspañola", REPORTEROS [1]),
