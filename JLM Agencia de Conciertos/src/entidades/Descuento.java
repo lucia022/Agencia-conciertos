@@ -15,8 +15,15 @@ import java.util.Scanner;
  */
 public class Descuento {
 
+    ///Todos los atributos no podran quedar vacios
+    //VALORES VALIDOS: Long mayores que 0.
+    //VALORES INVALIDOS: Todo lo que no sea long y que el long sea menor igual que 0.
     private long id;
+    //VALORES VALIDOS: Cadenas de caracteres(String).
+    //VALORES NO VALIDOS: Todo lo que no sean cadenas de caracteres(String) y aquellas cadenas que contengan mas o menos de 7 caracteres.
     private String codigo;
+    //VALORES VALIDOS: Date con el formato dd/mm/aaaa.
+    //VALORES INVALIDOS: Todo lo que no sea Date o si el Date no tiene el formato dd/mm/aaaa y si la fecha de validez introducida es inferior a la actual(Esto lo hare para la proxima practica ya que no me dio tiempo).
     private Date fechavalidez;
 
     /*constructor por defecto*/
@@ -69,7 +76,6 @@ public class Descuento {
 
         long iddescuento;
         String codigodescuento;
-        Date fechavalidezdescuento;
         Boolean repetir;
 
         //En caso de que el id quiera ser pedido por teclado
@@ -94,7 +100,7 @@ public class Descuento {
         nuevodescuento.setId(iddescuento);
 
         //En caso de que no se quiera pedir por teclado
-        nuevodescuento.setId(Utilidades.numDescuentos + 1); //Se le suma uno a la cantidad de descuentos que existan en utilidades
+        //nuevodescuento.setId(Utilidades.numDescuentos + 1); Se le suma uno a la cantidad de descuentos que existan en utilidades
 
         System.out.println("");
 
@@ -124,11 +130,14 @@ public class Descuento {
         } while ((codigodescuento.equals("")) || (codigodescuento.equals(" ")) || (codigodescuento.length() != 7) || (repetir == false)); //Si el NIF esta vacio o este tiene mas o menos de 9 caractertes se volvera a pedir al usuario el NIF
         nuevodescuento.setCodigo(codigodescuento);
 
+        
         System.out.println("");
 
+        
         System.out.println("A continuacion introduzca la fecha de validez del descuento:");
-        fechavalidezdescuento = Utilidades.dameFecha();//Se llamara a la funcion damefecha de utilidades en la cual pedira un fecha y la validara.
-
+        Date fechavalidezdescuento = Fecha.dameFecha();//Se llamara a la funcion damefecha de utilidades en la cual pedira un fecha y la validara.
+        nuevodescuento.setFechavalidez(fechavalidezdescuento);
+        
         return nuevodescuento;
     }
 
