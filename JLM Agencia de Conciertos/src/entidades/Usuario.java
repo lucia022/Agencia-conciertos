@@ -18,19 +18,19 @@ public class Usuario {
     //VALORES INVALIDOS: Todo lo que no sea long y que el long sea menor igual que 0.
     private long id;
     //VALORES VALIDOS: Cadenas de caracteres(String).
-    //VALORES NO VALIDOS: Todo lo que no sean cadenas de caracteres(String) y aquellas cadenas que contengan numeros entre ellas,ya que se trata de un nombre.
+    //VALORES NO VALIDOS: Todo lo que no sean cadenas de caracteres(String) , aquellas cadenas que contengan cualquier caracter distinto a letras y cadenas que no contengan un minimo de  3 caracteres.
     private String nombre;
     //VALORES VALIDOS: Cadenas de caracteres(String).
-    //VALORES NO VALIDOS: Todo lo que no sean cadenas de caracteres(String) y aquellas cadenas que contengan numeros entre ellas,ya que se trata de un apellido.
+    //VALORES NO VALIDOS: Todo lo que no sean cadenas de caracteres(String) , aquellas cadenas que contengan cualquier caracter distinto a letras y cadenas que no contengan un minimo de  4 caracteres.
     private String apellido;
     //VALORES VALIDOS: Cadenas de caracteres(String).
     //VALORES NO VALIDOS: Todo lo que no sean cadenas de caracteres(String) y aquellas cadenas que no contengan un @ al menos,ya que se trata de un email.
     private String email;
     //VALORES VALIDOS: Cadenas de caracteres(String).
-    //VALORES NO VALIDOS: Todo lo que no sean cadenas de caracteres(String) y aquellas cadenas que contengan mas o menos de 9 caracteres,ya que se trata de un NIF.
+    //VALORES NO VALIDOS: Todo lo que no sean cadenas de caracteres(String) y aquellas cadenas que contengan mas o menos de 9 caracteres,ya que se trata de un NIF.Ademas debe de tener el formato correcto que es 8 numeros y 1 letra mayuscula
     private String nif;
 
-       /*constructor por defecto*/
+    /*constructor por defecto*/
     public Usuario() {
     }
 
@@ -94,124 +94,104 @@ public class Usuario {
     }
 
     public static Usuario nuevoUsuario() {
-      
+
         Usuario nuevousuario = new Usuario();
         Scanner in = new Scanner(System.in);
 
         long idusuario;
-        String nombreusuario, apellidousuario,nifusuario,emailusuario;
-        boolean fallo = true,repetir;
+        String nombreusuario, apellidousuario, nifusuario, emailusuario;
+        boolean fallo = true;
 
         //En caso de que el id quiera ser pedido por teclado
-        do {//Pedira un id(long) el cual no podra ser menor igual que 0 o este se volvera a pedir hasta que sea mayor que cero
+        /*do {//Pedira un id(long) el cual no podra ser menor igual que 0 o este se volvera a pedir hasta que sea mayor que cero
 
             System.out.print("¿Cual es el id de su usuario?: ");//Pide el id de usuario
             idusuario = in.nextLong();
-
-            System.out.print("¿" + idusuario + " es su id?(true en caso afirmativo y false en negativo): ");//Se le dice al usuario lo que ha introducido y le pregunta si esta bien
-            repetir = in.nextBoolean();
-
-            if (repetir == false) {
-                System.out.println("Vale,entonces introduzcalo de nuevo");//En caso negativo vuelve a preguntar
-                continue;
-            }
 
             if ((idusuario <= 0)) {
                 System.out.println("El id introducido no es valido ya que " + idusuario + " es menor que 1,introduzcalo de nuevo"); //En caso de que este sea menor igual que cero se mostrara un mensaje para advertir de que es erroneo.
             }
 
-        } while ((idusuario <= 0) || (repetir == false));
+        } while ((idusuario <= 0));//Se pedira otra vez el id siempre que este sea menor que 1
+        nuevousuario.setId(idusuario);//Se setea el id del usuario*/
+        
+        //En caso de que quiera ser automatico
+        idusuario = Usuario.idUsuario();
+        System.out.println("Su id de usuario sera "+idusuario);
         nuevousuario.setId(idusuario);
         
-        //En caso de que no se quiera pedir por teclado
-        //nuevousuario.setId(Utilidades.numUsuarios + 1); Se le suma uno a la cantidad de usuarios que existan en utilidades
 
-        
         System.out.println("");
 
-        
-        do { //Pedira un nombre(String) pero este no podra tener numeros,ni estar vacio o tener un espacio ya que en ese caso lo volvera a pedir hasta que este sea correcto con lo anterior
+        do { //Pedira un nombre(String) pero este no podra tener caracteres que no sean letras,ni tener menos de tres caracteres ya que en ese caso lo volvera a pedir hasta que este sea correcto con lo anterior
             in = new Scanner(System.in);
 
             System.out.print("¿Cual es su nombre?: ");  //Se pide el nombre
-            nombreusuario = in.nextLine();
+            nombreusuario = in.nextLine();  //El usuario lo introduce
 
-            System.out.print("¿" + nombreusuario + " es su nombre?(true en caso afirmativo y false en negativo): ");//Se le dice al usuario lo que ha introducido y le pregunta si esta bien
-            repetir = in.nextBoolean();
-            if (repetir == false) {
+            if ((nombreusuario.matches(".*[^a-z-A-Z].*"))) { //Buscara si el nombre de usuario tiene caracteres que son distintos a letras
+                fallo = true;
+                System.out.println("El nombre introducido contiene caracteres invalidos,inntroduzcalo de nuevo");    //Si contiene caracteres distintos a letras muestra este mensaje y sale del ciclo
+                continue;  //Tras ver que el nombre del usuario contiene caracteres distintos a letras pasara a la siguiente iteracion           
 
-                System.out.println("Vale,entonces introduzcalo de nuevo");//En caso negativo vuelve a preguntar
-                continue;
+            } else {
+                fallo = false;
+         
             }
 
-            for (int i = 0; i < nombreusuario.length(); i++) {  //Se mira si contiene numeros
-                if (Character.isDigit(nombreusuario.charAt(i))) {
-                    fallo = true;
-                    System.out.println("El nombre introducido contiene numeros,inntroduzcalo de nuevo");    //Si contiene numeros muestra este mensaje y sale del ciclo
-                    break;
-                } else {
-                    fallo = false;
-                }
+            if ((nombreusuario.length() < 3)) { //Se mirara que el nombre de usuario tenga un minimo de 3 letras
+                fallo = true;
+                System.out.println("El nombre introducido no contiene el minimo de 3 letras,por favor introduzcalo de nuevo");//En caso de tener m,enos de tres se mostrara el siguiente mensaje
+
             }
-            if ((nombreusuario.equals("")) || (nombreusuario.equals(" "))) {
-                System.out.println("No has introducido ningun nombre,es necesario introducir uno");//Si no se introduce nada muestra este mensaje
+            if ((nombreusuario.length() > 15)) { //Se mirara que el nombre de usuario no tenga mas de 15 letras
+                fallo = true;
+                System.out.println("El nombre introducido contiene mas del maximo de letras permitidasa(15),por favor introduzcalo de nuevo");//En caso de tener m,enos de tres se mostrara el siguiente mensaje
+
             }
 
-        } while ((nombreusuario.equals("")) || (nombreusuario.equals(" ")) || (fallo == true) || (repetir == false));//Si esta vacio o contiene numeros vuelve a pedir el nombre
-        nuevousuario.setNombre(nombreusuario);
+        } while (fallo);//Si contiene caracteres de menos de tres letras el nombre sera pedido de nuevo al usuario
+        nuevousuario.setNombre(nombreusuario);//Se setea el nombre del usuario
 
-        
         System.out.println("");
 
-        
-        do { //Pedira un apellido(String) pero este no podra tener numeros,ni estar vacio o tener un espacio ya que en ese caso lo volvera a pedir hasta que este sea correcto con lo anterior
+        do { //Pedira un apellido(String) pero este no podra tener caracteres que no sean letras,ni tener menos de cuatro caracteres ya que en ese caso lo volvera a pedir hasta que este sea correcto con lo anterior
             in = new Scanner(System.in);
 
-            System.out.print("¿Cual es su apellido?: ");//Se pide el apellido
-            apellidousuario = in.nextLine();
+            System.out.print("¿Cual es su apellido?: ");  //Se pide el apellido
+            apellidousuario = in.nextLine();  //El usuario lo introduce
 
-            System.out.print("¿" + apellidousuario + " es su apellido?(true en caso afirmativo y false en negativo): ");//Se le dice al usuario lo que ha introducido y le pregunta si esta bien
-            repetir = in.nextBoolean();
-            if (repetir == false) {
+            if ((apellidousuario.matches(".*[^a-z-A-Z].*"))) { //Buscara si el apellido de usuario tiene caracteres que son distintos a letras
+                fallo = true;
+                System.out.println("El apellido introducido contiene caracteres invalidos,inntroduzcalo de nuevo");    //Si contiene caracteres distintos a letras muestra este mensaje y sale del ciclo
+                continue;  //Tras ver que el apellido del usuario contiene caracteres distintos a letras pasara a la siguiente iteracion           
 
-                System.out.println("Vale,entonces introduzcalo de nuevo");//En caso negativo vuelve a preguntar
-                continue;
+            } else {
+                fallo = false;
+         
             }
 
-            for (int i = 0; i < apellidousuario.length(); i++) {//Se mira si contiene numeros
-                if (Character.isDigit(apellidousuario.charAt(i))) {
-                    fallo = true;
-                    System.out.println("El apellido introducido contiene numeros,inntroduzcalo de nuevo");//Si contiene numeros muestra este mensaje
-                    break;
-                } else {
-                    fallo = false;
-                }
+            if ((apellidousuario.length() < 4)) { //Se mirara que el apellido de usuario tenga un minimo de 4 letras
+                fallo = true;
+                System.out.println("El apellido introducido no contiene el minimo de 4 letras,por favor introduzcalo de nuevo");//En caso de tener menos de cuatro letras se mostrara el siguiente mensaje
+
+            }
+            if ((apellidousuario.length() > 15)) { //Se mirara que el apellido de usuario no tenga mas de 15 letras
+                fallo = true;
+                System.out.println("El apellido introducido contiene mas del maximo de letras permitidasa(15),por favor introduzcalo de nuevo");//En caso de tener m,enos de tres se mostrara el siguiente mensaje
+
             }
 
-            if ((apellidousuario.equals("")) || (apellidousuario.equals(" "))) {
-                System.out.println("No has introducido ningun apellido,es necesario introducir uno");//Si esta vacio muestra este mensaje
-            }
+        } while (fallo);//Si contiene caracteres de  menos de tres letras el apellido sera pedido de nuevo al usuario
+        nuevousuario.setNombre(apellidousuario);//Se setea el apellido del usuario
 
-        } while ((apellidousuario.equals("")) || (apellidousuario.equals(" ")) || (fallo == true) || (repetir == false));//En caso de estar vacio o contener numeros se volvera a pedir el apellido
-        nuevousuario.setApellido(apellidousuario);
-
-        
         System.out.println("");
 
-        
-        do { //Pedira un email(String) el cual  no podra quedar vacio y debera contener al menos un arroba, en caso contrario se volvera a pedir email hasta que esto se cumpla
+          do { //Pedira un email(String) el cual  no podra quedar vacio y debera contener al menos un arroba, en caso contrario se volvera a pedir email hasta que esto se cumpla
             in = new Scanner(System.in);
 
             System.out.print("¿Cual es su email?: ");//Se pide el email
             emailusuario = in.nextLine();
-
-            System.out.print("¿" + emailusuario + " es su email?(true en caso afirmativo y false en negativo): ");//Se le dice al usuario lo que ha introducido y le pregunta si esta bien
-            repetir = in.nextBoolean();
-            if (repetir == false) {
-
-                System.out.println("Vale,entonces introduzcalo de nuevo");//En caso negativo vuelve a preguntar
-                continue;
-            }
 
             for (int i = 0; i < emailusuario.length(); i++) {//Se mira si contiene arroba y si lo tiene sale del ciclo
                 if (emailusuario.charAt(i) == '@') {
@@ -230,38 +210,68 @@ public class Usuario {
                 System.out.println("falta el @, por favor introduzcalo de nuevo");
             }
 
-        } while ((emailusuario.equals("")) || (emailusuario.equals(" ")) || (fallo == true) || (repetir == false)); //En caso de que este el email vacio o este no contenga un @ se le volvera a pedir al usuario
+        } while (fallo); //En caso de que este el email vacio o este no contenga un @ se le volvera a pedir al usuario
         nuevousuario.setEmail(emailusuario);
 
-        
+      
         System.out.println("");
 
         
-        do {    //Pedira un nif(String) el cual no podra quedar vacio ni contener mas ni menos de 9 caracteres o se volvera a pdeir el nif hasta que esto sea cierto
+        do {    //Pedira un nif(String) el cual no podra quedar vacio nI contener mas ni menos de 9 caracteres o se volvera a pdeir el nif hasta que esto sea cierto
+            //Ademas tendra que ser de la siguiente manera 8 numeros y 1 letra en mayusculas o volvera a pedir al usuario
             in = new Scanner(System.in);
+            String numeros = "", letra = "";
 
             System.out.print("¿Cual es su nif?: "); //Se pedira el NIF
-            nifusuario = in.nextLine();
-
-            System.out.print("¿" + nifusuario + " es su NIF?(true en caso afirmativo y false en negativo): ");//Se le dice al usuario lo que ha introducido y le pregunta si esta bien
-            repetir = in.nextBoolean();
-            if (repetir == false) {
-
-                System.out.println("Vale,entonces introduzcalo de nuevo");//En caso negativo vuelve a preguntar
-                continue;
-            }
+            nifusuario = in.nextLine();//El usuario introduce el NIF
 
             if (nifusuario.length() != 9) {
-                System.out.println("NIF invalido por no ser 9 carazteres,por favor introduzcalo de nuevo");//En caso de tener mas de 9 o menos de 90 caracteres saldra el siguiente mensahje
-            }
+                fallo = true;
+                System.out.println("NIF invalido por no ser de 9 caracteres,por favor introduzcalo de nuevo");//En caso de tener mas de 9 o menos de 90 caracteres saldra el siguiente mensaje
+                continue;
 
-            if ((nifusuario.equals("")) || (nifusuario.equals(" "))) {
-                System.out.println("No has introducido ningun NIF,es necesario introducir uno");//En caso de estar vacio se muestra este mensaje
+            } else {//Una vez se sabe que tiene 9 caracteres se mirara si el formato es el correcto teniendo 8 numeros y despues una letra mayuscula
+
+                //Para empezar separamos en dos String uno en el que deberian estar los numeros y el otro la letra
+                for (int i = 0; i < nifusuario.length() - 1; i++) {//Con un ciclo metemos los priemros 8 caractertes en la variable numeros
+                    numeros += nifusuario.charAt(i);
+
+                }
+                letra += nifusuario.charAt(8);//Y el ultimo caracter lo añadimos a letra
+                nifusuario = numeros + letra;//Componemos el nif con estos dos variables
+
+                if ((numeros.matches("[0-9]*")) && (letra.matches(".*[A-Z].*"))) {//Y nos aseguramos que en la variable numeros solo haya numeros y en la letra una letra mayuscula.
+                    fallo = false;   //En caso positivo se saldra del ciclo y continuara el programa
+
+                } else {
+                    System.out.println("El formato indicado no es correcto,introduzcalo de nuevo con formato valido(8 numeros y 1 letra mayuscula,ejemplo 12345678L)");
+                    fallo = true;   //Pero en caso de ser erroeno se volvera a pedir el NIF
+
+                }
             }
-        } while ((nifusuario.equals("")) || (nifusuario.equals(" ")) || (nifusuario.length() != 9) || (repetir == false)); //Si el NIF esta vacio o este tiene mas o menos de 9 caractertes se volvera a pedir al usuario el NIF
-        nuevousuario.setNif(nifusuario);
+        } while (fallo); //Si el NIF esta vacio o este tiene mas o menos de 9 caractertes o tiene esos carcteres pero el formato no es el valido se volvera a pedir al usuario el NIF
+        nuevousuario.setNif(nifusuario);//Se setea el nif
 
         return nuevousuario;
+    }
+
+    public static long idUsuario() {
+
+        long masalto = 0;
+        if(Utilidades.USUARIOS.length == 0){
+            
+            
+        }
+        else{
+        for (int i = 0; i < Utilidades.numUsuarios; i++) {
+
+            if (Utilidades.USUARIOS[i].getId() > masalto) {
+                masalto = Utilidades.USUARIOS[i].getId(); 
+            }
+        }
+        }
+        masalto++;   
+        return masalto;
     }
 
     /*metodo toString*/
@@ -271,4 +281,3 @@ public class Usuario {
     }
 
 }
-

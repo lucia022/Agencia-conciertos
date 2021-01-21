@@ -15,7 +15,7 @@ import java.util.Scanner;
  */
 public class Reserva {
 
-   //Todos los atributos no podran quedar vacios
+    //Todos los atributos no podran quedar vacios
     ///VALORES VALIDOS: Long mayores que 0.
     //VALORES INVALIDOS: Todo lo que no sea long y que el long sea menor igual que 0.
     private long id;

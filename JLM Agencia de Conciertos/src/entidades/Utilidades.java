@@ -6,11 +6,8 @@
 package entidades;
 
 import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Scanner;
 
 /**
  *
@@ -22,20 +19,20 @@ public class Utilidades {
 
     public static final Usuario USUARIOS[] = {
         new Usuario(1, "Mario", "Araujo", "maraujoe01@educantabria.es", "11111111A"),
-        new Usuario(2, "Lucia", "Rodriguez", "lucia@gmail.com", "22222222B"),
+        new Usuario(12, "Lucia", "Rodriguez", "lucia@gmail.com", "22222222B"),
         new Usuario(3, "Jonathan", "Caballero", "jony@hotmail.es", "33333333C"),
         new Usuario(4, "Pepe", "Gonzalez", "pepe@hotmail.es", "44444444D"),
-        new Usuario(5, "Gaizka", "Patron", "gaizka@hotmail.es", "55555555E"),
+        new Usuario(8, "Gaizka", "Patron", "gaizka@hotmail.es", "55555555E"),
         new Usuario(6, "Aitor", "Perez", "aitor@hotmail.es", "66666666F")
     };
-   // public static final int numUsuarios = USUARIOS.length;
+    public static final int numUsuarios = USUARIOS.length;
 
     public static final Descuento DESCUENTOS[] = {
         new Descuento(1, "abcdefg", Date.valueOf(LocalDate.parse("20/02/2026", dateFormatter))),
         new Descuento(2, "iiiiaaa", Date.valueOf(LocalDate.parse("23/07/2027", dateFormatter))),
         new Descuento(3, "aaaaiii", Date.valueOf(LocalDate.parse("01/10/2026", dateFormatter)))
     };
-    //public static final int numDescuentos = DESCUENTOS.length;
+    public static final int numDescuentos = DESCUENTOS.length;
 
     public static final Reserva RESERVAS[] = {
         new Reserva(1, Date.valueOf(LocalDate.parse("10/02/2023", dateFormatter)), USUARIOS[0]),
@@ -43,7 +40,7 @@ public class Utilidades {
         new Reserva(3, Date.valueOf(LocalDate.parse("20/09/2024", dateFormatter)), USUARIOS[3])
 
     };
-    //public static final int numReservas = RESERVAS.length;
+    public static final int numReservas = RESERVAS.length;
 
     public static final Compra COMPRAS[] = {
         new Compra(1, 12.01, "Tarjeta", USUARIOS[0], DESCUENTOS[0]),
@@ -55,9 +52,9 @@ public class Utilidades {
         new Compra(1, 12.01, "Tarjeta", USUARIOS[0], DESCUENTOS[0]),
         new Compra(1, 12.01, "Tarjeta", USUARIOS[0], DESCUENTOS[0])
     };
-    //public static final int numCompras = COMPRAS.length;
+    public static final int numCompras = COMPRAS.length;
 
-    public static final Entrada ENTRADAS[] = {
+   /* public static final Entrada ENTRADAS[] = {
         new Entrada(1, 12.01, false, COMPRAS[3]),
         new Entrada(2, 432.1, true, COMPRAS[1]),
         new Entrada(3, 12.01, false, COMPRAS[5]),
@@ -140,6 +137,6 @@ public class Utilidades {
         new Momento(21, Date.valueOf(LocalDate.parse("00:12", dateFormatter)), "DescripcionGiraEspañola", REPORTEROS[1]),
         new Momento(22, Date.valueOf(LocalDate.parse("21:56", dateFormatter)), "DescripcionGiraEuropea", REPORTEROS[1]),};
 
-    //public static final int numMomenos = MOMENTOS.length;
+    //public static final int numMomenos = MOMENTOS.length;*/
 
 }
