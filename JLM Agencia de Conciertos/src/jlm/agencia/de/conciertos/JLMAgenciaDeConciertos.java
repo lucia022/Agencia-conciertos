@@ -30,7 +30,7 @@ public class JLMAgenciaDeConciertos {
         Scanner in = new Scanner(System.in);
         int opcion;
 
-        /*do {
+        do {
             System.out.print("Para poder hacer una consulta necesitas ser usuario con cuenta.\nNo tiene cuenta y desea registrarse(1) \nYa tiene una cuenta y desea iniciar sesion(2)\nSalir del programa(0)\n(0,1 o 2): ");
             opcion = in.nextInt();
             System.out.println("");
@@ -40,18 +40,41 @@ public class JLMAgenciaDeConciertos {
                 case 0:
                     System.out.println("Sentimos no poder ayudarle,que tenga un buen dia.");
                     return;
-
+                    
+                    
                 case 1:
+                    
+                    boolean fallo = false;
+                    do{
                     System.out.println("Bienvenido al registro de usuario,para registrarse de la siguiente informacion");
-                    usuarios.add(Usuario.nuevoUsuario());
+                    Usuario nuevo = new Usuario();
+                    nuevo = Usuario.nuevoUsuario();
+                    
+                    for(int i = 0;i<usuarios.size();i++){
+                        
+                        fallo = false;
+                        if(nuevo.getNif().equals(usuarios.get(i).getNif())){
+                            fallo = true;
+                            System.out.println("Ese NIF ya esta siendo utilizado por otro usuario,por favor introduzca datos verdaderos");
+                        }
+                        
+                        if(nuevo.getEmail().equals(usuarios.get(i).getEmail())){
+                            fallo = true;
+                            System.out.println("Ese email ya esta siendo utilizado por otro usuario,por favor introduzca datos verdaderos");
+                        }
+                        
+                    }
+                    }while(fallo);
                     System.out.println("Su usuario ha sido registrado correctamente");
+                    usuarios.add(Usuario.nuevoUsuario());
                     break;
 
                 case 2:
                     break;
 
             }
-        } while ((opcion < 0) || (opcion > 2));*/
+        } while ((opcion < 0) || (opcion > 2));
+        
         do {
             in = new Scanner(System.in);
             System.out.println("¿Hola que desea?");
@@ -80,7 +103,7 @@ public class JLMAgenciaDeConciertos {
                             case 1:
 
                                 System.out.println("El total de usuario es de " + Utilidades.USUARIOS.length + " y son los siguientes:");
-                                for (int i = 0; i < Utilidades.USUARIOS.length; i++) {
+                                for (int i = 0; i < usuarios.size(); i++) {
 
                                     System.out.println("Usuario Nº" + (i + 1) + " " + usuarios.get(i));
 
@@ -114,7 +137,7 @@ public class JLMAgenciaDeConciertos {
                                             System.out.println("Introduzca el id del usuario a buscar");
                                             idbuscado = in.nextInt();
 
-                                            for (int i = 0; i < Utilidades.USUARIOS.length; i++) {
+                                            for (int i = 0; i < usuarios.size(); i++) {
 
                                                 if (usuarios.get(i).getId() == idbuscado) {
                                                     System.out.println("El usuario que buscas es " + usuarios.get(i));
@@ -172,7 +195,7 @@ public class JLMAgenciaDeConciertos {
                                                 }
                                             } while (fallo); //Si el NIF esta vacio o este tiene mas o menos de 9 caractertes o tiene esos carcteres pero el formato no es el valido se volvera a pedir al usuario el NIF
 
-                                            for (int i = 0; i < Utilidades.USUARIOS.length; i++) {
+                                            for (int i = 0; i < usuarios.size(); i++) {
 
                                                 if (nifusuario.equals(usuarios.get(i).getNif())) {
                                                     System.out.println("El usuario que buscas es " + usuarios.get(i));
