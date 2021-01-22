@@ -5,6 +5,7 @@
  */
 package entidades;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -117,7 +118,7 @@ public class Usuario {
         
         //En caso de que quiera ser automatico
         idusuario = Usuario.idUsuario();
-        System.out.println("Su id de usuario sera "+idusuario);
+        System.out.println("Su id de usuario sera el "+idusuario);
         nuevousuario.setId(idusuario);
         
 
@@ -255,15 +256,14 @@ public class Usuario {
         return nuevousuario;
     }
 
-    public static long idUsuario() {
+    public static long idUsuario() {//Metodo para conseguir el id de forma automatica(se le suma uno al numero mas grande de id que haya)
 
         long masalto = 0;
-        if(Utilidades.USUARIOS.length == 0){
-            
+        if(Utilidades.USUARIOS.length == 0){     //En caso de que no haya ningun objeto se empezara en uno
             
         }
         else{
-        for (int i = 0; i < Utilidades.numUsuarios; i++) {
+        for (int i = 0; i < Utilidades.numUsuarios; i++) {//Busca el id mas grande que hay entre los objetos y le suma 1
 
             if (Utilidades.USUARIOS[i].getId() > masalto) {
                 masalto = Utilidades.USUARIOS[i].getId(); 
@@ -274,10 +274,25 @@ public class Usuario {
         return masalto;
     }
 
+    
+    public static ArrayList<Usuario> todosUsuarios(){   //Metodo para copiar todos los objetos de utilidades en un arraylist y poder manipularlo
+        
+        ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
+        for(int i = 0;i< Utilidades.USUARIOS.length;i++){
+            
+            usuarios.add(Utilidades.USUARIOS[i]);
+        }
+        return usuarios;
+    }
+    
+    
+    
+    
     /*metodo toString*/
     @Override
     public String toString() {
-        return "Usuario{" + "id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", email=" + email + ", nif=" + nif + '}';
+        return " "+ nombre + " " + apellido + "  email:" + email + "  NIF:" + nif + "\n";
     }
+    
 
 }
