@@ -28,6 +28,7 @@ public class JLMAgenciaDeConciertos {
         usuarios = Usuario.todosUsuarios();
 
         Scanner in = new Scanner(System.in);
+        Usuario usuariologeado = new Usuario();
         int opcion;
 
         do {
@@ -40,41 +41,47 @@ public class JLMAgenciaDeConciertos {
                 case 0:
                     System.out.println("Sentimos no poder ayudarle,que tenga un buen dia.");
                     return;
-                    
-                    
+
                 case 1:
-                    
+
                     boolean fallo = false;
-                    do{
-                    System.out.println("Bienvenido al registro de usuario,para registrarse de la siguiente informacion");
-                    Usuario nuevo = new Usuario();
-                    nuevo = Usuario.nuevoUsuario();
-                    
-                    for(int i = 0;i<usuarios.size();i++){
+                    do {
+                        System.out.println("Bienvenido al registro de usuario,para registrarse de la siguiente informacion");
+                        usuariologeado = Usuario.nuevoUsuario();
                         
-                        fallo = false;
-                        if(nuevo.getNif().equals(usuarios.get(i).getNif())){
-                            fallo = true;
-                            System.out.println("Ese NIF ya esta siendo utilizado por otro usuario,por favor introduzca datos verdaderos");
+                        for (int i = 0; i < usuarios.size(); i++) {
+
+                            
+                            fallo = false;
+                            if (usuariologeado.getNif().equals(usuarios.get(i).getNif())) {
+                                fallo = true;
+                                System.out.println("Ese NIF ya esta siendo utilizado por otro usuario,por favor introduzca datos verdaderos");
+                            }
+
+                            if (usuariologeado.getEmail().equals(usuarios.get(i).getEmail())) {
+                                fallo = true;
+                                System.out.println("Ese email ya esta siendo utilizado por otro usuario,por favor introduzca datos verdaderos");
+                            }
+
                         }
-                        
-                        if(nuevo.getEmail().equals(usuarios.get(i).getEmail())){
-                            fallo = true;
-                            System.out.println("Ese email ya esta siendo utilizado por otro usuario,por favor introduzca datos verdaderos");
-                        }
-                        
-                    }
-                    }while(fallo);
+                    } while (fallo);
                     System.out.println("Su usuario ha sido registrado correctamente");
-                    usuarios.add(Usuario.nuevoUsuario());
+                    usuarios.add(usuariologeado);
                     break;
 
                 case 2:
+                    
+                    System.out.println("Bienvenido al inicio de sesion de usuario,introduzca sus datos");
+                    Usuario iniciodesesion = new Usuario();
+                    iniciodesesion = Usuario.inicioSesion();
+                    
+                    
+                    
                     break;
 
             }
         } while ((opcion < 0) || (opcion > 2));
-        
+
         do {
             in = new Scanner(System.in);
             System.out.println("¿Hola que desea?");
@@ -159,7 +166,8 @@ public class JLMAgenciaDeConciertos {
                                         case 2:
                                             in = new Scanner(System.in);
                                             String nifusuario = "";
-                                            boolean encontradonif = false,fallo ;
+                                            boolean encontradonif = false,
+                                             fallo;
 
                                             do {    //Pedira un nif(String) el cual no podra quedar vacio nI contener mas ni menos de 9 caracteres o se volvera a pdeir el nif hasta que esto sea cierto
                                                 //Ademas tendra que ser de la siguiente manera 8 numeros y 1 letra en mayusculas o volvera a pedir al usuario

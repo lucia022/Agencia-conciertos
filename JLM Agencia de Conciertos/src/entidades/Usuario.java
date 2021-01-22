@@ -286,6 +286,83 @@ public class Usuario {
     }
     
     
+    public static Usuario inicioSesion(){
+        
+        Usuario iniciodesesion = new Usuario();
+        Scanner in = new Scanner(System.in);
+        String emailusuario,nifusuario;
+        Boolean fallo = true;
+        
+        do { //Pedira un email(String) el cual  no podra quedar vacio y debera contener al menos un arroba, en caso contrario se volvera a pedir email hasta que esto se cumpla
+            
+
+            System.out.print("¿Cual es su email?: ");//Se pide el email
+            emailusuario = in.nextLine();
+
+            for (int i = 0; i < emailusuario.length(); i++) {//Se mira si contiene arroba y si lo tiene sale del ciclo
+                if (emailusuario.charAt(i) == '@') {
+                    fallo = false;
+                    break;
+                } else {
+                    fallo = true;
+                }
+            }
+
+            if ((emailusuario.equals("")) || (emailusuario.equals(" "))) {//En caso de estar vacio se mostrara el siguiente mesaje
+                System.out.println("No has introducido ningun email,es necesario introducir uno");//En caso de estar vacio se muestra este mensaje
+            }
+
+            if (fallo == true) {//En caso de no contener un @ se mostrara el siguiente mensaje
+                System.out.println("falta el @, por favor introduzcalo de nuevo");
+            }
+
+        } while (fallo); //En caso de que este el email vacio o este no contenga un @ se le volvera a pedir al usuario
+        iniciodesesion.setEmail(emailusuario);
+
+      
+        System.out.println("");
+
+        
+        do {    //Pedira un nif(String) el cual no podra quedar vacio nI contener mas ni menos de 9 caracteres o se volvera a pdeir el nif hasta que esto sea cierto
+            //Ademas tendra que ser de la siguiente manera 8 numeros y 1 letra en mayusculas o volvera a pedir al usuario
+            in = new Scanner(System.in);
+            String numeros = "", letra = "";
+
+            System.out.print("¿Cual es su nif?: "); //Se pedira el NIF
+            nifusuario = in.nextLine();//El usuario introduce el NIF
+
+            if (nifusuario.length() != 9) {
+                fallo = true;
+                System.out.println("NIF invalido por no ser de 9 caracteres,por favor introduzcalo de nuevo");//En caso de tener mas de 9 o menos de 90 caracteres saldra el siguiente mensaje
+                continue;
+
+            } else {//Una vez se sabe que tiene 9 caracteres se mirara si el formato es el correcto teniendo 8 numeros y despues una letra mayuscula
+
+                //Para empezar separamos en dos String uno en el que deberian estar los numeros y el otro la letra
+                for (int i = 0; i < nifusuario.length() - 1; i++) {//Con un ciclo metemos los priemros 8 caractertes en la variable numeros
+                    numeros += nifusuario.charAt(i);
+
+                }
+                letra += nifusuario.charAt(8);//Y el ultimo caracter lo añadimos a letra
+                nifusuario = numeros + letra;//Componemos el nif con estos dos variables
+
+                if ((numeros.matches("[0-9]*")) && (letra.matches(".*[A-Z].*"))) {//Y nos aseguramos que en la variable numeros solo haya numeros y en la letra una letra mayuscula.
+                    fallo = false;   //En caso positivo se saldra del ciclo y continuara el programa
+
+                } else {
+                    System.out.println("El formato indicado no es correcto,introduzcalo de nuevo con formato valido(8 numeros y 1 letra mayuscula,ejemplo 12345678L)");
+                    fallo = true;   //Pero en caso de ser erroeno se volvera a pedir el NIF
+
+                }
+            }
+        } while (fallo); //Si el NIF esta vacio o este tiene mas o menos de 9 caractertes o tiene esos carcteres pero el formato no es el valido se volvera a pedir al usuario el NIF
+        iniciodesesion.setNif(nifusuario);//Se setea el nif
+
+        return iniciodesesion;
+        
+        
+    }
+    
     
     
     /*metodo toString*/
