@@ -184,7 +184,7 @@ public class Usuario {
             }
 
         } while (fallo);//Si contiene caracteres de  menos de tres letras el apellido sera pedido de nuevo al usuario
-        nuevousuario.setNombre(apellidousuario);//Se setea el apellido del usuario
+        nuevousuario.setApellido(apellidousuario);//Se setea el apellido del usuario
 
         System.out.println("");
 
