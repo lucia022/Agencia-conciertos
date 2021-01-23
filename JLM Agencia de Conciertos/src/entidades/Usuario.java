@@ -115,12 +115,10 @@ public class Usuario {
 
         } while ((idusuario <= 0));//Se pedira otra vez el id siempre que este sea menor que 1
         nuevousuario.setId(idusuario);//Se setea el id del usuario*/
-        
         //En caso de que quiera ser automatico
         idusuario = Usuario.idUsuario();
-        System.out.println("Su id de usuario sera el "+idusuario);
+        System.out.println("Su id de usuario sera el " + idusuario);
         nuevousuario.setId(idusuario);
-        
 
         System.out.println("");
 
@@ -137,7 +135,7 @@ public class Usuario {
 
             } else {
                 fallo = false;
-         
+
             }
 
             if ((nombreusuario.length() < 3)) { //Se mirara que el nombre de usuario tenga un minimo de 3 letras
@@ -169,7 +167,7 @@ public class Usuario {
 
             } else {
                 fallo = false;
-         
+
             }
 
             if ((apellidousuario.length() < 4)) { //Se mirara que el apellido de usuario tenga un minimo de 4 letras
@@ -188,7 +186,7 @@ public class Usuario {
 
         System.out.println("");
 
-          do { //Pedira un email(String) el cual  no podra quedar vacio y debera contener al menos un arroba, en caso contrario se volvera a pedir email hasta que esto se cumpla
+        do { //Pedira un email(String) el cual  no podra quedar vacio y debera contener al menos un arroba, en caso contrario se volvera a pedir email hasta que esto se cumpla
             in = new Scanner(System.in);
 
             System.out.print("¿Cual es su email?: ");//Se pide el email
@@ -214,10 +212,8 @@ public class Usuario {
         } while (fallo); //En caso de que este el email vacio o este no contenga un @ se le volvera a pedir al usuario
         nuevousuario.setEmail(emailusuario);
 
-      
         System.out.println("");
 
-        
         do {    //Pedira un nif(String) el cual no podra quedar vacio nI contener mas ni menos de 9 caracteres o se volvera a pdeir el nif hasta que esto sea cierto
             //Ademas tendra que ser de la siguiente manera 8 numeros y 1 letra en mayusculas o volvera a pedir al usuario
             in = new Scanner(System.in);
@@ -229,7 +225,6 @@ public class Usuario {
             if (nifusuario.length() != 9) {
                 fallo = true;
                 System.out.println("NIF invalido por no ser de 9 caracteres,por favor introduzcalo de nuevo");//En caso de tener mas de 9 o menos de 90 caracteres saldra el siguiente mensaje
-                continue;
 
             } else {//Una vez se sabe que tiene 9 caracteres se mirara si el formato es el correcto teniendo 8 numeros y despues una letra mayuscula
 
@@ -259,117 +254,173 @@ public class Usuario {
     public static long idUsuario() {//Metodo para conseguir el id de forma automatica(se le suma uno al numero mas grande de id que haya)
 
         long masalto = 0;
-        if(Utilidades.USUARIOS.length == 0){     //En caso de que no haya ningun objeto se empezara en uno
-            
-        }
-        else{
-        for (int i = 0; i < Utilidades.numUsuarios; i++) {//Busca el id mas grande que hay entre los objetos y le suma 1
+        if (Utilidades.USUARIOS.length == 0) {     //En caso de que no haya ningun objeto se empezara en uno
 
-            if (Utilidades.USUARIOS[i].getId() > masalto) {
-                masalto = Utilidades.USUARIOS[i].getId(); 
+        } else {
+            for (int i = 0; i < Utilidades.numUsuarios; i++) {//Busca el id mas grande que hay entre los objetos y le suma 1
+
+                if (Utilidades.USUARIOS[i].getId() > masalto) {
+                    masalto = Utilidades.USUARIOS[i].getId();
+                }
             }
         }
-        }
-        masalto++;   
+        masalto++;
         return masalto;
     }
 
-    
-    public static ArrayList<Usuario> todosUsuarios(){   //Metodo para copiar todos los objetos de utilidades en un arraylist y poder manipularlo
-        
+    public static ArrayList<Usuario> todosUsuarios() {   //Metodo para copiar todos los objetos de utilidades en un arraylist y poder manipularlo
+
         ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
-        for(int i = 0;i< Utilidades.USUARIOS.length;i++){
-            
+        for (int i = 0; i < Utilidades.USUARIOS.length; i++) {
+
             usuarios.add(Utilidades.USUARIOS[i]);
         }
         return usuarios;
     }
-    
-    
-    public static Usuario inicioSesion(){
-        
-        Usuario iniciodesesion = new Usuario();
+
+    public static Usuario inicioSesion(ArrayList<Usuario> usuarios) {
+
+        Usuario usuariologeado = new Usuario();
         Scanner in = new Scanner(System.in);
-        String emailusuario,nifusuario;
+
+        String emailusuario, nifusuario;
+        int opcion = 0, contador = 0;
         Boolean fallo = true;
-        
-        do { //Pedira un email(String) el cual  no podra quedar vacio y debera contener al menos un arroba, en caso contrario se volvera a pedir email hasta que esto se cumpla
-            
 
-            System.out.print("¿Cual es su email?: ");//Se pide el email
-            emailusuario = in.nextLine();
+        System.out.println("Bienvenido al inicio de sesion de usuario,introduzca sus datos");
 
-            for (int i = 0; i < emailusuario.length(); i++) {//Se mira si contiene arroba y si lo tiene sale del ciclo
-                if (emailusuario.charAt(i) == '@') {
-                    fallo = false;
-                    break;
-                } else {
+        do {
+            do { //Pedira un email(String) el cual  no podra quedar vacio y debera contener al menos un arroba, en caso contrario se volvera a pedir email hasta que esto se cumpla
+
+                System.out.print("¿Cual es su email?: ");//Se pide el email
+                emailusuario = in.nextLine();
+
+                for (int i = 0; i < emailusuario.length(); i++) {//Se mira si contiene arroba y si lo tiene sale del ciclo
+                    if (emailusuario.charAt(i) == '@') {
+                        fallo = false;
+                        break;
+                    } else {
+                        fallo = true;
+                    }
+                }
+
+                if (fallo == true) {//En caso de no contener un @ se mostrara el siguiente mensaje
+                    System.out.println("falta el @, por favor introduzcalo de nuevo");
+                }
+
+            } while (fallo); //En caso de que este el email vacio o este no contenga un @ se le volvera a pedir al usuario
+
+            System.out.println("");
+
+            do {    //Pedira un nif(String) el cual no podra quedar vacio nI contener mas ni menos de 9 caracteres o se volvera a pdeir el nif hasta que esto sea cierto
+                //Ademas tendra que ser de la siguiente manera 8 numeros y 1 letra en mayusculas o volvera a pedir al usuario
+                in = new Scanner(System.in);
+                String numeros = "", letra = "";
+
+                System.out.print("¿Cual es su nif?: "); //Se pedira el NIF
+                nifusuario = in.nextLine();//El usuario introduce el NIF
+
+                if (nifusuario.length() != 9) {
                     fallo = true;
+                    System.out.println("NIF invalido por no ser de 9 caracteres,por favor introduzcalo de nuevo");//En caso de tener mas de 9 o menos de 90 caracteres saldra el siguiente mensaje
+
+                } else {//Una vez se sabe que tiene 9 caracteres se mirara si el formato es el correcto teniendo 8 numeros y despues una letra mayuscula
+
+                    //Para empezar separamos en dos String uno en el que deberian estar los numeros y el otro la letra
+                    for (int i = 0; i < nifusuario.length() - 1; i++) {//Con un ciclo metemos los priemros 8 caractertes en la variable numeros
+                        numeros += nifusuario.charAt(i);
+
+                    }
+                    letra += nifusuario.charAt(8);//Y el ultimo caracter lo añadimos a letra
+                    nifusuario = numeros + letra;//Componemos el nif con estos dos variables
+
+                    if ((numeros.matches("[0-9]*")) && (letra.matches(".*[A-Z].*"))) {//Y nos aseguramos que en la variable numeros solo haya numeros y en la letra una letra mayuscula.
+                        fallo = false;   //En caso positivo se saldra del ciclo y continuara el programa
+
+                    } else {
+                        System.out.println("El formato indicado no es correcto,introduzcalo de nuevo con formato valido(8 numeros y 1 letra mayuscula,ejemplo 12345678L)");
+                        fallo = true;   //Pero en caso de ser erroeno se volvera a pedir el NIF
+
+                    }
                 }
-            }
+            } while (fallo); //Si el NIF esta vacio o este tiene mas o menos de 9 caractertes o tiene esos carcteres pero el formato no es el valido se volvera a pedir al usuario el NIF
 
-            if ((emailusuario.equals("")) || (emailusuario.equals(" "))) {//En caso de estar vacio se mostrara el siguiente mesaje
-                System.out.println("No has introducido ningun email,es necesario introducir uno");//En caso de estar vacio se muestra este mensaje
-            }
+            for (int i = 0; i < usuarios.size(); i++) {
 
-            if (fallo == true) {//En caso de no contener un @ se mostrara el siguiente mensaje
-                System.out.println("falta el @, por favor introduzcalo de nuevo");
-            }
+                if ((emailusuario.equals(usuarios.get(i).getEmail())) && (nifusuario.equals(usuarios.get(i).getNif()))) {
 
-        } while (fallo); //En caso de que este el email vacio o este no contenga un @ se le volvera a pedir al usuario
-        iniciodesesion.setEmail(emailusuario);
-
-      
-        System.out.println("");
-
-        
-        do {    //Pedira un nif(String) el cual no podra quedar vacio nI contener mas ni menos de 9 caracteres o se volvera a pdeir el nif hasta que esto sea cierto
-            //Ademas tendra que ser de la siguiente manera 8 numeros y 1 letra en mayusculas o volvera a pedir al usuario
-            in = new Scanner(System.in);
-            String numeros = "", letra = "";
-
-            System.out.print("¿Cual es su nif?: "); //Se pedira el NIF
-            nifusuario = in.nextLine();//El usuario introduce el NIF
-
-            if (nifusuario.length() != 9) {
-                fallo = true;
-                System.out.println("NIF invalido por no ser de 9 caracteres,por favor introduzcalo de nuevo");//En caso de tener mas de 9 o menos de 90 caracteres saldra el siguiente mensaje
-                continue;
-
-            } else {//Una vez se sabe que tiene 9 caracteres se mirara si el formato es el correcto teniendo 8 numeros y despues una letra mayuscula
-
-                //Para empezar separamos en dos String uno en el que deberian estar los numeros y el otro la letra
-                for (int i = 0; i < nifusuario.length() - 1; i++) {//Con un ciclo metemos los priemros 8 caractertes en la variable numeros
-                    numeros += nifusuario.charAt(i);
-
+                    usuariologeado = usuarios.get(i);
+                    System.out.println("Usuario encontrado,bienvenido " + usuarios.get(i).nombre + " " + usuarios.get(i).getApellido());
+                    break;
                 }
-                letra += nifusuario.charAt(8);//Y el ultimo caracter lo añadimos a letra
-                nifusuario = numeros + letra;//Componemos el nif con estos dos variables
-
-                if ((numeros.matches("[0-9]*")) && (letra.matches(".*[A-Z].*"))) {//Y nos aseguramos que en la variable numeros solo haya numeros y en la letra una letra mayuscula.
-                    fallo = false;   //En caso positivo se saldra del ciclo y continuara el programa
-
-                } else {
-                    System.out.println("El formato indicado no es correcto,introduzcalo de nuevo con formato valido(8 numeros y 1 letra mayuscula,ejemplo 12345678L)");
-                    fallo = true;   //Pero en caso de ser erroeno se volvera a pedir el NIF
-
-                }
+                contador++;
             }
-        } while (fallo); //Si el NIF esta vacio o este tiene mas o menos de 9 caractertes o tiene esos carcteres pero el formato no es el valido se volvera a pedir al usuario el NIF
-        iniciodesesion.setNif(nifusuario);//Se setea el nif
 
-        return iniciodesesion;
-        
-        
+            if (contador != usuarios.size()) {
+
+                return usuariologeado;
+
+            } else {
+
+                in = new Scanner(System.in);
+                do {
+
+                    System.out.println("Email o NIF incorrectos,quiere volver a introducirlos(pulse 1) o quiere salirse del programa(pulse 0)");
+                    opcion = in.nextInt();
+
+                } while ((opcion != 0) && (opcion != 1));
+
+            }
+        } while (opcion == 1);
+        return null;
     }
-    
-    
-    
+
+    public static Usuario registrousuario(ArrayList<Usuario> usuarios) {//Funcion a la cual se le pasa el array con todos los usuarios y permite registrarse como uno nuevo añadiendo este a la lista que ya hay
+
+        Scanner in = new Scanner(System.in);
+        Usuario usuarioregistrado = new Usuario();
+        boolean fallo = false;
+
+        do {
+            System.out.println("Bienvenido al registro de usuario,para registrarse de la siguiente informacion");
+            usuarioregistrado = Usuario.nuevoUsuario();
+            int opcion = 0;
+            fallo = false;
+            for (int i = 0; i < usuarios.size(); i++) {
+
+                if (usuarioregistrado.getNif().equals(usuarios.get(i).getNif()) || usuarioregistrado.getEmail().equals(usuarios.get(i).getEmail())) {
+
+                    fallo = true;
+                    if (usuarioregistrado.getNif().equals(usuarios.get(i).getNif())) {
+
+                        System.out.println("Ese NIF ya esta siendo utilizado por otro usuario,por favor introduzca datos personales");
+                    }
+                    if (usuarioregistrado.getEmail().equals(usuarios.get(i).getEmail())) {
+
+                        System.out.println("Ese email ya esta siendo utilizado por otro usuario,por favor introduzca datos personales\n");
+
+                    }
+                    
+                    do{
+                    System.out.println("Quiere volver a intentar registrarse(pulse 1) o desea salir del programa(pulse 0)");
+                    opcion = in.nextInt();
+                    }while((opcion != 0)&&(opcion != 1));
+                    if(opcion == 0){
+                        
+                        return null;
+                    }
+                }
+
+            }
+        } while (fallo);
+
+        return usuarioregistrado;
+    }
+
     /*metodo toString*/
     @Override
     public String toString() {
-        return " "+ nombre + " " + apellido + "  email:" + email + "  NIF:" + nif + "\n";
+        return " " + nombre + " " + apellido + "  email:" + email + "  NIF:" + nif + "\n";
     }
-    
 
 }

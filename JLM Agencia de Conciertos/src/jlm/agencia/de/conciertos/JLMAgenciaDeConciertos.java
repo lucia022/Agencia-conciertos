@@ -24,65 +24,81 @@ public class JLMAgenciaDeConciertos {
     public static void main(String[] args) throws ParseException {
         // TODO code application logic here
 
-        ArrayList<Usuario> usuarios = new ArrayList<Usuario>();//Se cargan todos los usuarios que hay en utilidades en la variable usuarios
-        usuarios = Usuario.todosUsuarios();
-
         Scanner in = new Scanner(System.in);
-        Usuario usuariologeado = new Usuario();
-        int opcion;
 
-        do {
-            System.out.print("Para poder hacer una consulta necesitas ser usuario con cuenta.\nNo tiene cuenta y desea registrarse(1) \nYa tiene una cuenta y desea iniciar sesion(2)\nSalir del programa(0)\n(0,1 o 2): ");
-            opcion = in.nextInt();
+        ArrayList<Usuario> usuarios = new ArrayList<Usuario>();//Se cargan todos los usuarios que hay en utilidades en la variable usuarios(que es un arrayList que se puede modificar)
+        usuarios = Usuario.todosUsuarios();
+        
+        
+        
+        
+
+        Usuario usuariologeado = new Usuario();//Creo dos variables para guardar en una los datos del usuario que inicia sesion para asi compararlo con la pseudo base de datos y ver que ese usuario ya tiene cuenta para poder iniciar sesion
+        Usuario usuarioregistrado = new Usuario();//y en la otra el usuario registrado para posterior compararle con los que ya tenemos y asi ver que no exista ya un usuario con esos datos
+        int opcion;//La variable opcion servira para moverse por todo el menu con los do while
+
+        do {//Antes de todo el programa el usuario tendra que identificarse para poder hacer todo lo que tiene que ver con el programa,en caso de que tenga cuenta solo tendra que introducir sus credenciales 
+            //y en caso de que no tenga cuenta tendra que crearse una reggistrandose para posteriormente iniciar sesion con esa cuenbta que ha creado
+            System.out.print("Para poder hacer una consulta necesitas ser usuario con cuenta.\nNo tiene cuenta y desea registrarse(pulse 1) \nYa tiene una cuenta y desea iniciar sesion(pulse 2)\nSalir del programa(pulse 0)\n(0,1 o 2): ");
+            opcion = in.nextInt();//Se le muestra al usuario el menu de registros e inicios de sesion y le obliga a introducir que quiere hacer
             System.out.println("");
 
+            if ((opcion < 0) || (opcion > 2)) {
+                System.out.println("Valor invalido,por fsavor introduzcalo de nuevo\n");///En caso de valor invalido se muestra el siguiente mensaje
+
+            }
+
+        } while ((opcion < 0) || (opcion > 2));//En caso de que lo que meta el usuario por teclado sea diferente a 0,1 o 2 se le volvera a preguntar
+
+        do {//Una vez se sepa que quiere hacer tendra tres opciones
             switch (opcion) {
 
-                case 0:
+                case 0://El caso 0 es que se salga del programa y muestre el siguiente mensaje
+
                     System.out.println("Sentimos no poder ayudarle,que tenga un buen dia.");
+
                     return;
 
-                case 1:
+                case 1://El caso 1 es que se registra con una nueva cuenta añadiendo esa cuenta a la lista de usuarios que ya tenemos
 
-                    boolean fallo = false;
-                    do {
-                        System.out.println("Bienvenido al registro de usuario,para registrarse de la siguiente informacion");
-                        usuariologeado = Usuario.nuevoUsuario();
-                        
-                        for (int i = 0; i < usuarios.size(); i++) {
+                    usuarioregistrado = Usuario.registrousuario(usuarios);//Se crea un usuario que nos servira para todo el prgrama
 
+                    if (usuarioregistrado == null) {//Si lo que retorna de nuevousuario es null es por que desde la funcion nuevousuario el usuairo metio por teclado que queria salirse del programa y es lo que hara
+                        return;
+
+                    } else {//Sino retornara un objeto entero(un nuevo usuario con todos sus datos)
+                        System.out.println("Su usuario ha sido registrado correctamente");//Se muestra el siguiente mensaje y se añade el nuevo usuario al arrayList de usuairos
+                        usuarios.add(usuarioregistrado);
+
+                        do {//Posteriormente s ele muestra otro minimenu en el cual le dan la opciuon al usuario de regitrar otra cuenta(por ejemplo la de un familiar),iniciar sesion o salir del programa
+                            System.out.println("Desea registrar otro usuario(pulse 1),iniciar sesion(pulse 2) o desea salirse del programa(pulse 0)");
+                            opcion = in.nextInt();
+
+                        } while ((opcion != 0) && (opcion != 1) && (opcion != 2));//Si la opcion no es ninguna de esas tres se sale del programa
+
+                        if (opcion == 0) {//Si la opcion es salir del programa se saldra del programa
+                            return;
                             
-                            fallo = false;
-                            if (usuariologeado.getNif().equals(usuarios.get(i).getNif())) {
-                                fallo = true;
-                                System.out.println("Ese NIF ya esta siendo utilizado por otro usuario,por favor introduzca datos verdaderos");
-                            }
-
-                            if (usuariologeado.getEmail().equals(usuarios.get(i).getEmail())) {
-                                fallo = true;
-                                System.out.println("Ese email ya esta siendo utilizado por otro usuario,por favor introduzca datos verdaderos");
-                            }
-
                         }
-                    } while (fallo);
-                    System.out.println("Su usuario ha sido registrado correctamente");
-                    usuarios.add(usuariologeado);
+                    }
                     break;
 
-                case 2:
-                    
-                    System.out.println("Bienvenido al inicio de sesion de usuario,introduzca sus datos");
-                    Usuario iniciodesesion = new Usuario();
-                    iniciodesesion = Usuario.inicioSesion();
-                    
-                    
-                    
+                case 2://El caso dos es que inicie sesion por que el usuarion ya tiene una cuenta,bien por que se la acabe de crear o bien por que ya la tenia creada 
+
+                    usuariologeado = Usuario.inicioSesion(usuarios);//En la variable usuariologeado se guardara un usuario nuevo el cual sera con el que se loguea por teclado
+                    if (usuariologeado == null) {//Si esta variable devuelve null es por que el usuario quiere salirse del prgrama y es lo que conseguira
+
+                        return;
+                    } 
+                    System.out.println("Usuario encontrado,bienvenido " + usuariologeado.getNombre() + " " + usuariologeado.getApellido());
+                    opcion = 20;
                     break;
 
             }
-        } while ((opcion < 0) || (opcion > 2));
+        } while ((opcion == 1) || (opcion == 2));
 
-        do {
+
+        /*do {
             in = new Scanner(System.in);
             System.out.println("¿Hola que desea?");
             System.out.print("1)Gestion de Usuarios\n2)Gestion de Conciertos\n3)Gestion de Entradas\n0)salir del programa\n(0,1,2 o 3):");//Se le muestra al usuario el menu
@@ -265,6 +281,6 @@ public class JLMAgenciaDeConciertos {
             }
 
         } while ((opcion != 1) && (opcion != 2) && (opcion != 3));//Si la opcion es distinta a 1,2 o 3 se le volvera a preguntar al usuario
-
+         */
     }
 }

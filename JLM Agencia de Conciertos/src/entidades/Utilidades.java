@@ -18,7 +18,7 @@ public class Utilidades {
     private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public static final Usuario USUARIOS[] = {
-        new Usuario(1, "Mario", "Araujo", "maraujoe01@educantabria.es", "11111111A"),
+        new Usuario(1, "Mario", "Araujo", "@", "11111111A"),
         new Usuario(12, "Lucia", "Rodriguez", "lucia@gmail.com", "22222222B"),
         new Usuario(3, "Jonathan", "Caballero", "jony@hotmail.es", "33333333C"),
         new Usuario(4, "Pepe", "Gonzalez", "pepe@hotmail.es", "44444444D"),
