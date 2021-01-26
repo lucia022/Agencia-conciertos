@@ -31,6 +31,11 @@ public class Usuario {
     //VALORES NO VALIDOS: Todo lo que no sean cadenas de caracteres(String) y aquellas cadenas que contengan mas o menos de 9 caracteres,ya que se trata de un NIF.Ademas debe de tener el formato correcto que es 8 numeros y 1 letra mayuscula
     private String nif;
 
+    private ArrayList<Compra> compras = new ArrayList<Compra>();
+
+    private ArrayList<Reserva> reservas = new ArrayList<Reserva>();
+
+
     /*constructor por defecto*/
     public Usuario() {
     }
@@ -42,6 +47,16 @@ public class Usuario {
         this.apellido = apellido;
         this.email = email;
         this.nif = nif;
+    }
+
+    public Usuario(long id, String nombre, String apellido, String email, String nif, ArrayList<Compra> compras, ArrayList<Reserva> reservas) {
+        this.id = id;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.email = email;
+        this.nif = nif;
+        this.compras = compras;
+        this.reservas = reservas;
     }
 
     /*constructor de copia*/
@@ -92,6 +107,22 @@ public class Usuario {
 
     public void setNif(String nif) {
         this.nif = nif;
+    }
+
+    public ArrayList<Compra> getCompras() {
+        return compras;
+    }
+
+    public void setCompras(ArrayList<Compra> compras) {
+        this.compras = compras;
+    }
+
+    public ArrayList<Reserva> getReservas() {
+        return reservas;
+    }
+
+    public void setReservas(ArrayList<Reserva> reservas) {
+        this.reservas = reservas;
     }
 
     public static Usuario nuevoUsuario() {
@@ -268,6 +299,21 @@ public class Usuario {
         return masalto;
     }
 
+    public static int numeroUsuariologeado(ArrayList<Usuario> usuarios, Usuario usuariologeado) {
+
+        int numerodeusuario = 0;
+
+        for (int i = 0; i < usuarios.size(); i++) {
+
+            if (usuarios.get(i).getId() == usuariologeado.getId()) {
+
+                numerodeusuario = i;
+
+            }
+        }
+        return numerodeusuario;
+    }
+
     public static ArrayList<Usuario> todosUsuarios() {   //Metodo para copiar todos los objetos de utilidades en un arraylist y poder manipularlo
 
         ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
@@ -360,7 +406,6 @@ public class Usuario {
 
             } else {
 
-                
                 do {
 
                     Scanner on = new Scanner(System.in);
@@ -381,32 +426,42 @@ public class Usuario {
         boolean fallo = false;
 
         do {
+
             System.out.println("Bienvenido al registro de usuario,para registrarse de la siguiente informacion");
+
             usuarioregistrado = Usuario.nuevoUsuario();
             int opcion = 0;
-            fallo = false;
+
             for (int i = 0; i < usuarios.size(); i++) {
 
                 if (usuarioregistrado.getNif().equals(usuarios.get(i).getNif()) || usuarioregistrado.getEmail().equals(usuarios.get(i).getEmail())) {
 
                     fallo = true;
-                    if (usuarioregistrado.getNif().equals(usuarios.get(i).getNif())) {
 
+                    if (usuarioregistrado.getNif().equals(usuarios.get(i).getNif())) {
                         System.out.println("Ese NIF ya esta siendo utilizado por otro usuario,por favor introduzca datos personales");
+
                     }
                     if (usuarioregistrado.getEmail().equals(usuarios.get(i).getEmail())) {
-
                         System.out.println("Ese email ya esta siendo utilizado por otro usuario,por favor introduzca datos personales\n");
 
                     }
 
                     do {
+
                         System.out.println("Quiere volver a intentar registrarse(pulse 1) o desea salir del programa(pulse 0)");
                         opcion = in.nextInt();
-                    } while ((opcion != 0) && (opcion != 1));
-                    if (opcion == 0) {
 
+                        if ((opcion != 0) && (opcion != 1)) {
+                            System.out.println("Valor invalido,Introduzcalo de nuevo");
+
+                        }
+
+                    } while ((opcion != 0) && (opcion != 1));
+
+                    if (opcion == 0) {
                         return null;
+
                     }
                 }
 
@@ -420,7 +475,7 @@ public class Usuario {
 
         Scanner in = new Scanner(System.in);
         String nifusuario = "";
-        boolean encontradonif = false, fallo;
+        boolean fallo;
 
         do {    //Pedira un nif(String) el cual no podra quedar vacio nI contener mas ni menos de 9 caracteres o se volvera a pdeir el nif hasta que esto sea cierto
             //Ademas tendra que ser de la siguiente manera 8 numeros y 1 letra en mayusculas o volvera a pedir al usuario
@@ -459,10 +514,216 @@ public class Usuario {
         return nifusuario;
     }
 
+    public static void mostrarUsuarios(ArrayList<Usuario> usuarios) {
+
+        int i;
+        System.out.println("El total de usuario es de " + usuarios.size() + " y son los siguientes:");
+        for (i = 0; i < usuarios.size(); i++) {
+            System.out.println("Usuario Nº" + (i + 1) + " " + usuarios.get(i));
+            for (int j = 0; j < usuarios.get(i).getCompras().size(); j++) {
+
+                System.out.println("Compra Nº" + (j + 1) + " " + usuarios.get(i).getCompras().get(j));
+
+            }
+            
+        }
+
+                                
+
+    }
+
+    public static int buscarUsuariosID(ArrayList<Usuario> usuarios) {
+
+        Scanner in = new Scanner(System.in);
+        boolean encontrado = false;
+        long idbuscado;
+        int opcion = -1;
+
+        do {
+
+            System.out.println("Introduzca el id del usuario a buscar");
+            idbuscado = in.nextLong();
+
+            if ((idbuscado <= 0)) {
+                System.out.println("El valor introducido no es valido pusto que es menor que 0");
+
+            }
+
+        } while (idbuscado <= 0);
+
+        for (int i = 0; i < usuarios.size(); i++) {
+
+            if (usuarios.get(i).getId() == idbuscado) {
+                System.out.println("El usuario que buscas es " + usuarios.get(i));
+                encontrado = true;
+                break;
+
+            }
+        }
+
+        if (!encontrado) {
+
+            do {
+
+                in = new Scanner(System.in);
+
+                System.out.print("No existe ningun uduario con ese id,¿quiere buscar otro?\nSi(pulse 1) o No(pulse 0): ");
+                opcion = in.nextInt();
+
+                if ((opcion != 0) && (opcion != 1)) {
+
+                    System.out.println("Opcion no valida,por favor vuelve a introducirla");
+                }
+
+            } while ((opcion != 0) && (opcion != 1));
+
+            if (opcion == 0) {
+                opcion = 2;
+            }
+        } else {
+
+            do {
+
+                System.out.println("¿Desea realizar otra busqueda?\nSi(Pulse 1) o No(Pulse 0): ");
+                opcion = in.nextInt();
+
+                if ((opcion != 0) && (opcion != 1)) {
+                    System.out.println("Opcion no valida,por favor vuelve a introducirla");
+
+                }
+
+            } while ((opcion != 1) && (opcion != 0));
+
+            if (opcion == 0) {
+                opcion = 2;
+
+            }
+        }
+        return opcion;
+    }
+
+    public static int buscarUsuarioNIF(ArrayList<Usuario> usuarios) {
+
+        Scanner in = new Scanner(System.in);
+        boolean encontrado = false;
+        String nifusuario;
+        int opcion = -1;
+
+        nifusuario = Usuario.pedirNIF();
+
+        for (int i = 0; i < usuarios.size(); i++) {
+
+            if (nifusuario.equals(usuarios.get(i).getNif())) {
+                System.out.println("El usuario que buscas es " + usuarios.get(i));
+                encontrado = true;
+                break;
+
+            }
+        }
+
+        if (!encontrado) {
+            do {
+
+                in = new Scanner(System.in);
+                System.out.print("No existe ningun uduario con ese NIF,¿quiere buscar otro?\nSi(pulse 1) o No(pulse 0): ");
+                opcion = in.nextInt();
+
+                if ((opcion != 0) && (opcion != 1)) {
+                    System.out.println("Opcion no valida,por favor vuelve a introducirla");
+
+                }
+
+            } while ((opcion != 0) && (opcion != 1));
+
+            if (opcion == 0) {
+                opcion = 2;
+
+            }
+
+        } else {
+
+            do {
+
+                System.out.println("¿Desea realizar otra busqueda?\nSi(Pulse 1) o No(Pulse 0): ");
+                opcion = in.nextInt();
+
+                if ((opcion != 0) && (opcion != 1)) {
+                    System.out.println("Opcion no valida,por favor vuelve a introducirla");
+
+                }
+
+            } while ((opcion != 1) && (opcion != 0));
+
+            if (opcion == 0) {
+                opcion = 2;
+
+            }
+        }
+        return opcion;
+    }
+
+    public static int editartuUsuario(ArrayList<Usuario> usuarios, Usuario usuariologeado) {
+
+        Scanner in = new Scanner(System.in);
+        int numerodeusuario = 0, opcion = -1;
+        Usuario usuarioeditado;
+
+        do {
+
+            numerodeusuario = Usuario.numeroUsuariologeado(usuarios, usuariologeado);
+
+            System.out.println("Introduzca de nuevo sus datos para poder editarlos");
+            usuarioeditado = Usuario.nuevoUsuario();
+
+            do {
+
+                System.out.print("¿Son estos los datos correctos?\n" + usuarioeditado + "\nSi(pulse 1) No(pulse 0):");
+                opcion = in.nextInt();
+
+                if ((opcion != 1) && (opcion != 0)) {
+                    System.out.println("Opcion no valida,por favor vuelve a introducirla");
+
+                }
+
+            } while ((opcion != 1) && (opcion != 0));
+
+            if (opcion == 1) {
+                System.out.println("Su usuario se ha editado correctamente");
+                usuarios.set(numerodeusuario, usuarioeditado);
+
+            } else {
+
+                do {
+                    System.out.println("¿Quiere volver a intentar meter los datos para editar su usuario?\nSi(pulse 1) o No(pulse 0)");
+                    opcion = in.nextInt();
+
+                    if ((opcion != 1) && (opcion != 0)) {
+                        System.out.println("Opcion no valida,por favor vuelve a introducirla");
+
+                    }
+
+                } while ((opcion != 0) && (opcion != 1));
+
+                if (opcion == 1) {
+                    opcion = 0;
+
+                } else {
+                    opcion = 1;
+
+                }
+
+            }
+
+        } while (opcion == 0);
+        return opcion;
+    }
+
     /*metodo toString*/
     @Override
     public String toString() {
-        return " " + nombre + " " + apellido + "  email:" + email + "  NIF:" + nif + "\n";
+
+        return "Con id " + id + "  " + nombre + " " + apellido + "  " + email + "  " + nif + ".";
+
     }
 
 }

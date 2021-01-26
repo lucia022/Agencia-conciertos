@@ -5,6 +5,7 @@
  */
 package entidades;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -22,13 +23,9 @@ public class Compra {
     private double precio;
     //VALORES VALIDOS: Los metodos de pago solo podran ser los dados por la consola y habra que elegir entre ellos,en este caso son cadena de caracteres(String).
     //VALORES INVALIDOS: Todo aquello que no sean String.
-   
     private String metodopago;
-    private Usuario idusuario;
-    /*Relación "realiza" entre Usuario y Compra, la cual es N:1, he decidido añadir un atributo de Usuario en la clase Compra, ya que en este caso, el atributo sería necesario, debido a que la cardinalidad mínima es superior a 0*/
- /*Cabe destacar, que se trata de una asociación directa entre Usuario y Compra*/
 
-    private Descuento iddescuento;
+    private Descuento descuento;
 
     /*Relación “se aplica” entre Descuento y Compra, la cual es 1:1, he decidido añadir un atributo de Descuento en la clase Compra, ya que en este caso, el atributo sería necesario, debido a que la cardinalidad mínima es superior a 0*/
  /*Cabe destacar, que sin la clase Compra no existiría la clase Descuento, por lo que se trata de una dependencia.*/
@@ -38,12 +35,11 @@ public class Compra {
     }
 
     /*constructor con parámetros*/
-    public Compra(long id, double precio, String metodopago, Usuario idusuario, Descuento iddescuento) {
+    public Compra(long id, double precio, String metodopago, Descuento descuento) {
         this.id = id;
         this.precio = precio;
         this.metodopago = metodopago;
-        this.idusuario = idusuario;
-        this.iddescuento = iddescuento;
+        this.descuento = descuento;
     }
 
     /*constructor de copia*/
@@ -51,8 +47,7 @@ public class Compra {
         this.id = com.id;
         this.precio = com.precio;
         this.metodopago = com.metodopago;
-        this.idusuario = com.idusuario;
-        this.iddescuento = com.iddescuento;
+        this.descuento = com.descuento;
     }
 
 
@@ -81,20 +76,12 @@ public class Compra {
         this.metodopago = metodopago;
     }
 
-    public Usuario getIdusuario() {
-        return idusuario;
-    }
-
-    public void setIdusuario(Usuario idusuario) {
-        this.idusuario = idusuario;
-    }
-
     public Descuento getIddescuento() {
-        return iddescuento;
+        return descuento;
     }
 
     public void setIddescuento(Descuento iddescuento) {
-        this.iddescuento = iddescuento;
+        this.descuento = iddescuento;
     }
 
     public static Compra nuevaCompra()  {
@@ -206,11 +193,56 @@ public class Compra {
         
         return nuevacompra;
     }
+    
+    public static ArrayList<Compra> todascompras() {   //Metodo para copiar todos los objetos de utilidades en un arraylist y poder manipularlo
 
+        ArrayList<Compra> compras = new ArrayList<Compra>();
+        for (int i = 0; i < Utilidades.COMPRAS.length; i++) {
+
+            compras.add(Utilidades.COMPRAS[i]);
+        }
+        return compras;
+    }
+
+    
+    public static ArrayList<Compra> arrayde(ArrayList<Compra> lista,int[] ids) {
+       
+        ArrayList<Compra> ret = new ArrayList<Compra>();
+        for (int i = 0; i < ids.length; i++) {
+            for (int j = 0; j < lista.size(); j++) {
+                if (lista.get(j).getId() == ids[i]) {
+                    ret.add((Compra) lista.get(ids[i]));
+                    break;
+                }
+            }
+        }
+        return ret;
+    }
+
+    /*
+    public static ArrayList<Compra> convertir(Compra[] array) {
+        ArrayList<Compra> ret = new ArrayList<Compra>();
+        for (Compra t : array) {
+            ret.add((Compra) t);
+        }
+        return ret;
+    }
+    */
+    public static ArrayList<Compra> convertir(Compra[] array) {
+        return new Gen<Compra>().convertir(array);
+
+    }
+
+    
+    
     /*método toString*/
+
     @Override
     public String toString() {
-        return "Compra{" + "id=" + id + ", precio=" + precio + ", metodopago=" + metodopago + ", idusuario=" + idusuario + ", iddescuento=" + iddescuento + '}';
+        return "Compra{" + "id=" + id + ", precio=" + precio + ", metodopago=" + metodopago + ", descuento=" + descuento + '}';
     }
+
+    
+    
 
 }

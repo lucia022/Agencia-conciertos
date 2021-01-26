@@ -6,6 +6,7 @@
 package entidades;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -22,7 +23,6 @@ public class Reserva {
     //VALORES VALIDOS: Date con el formato dd/mm/aaaa.
     //VALORES INVALIDOS: Todo lo que no sea Date o si el Date no tiene el formato dd/mm/aaaa.
     private Date fechamaxima;
-    private Usuario idusuario;
 
     /*Relación "realiza" entre Usuario y Reserva, la cual es N:1, he decidido añadir un atributo de Usuario en la clase Reserva, ya que en este caso, el atributo sería necesario, debido a que la cardinalidad mínima es superior a 0*/
  /*Cabe destacar, que se trata de una asociación directa entre Usuario y Reserva*/
@@ -32,17 +32,15 @@ public class Reserva {
     }
 
     /*constructor con parámetros*/
-    public Reserva(long id, Date fechamaxima, Usuario idusuario) {
+    public Reserva(long id, Date fechamaxima) {
         this.id = id;
         this.fechamaxima = fechamaxima;
-        this.idusuario = idusuario;
     }
 
     /*constructor de copia*/
     public Reserva(Reserva res) {
         this.id = res.id;
         this.fechamaxima = res.fechamaxima;
-        this.idusuario = res.idusuario;
     }
 
     /*getters y setters de cada atributo*/
@@ -60,14 +58,6 @@ public class Reserva {
 
     public void setFechamaxima(Date fechamaxima) {
         this.fechamaxima = fechamaxima;
-    }
-
-    public Usuario getIdusuario() {
-        return idusuario;
-    }
-
-    public void setIdusuario(Usuario idusuario) {
-        this.idusuario = idusuario;
     }
 
     public static Reserva nuevaReserva() throws ParseException {
@@ -114,10 +104,43 @@ public class Reserva {
         return nuevareserva;
     }
 
-    /*método toString*/
-    @Override
-    public String toString() {
-        return "Reserva{" + "id=" + id + ", fechamaxima=" + fechamaxima + ", idusuario=" + idusuario + '}';
+    public static ArrayList<Reserva> todasReservas() {   //Metodo para copiar todos los objetos de utilidades en un arraylist y poder manipularlo
+
+        ArrayList<Reserva> reservas = new ArrayList<Reserva>();
+        for (int i = 0; i < Utilidades.RESERVAS.length; i++) {
+
+            reservas.add(Utilidades.RESERVAS[i]);
+        }
+        return reservas;
+    }
+    
+    public static ArrayList<Reserva> arrayde(ArrayList<Reserva> reservas, int[] ids) {
+        ArrayList<Reserva> ret = new ArrayList<Reserva>();
+        for (int i = 0; i < ids.length; i++) {
+            for (int j = 0; j < reservas.size(); j++) {
+                if (reservas.get(j).getId() == ids[i]) {
+                    ret.add((Reserva) reservas.get(ids[i]));
+                    break;
+                }
+            }
+        }
+        return ret;
     }
 
+    public static ArrayList<Reserva> convertir(Reserva[] array) {
+        ArrayList<Reserva> ret = new ArrayList<Reserva>();
+        for (Reserva t : array) {
+            ret.add((Reserva) t);
+        }
+        return ret;
+    }
+    
+    
+    /*método toString*/
+
+    @Override
+    public String toString() {
+        return "Reserva{" + "id=" + id + ", fechamaxima=" + fechamaxima + '}';
+    }
+   
 }

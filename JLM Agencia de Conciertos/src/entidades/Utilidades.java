@@ -8,24 +8,15 @@ package entidades;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 /**
  *
  * @author usuario
  */
 public class Utilidades {
-
+    
     private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-    public static final Usuario USUARIOS[] = {
-        new Usuario(1, "Mario", "Araujo", "@", "11111111A"),
-        new Usuario(12, "Lucia", "Rodriguez", "lucia@gmail.com", "22222222B"),
-        new Usuario(3, "Jonathan", "Caballero", "jony@hotmail.es", "33333333C"),
-        new Usuario(4, "Pepe", "Gonzalez", "pepe@hotmail.es", "44444444D"),
-        new Usuario(8, "Gaizka", "Patron", "gaizka@hotmail.es", "55555555E"),
-        new Usuario(6, "Aitor", "Perez", "aitor@hotmail.es", "66666666F")
-    };
-    public static final int numUsuarios = USUARIOS.length;
 
     public static final Descuento DESCUENTOS[] = {
         new Descuento(1, "abcdefg", Date.valueOf(LocalDate.parse("20/02/2026", dateFormatter))),
@@ -33,26 +24,43 @@ public class Utilidades {
         new Descuento(3, "aaaaiii", Date.valueOf(LocalDate.parse("01/10/2026", dateFormatter)))
     };
     public static final int numDescuentos = DESCUENTOS.length;
-
+    
+    public static final Compra COMPRAS[] = {
+        new Compra(1, 12.01, "Tarjeta",  DESCUENTOS[0]),
+        new Compra(2, 432.1, "Tarjeta",  DESCUENTOS[0]),
+        new Compra(20, 12.01, "Tarjeta",  DESCUENTOS[0]),
+        new Compra(12, 12.01, "Tarjeta",  DESCUENTOS[0]),
+        new Compra(11, 12.01, "Tarjeta",  DESCUENTOS[0]),
+        new Compra(10, 12.01, "Tarjeta",  DESCUENTOS[0]),
+        new Compra(16, 12.01, "Tarjeta", DESCUENTOS[0]),
+        new Compra(4, 12.01, "Tarjeta", DESCUENTOS[0])
+    };
+    public static final int numCompras = COMPRAS.length;
+    
     public static final Reserva RESERVAS[] = {
-        new Reserva(1, Date.valueOf(LocalDate.parse("10/02/2023", dateFormatter)), USUARIOS[0]),
-        new Reserva(2, Date.valueOf(LocalDate.parse("11/12/2023", dateFormatter)), USUARIOS[5]),
-        new Reserva(3, Date.valueOf(LocalDate.parse("20/09/2024", dateFormatter)), USUARIOS[3])
+        new Reserva(1, Date.valueOf(LocalDate.parse("10/02/2023", dateFormatter))),
+        new Reserva(2, Date.valueOf(LocalDate.parse("11/12/2023", dateFormatter))),
+        new Reserva(3, Date.valueOf(LocalDate.parse("20/09/2024", dateFormatter)))
 
     };
     public static final int numReservas = RESERVAS.length;
-
-    public static final Compra COMPRAS[] = {
-        new Compra(1, 12.01, "Tarjeta", USUARIOS[0], DESCUENTOS[0]),
-        new Compra(2, 432.1, "Tarjeta", USUARIOS[0], DESCUENTOS[0]),
-        new Compra(1, 12.01, "Tarjeta", USUARIOS[0], DESCUENTOS[0]),
-        new Compra(1, 12.01, "Tarjeta", USUARIOS[0], DESCUENTOS[0]),
-        new Compra(1, 12.01, "Tarjeta", USUARIOS[0], DESCUENTOS[0]),
-        new Compra(1, 12.01, "Tarjeta", USUARIOS[0], DESCUENTOS[0]),
-        new Compra(1, 12.01, "Tarjeta", USUARIOS[0], DESCUENTOS[0]),
-        new Compra(1, 12.01, "Tarjeta", USUARIOS[0], DESCUENTOS[0])
+    
+    public static final Usuario USUARIOS[] = {
+        
+        new Usuario(1, "Mario", "Araujo", "@", "11111111A",Compra.arrayde(Compra.convertir(COMPRAS), new int[]{2}),Reserva.arrayde(Reserva.convertir(RESERVAS), new int[]{1})),
+        new Usuario(12, "Lucia", "Rodriguez", "lucia@gmail.com", "22222222B",Compra.arrayde(Compra.convertir(COMPRAS), new int[]{2}),Reserva.arrayde(Reserva.convertir(RESERVAS), new int[]{2})),
+        new Usuario(3, "Jonathan", "Caballero", "jony@hotmail.es", "33333333C",Compra.arrayde(Compra.convertir(COMPRAS), new int[]{2}),Reserva.arrayde(Reserva.convertir(RESERVAS), new int[]{1,2})),
+        new Usuario(4, "Pepe", "Gonzalez", "pepe@hotmail.es", "44444444D",Compra.arrayde(Compra.convertir(COMPRAS), new int[]{3}),Reserva.arrayde(Reserva.convertir(RESERVAS), new int[]{1,2})),
+        new Usuario(8, "Gaizka", "Patron", "gaizka@hotmail.es", "55555555E",Compra.arrayde(Compra.convertir(COMPRAS), new int[]{4}),Reserva.arrayde(Reserva.convertir(RESERVAS), new int[]{2})),
+        //new Usuario(6, "Aitor", "Perez", "aitor@hotmail.es", "66666666F",null,null)
     };
-    public static final int numCompras = COMPRAS.length;
+    public static final int numUsuarios = USUARIOS.length;
+
+    
+
+    
+
+    
 
    /* public static final Entrada ENTRADAS[] = {
         new Entrada(1, 12.01, false, COMPRAS[3]),
