@@ -211,7 +211,7 @@ public class Compra {
         for (int i = 0; i < ids.length; i++) {
             for (int j = 0; j < lista.size(); j++) {
                 if (lista.get(j).getId() == ids[i]) {
-                    ret.add((Compra) lista.get(ids[i]));
+                    ret.add((Compra) lista.get(j));
                     break;
                 }
             }
@@ -219,7 +219,7 @@ public class Compra {
         return ret;
     }
 
-    /*
+    
     public static ArrayList<Compra> convertir(Compra[] array) {
         ArrayList<Compra> ret = new ArrayList<Compra>();
         for (Compra t : array) {
@@ -227,11 +227,11 @@ public class Compra {
         }
         return ret;
     }
-    */
-    public static ArrayList<Compra> convertir(Compra[] array) {
-        return new Gen<Compra>().convertir(array);
-
-    }
+    
+//    public static ArrayList<Compra> convertir(Compra[] array) {
+//        return new Gen<Compra>().convertir(array);
+//
+//    }
 
     
     
