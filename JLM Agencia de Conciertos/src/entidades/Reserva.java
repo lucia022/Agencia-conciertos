@@ -113,13 +113,18 @@ public class Reserva {
         }
         return reservas;
     }
-    
+    /**
+     * 
+     * @param reservas
+     * @param ids
+     * @return 
+     */
     public static ArrayList<Reserva> arrayde(ArrayList<Reserva> reservas, int[] ids) {
         ArrayList<Reserva> ret = new ArrayList<Reserva>();
         for (int i = 0; i < ids.length; i++) {
             for (int j = 0; j < reservas.size(); j++) {
                 if (reservas.get(j).getId() == ids[i]) {
-                    ret.add((Reserva) reservas.get(ids[i]));
+                    ret.add((Reserva) reservas.get(j));
                     break;
                 }
             }
