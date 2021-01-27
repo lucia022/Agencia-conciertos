@@ -5,16 +5,31 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
 //Clase y Atributos de la clase Concierto
 public class Concierto {
-    
+
     protected long id;
     protected Date diahora;
-    protected Entrada identrada;
-    protected Reportero idreportero;
-    
-//Getter y Setters de la clase Concierto
+    protected ArrayList<Actuacion> actuaciones = new ArrayList<Actuacion>();
+    protected ArrayList<Entrada> entradas = new ArrayList<Entrada>();
+
+    public Concierto() {
+    }
+
+    public Concierto(long id, Date diahora, ArrayList<Actuacion> actuaciones, ArrayList<Entrada> entradas) {
+        this.id = id;
+        this.diahora = diahora;
+        this.actuaciones = actuaciones;
+        this.entradas = entradas;
+    }
+
+    public Concierto(Concierto c) {
+        this.id = c.id;
+        this.diahora = c.diahora;
+        this.actuaciones = c.actuaciones;
+        this.entradas = c.entradas;
+    }
+
     public long getId() {
         return id;
     }
@@ -31,53 +46,30 @@ public class Concierto {
         this.diahora = diahora;
     }
 
-    public Entrada getIdentrada() {
-        return identrada;
+    public ArrayList<Actuacion> getActuaciones() {
+        return actuaciones;
     }
 
-    public void setIdentrada(Entrada identrada) {
-        this.identrada = identrada;
+    public void setActuaciones(ArrayList<Actuacion> actuaciones) {
+        this.actuaciones = actuaciones;
     }
 
-    public Reportero getIdreportero() {
-        return idreportero;
+    public ArrayList<Entrada> getEntradas() {
+        return entradas;
     }
 
-    public void setIdreportero(Reportero idreportero) {
-        this.idreportero = idreportero;
+    public void setEntradas(ArrayList<Entrada> entradas) {
+        this.entradas = entradas;
     }
-    
-    
-  
-    //Constructores de la clase Concierto
-     public Concierto() {
-      
-    }
-    
-     public Concierto(long id, Date diahora, Entrada identrada, Reportero idreportero) {
-        this.id = id;
-        this.diahora = diahora;
-        this.identrada = identrada;
-        this.idreportero = idreportero;
-    }
-     
-     public Concierto (Concierto c){
-         this.id = c.id;
-         this.diahora = c.diahora;
-         this.identrada = c.identrada;
-         this.idreportero = c.idreportero;
-     }
-     
-     //Metodo To String de la clase Conceirto
 
+    //Metodo To String de la clase Conceirto
     @Override
     public String toString() {
-        return "Concierto{" + "id=" + id + ", diahora=" + diahora + ", identrada=" + identrada + ", idreportero=" + idreportero + '}';
+        return "Concierto{" + "id=" + id + ", diahora=" + diahora + ", actuaciones=" + actuaciones + ", entradas=" + entradas + '}';
     }
 
-    
-     
-   public static Concierto nuevoConcierto() throws ParseException {
+
+    public static Concierto nuevoConcierto() throws ParseException {
         Concierto ret = new Concierto();
         Scanner in = new Scanner(System.in);
         long idconcierto;
@@ -93,5 +85,6 @@ public class Concierto {
 
         java.util.Date fecha = (java.util.Date) Fecha.dameFecha();
         return ret;
+
     }
 }

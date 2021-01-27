@@ -40,11 +40,8 @@ public class JLMAgenciaDeConciertos {
         ArrayList<Descuento> descuentos = new ArrayList<Descuento>();//Se cargan todos los descuentos que hay en utilidades en la variable descuentos(que es un arrayList que se puede modificar)
         usuarios = Usuario.todosUsuarios();
 
-        
-        
         Usuario usuariologeado = new Usuario();//Creo dos variables para guardar en una los datos del usuario que inicia sesion para asi compararlo con la pseudo base de datos y ver que ese usuario ya tiene cuenta para poder iniciar sesion
         Usuario usuarioregistrado = new Usuario();//y en la otra el usuario registrado para posterior compararle con los que ya tenemos y asi ver que no exista ya un usuario con esos datos
-
         boolean sinusuario = false;
         int opcion = -1, numerodeusuario = 0;//La variable opcion servira para moverse por todo el menu con los do while
 
@@ -202,8 +199,7 @@ public class JLMAgenciaDeConciertos {
                         } while ((opcion == 1) && (!sinusuario));
                         break;
 
-                    case 2:
-
+                    case 2: //AQUÍ COMIENZA LA GESTION DE CONCIERTOS
                         break;
                 }
 
@@ -409,5 +405,4 @@ public class JLMAgenciaDeConciertos {
         }
 
     }
-
 }
