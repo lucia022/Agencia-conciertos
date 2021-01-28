@@ -65,7 +65,11 @@ public class Actuacion {
     }
 
     public static ArrayList<Actuacion> convertir(Actuacion[] array) {
-        return new Actuacion().convertir(array);
+        ArrayList<Actuacion> ret = new ArrayList<Actuacion>();
+        for (Actuacion t : array) {
+            ret.add((Actuacion) t);
+        }
+        return ret;
     }
 
     public static ArrayList<Actuacion> arrayde(ArrayList<Actuacion> lista, int[] ids) {

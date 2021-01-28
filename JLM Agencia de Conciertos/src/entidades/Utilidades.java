@@ -25,38 +25,47 @@ public class Utilidades {
         new Descuento(3, "aaaaiii", Date.valueOf(LocalDate.parse("01/10/2026", dateFormatter)))
     };
     public static final int numDescuentos = DESCUENTOS.length;
+   
+       public static final Entrada ENTRADAS[] = {
+        new Entrada(1, 12.01, false),
+        new Entrada(2, 432.1, true),
+        new Entrada(3, 12.01, false),
+        new Entrada(4, 432.1, true),
+        new Entrada(5, 12.01, false)
+    };
+    public static final int numEntradas = ENTRADAS.length;
     
     public static final Compra COMPRAS[] = {
-        new Compra(1, 12.01, "Tarjeta",  DESCUENTOS[0]),
-        new Compra(2, 432.1, "Tarjeta",  DESCUENTOS[0]),
-        new Compra(20, 12.01, "Tarjeta",  DESCUENTOS[0]),
-        new Compra(12, 12.01, "Tarjeta",  DESCUENTOS[0]),
-        new Compra(11, 12.01, "Tarjeta",  DESCUENTOS[0]),
-        new Compra(10, 12.01, "Tarjeta",  DESCUENTOS[0]),
-        new Compra(16, 12.01, "Tarjeta", DESCUENTOS[0]),
-        new Compra(4, 12.01, "Tarjeta", DESCUENTOS[0])
+        new Compra(1, 12.01, "Tarjeta",  DESCUENTOS[0],Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{1})),
+        new Compra(2, 432.1, "Tarjeta",  DESCUENTOS[0],Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{1})),
+        new Compra(20, 12.01, "Tarjeta",  DESCUENTOS[0],Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{1})),
+        new Compra(12, 12.01, "Tarjeta",  DESCUENTOS[0],Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{1})),
+        new Compra(11, 12.01, "Tarjeta",  DESCUENTOS[0],Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{1})),
+        new Compra(10, 12.01, "Tarjeta",  DESCUENTOS[0],Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{1})),
+        new Compra(16, 12.01, "Tarjeta", DESCUENTOS[0],Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{1})),
+        new Compra(4, 12.01, "Tarjeta", DESCUENTOS[0],Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{1}))
     };
-    public static final int numCompras = COMPRAS.length;
     
     public static final Reserva RESERVAS[] = {
-        new Reserva(1, Date.valueOf(LocalDate.parse("10/02/2023", dateFormatter))),
-        new Reserva(2, Date.valueOf(LocalDate.parse("11/12/2023", dateFormatter))),
-        new Reserva(3, Date.valueOf(LocalDate.parse("20/09/2024", dateFormatter)))
+        new Reserva(1, Date.valueOf(LocalDate.parse("10/02/2023", dateFormatter)),Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{1})),
+        new Reserva(2, Date.valueOf(LocalDate.parse("11/12/2023", dateFormatter)),Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{1})),
+        new Reserva(3, Date.valueOf(LocalDate.parse("20/09/2024", dateFormatter)),Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{1}))
 
     };
-    public static final int numReservas = RESERVAS.length;
+
     
     public static final Usuario USUARIOS[] = {
         
         new Usuario(1, "Mario", "Araujo", "@", "11111111A",Compra.arrayde(Compra.convertir(COMPRAS), new int[]{2}),Reserva.arrayde(Reserva.convertir(RESERVAS), new int[]{1})),
-        new Usuario(12, "Lucia", "Rodriguez", "lucia@gmail.com", "22222222B",Compra.arrayde(Compra.convertir(COMPRAS), new int[]{2}),Reserva.arrayde(Reserva.convertir(RESERVAS), new int[]{2})),
-        new Usuario(3, "Jonathan", "Caballero", "jony@hotmail.es", "33333333C",Compra.arrayde(Compra.convertir(COMPRAS), new int[]{2}),Reserva.arrayde(Reserva.convertir(RESERVAS), new int[]{1,2})),
-        new Usuario(4, "Pepe", "Gonzalez", "pepe@hotmail.es", "44444444D",Compra.arrayde(Compra.convertir(COMPRAS), new int[]{3}),Reserva.arrayde(Reserva.convertir(RESERVAS), new int[]{1,2})),
+        new Usuario(12, "Lucia", "Rodriguez", "lucia@gmail.com", "22222222B",Compra.arrayde(Compra.convertir(COMPRAS), new int[]{16}),Reserva.arrayde(Reserva.convertir(RESERVAS), new int[]{2})),
+        new Usuario(3, "Jonathan", "Caballero", "jony@hotmail.es", "33333333C",Compra.arrayde(Compra.convertir(COMPRAS), new int[]{20}),Reserva.arrayde(Reserva.convertir(RESERVAS), new int[]{1,2})),
+        new Usuario(4, "Pepe", "Gonzalez", "pepe@hotmail.es", "44444444D",Compra.arrayde(Compra.convertir(COMPRAS), new int[]{12,11}),Reserva.arrayde(Reserva.convertir(RESERVAS), new int[]{1,2})),
         new Usuario(8, "Gaizka", "Patron", "gaizka@hotmail.es", "55555555E",Compra.arrayde(Compra.convertir(COMPRAS), new int[]{4}),Reserva.arrayde(Reserva.convertir(RESERVAS), new int[]{2})),
         //new Usuario(6, "Aitor", "Perez", "aitor@hotmail.es", "66666666F",null,null)
     };
     public static final int numUsuarios = USUARIOS.length;
 
+    
     //Parte hecha por Jonathan...asi esta...(Escrito or el propio Jonathan....Si es que no se puede dejar todo para el ultimo día...)
     public static final Informe INFORMES[] = {
         new Informe(0, "InformeGiraEspaña"),
@@ -81,13 +90,7 @@ public class Utilidades {
         new Reportero(3, "Ana", "Carrasco", "676963369", "78021645X")
     };
     
-     public static final Individual INDIVIDUALES[] = {
-        
-    };
-    
-    public static final Colaboracion COLABORACIONES[] = {
-        
-    };
+
     
     public static final Artista ARTISTAS[] = {
         new Artista(1, "La Rosalia", 'F', new ArrayList<Actuacion>(),new ArrayList<Individual>(), new ArrayList<Colaboracion>()),
@@ -103,19 +106,19 @@ public class Utilidades {
     
     
     public static final Actuacion ACTUACIONES[] = {
-        new Actuacion(1, 6, 240.00, Artista.arrayde(Artista.convertir(ARTISTAS), new int[]{0, 5})), /*0*/
-        new Actuacion(2, 4, 130.00, Artista.arrayde(Artista.convertir(ARTISTAS), new int[]{0, 5})), /*1*/
-        new Actuacion(3, 1, 50.00, Artista.arrayde(Artista.convertir(ARTISTAS), new int[]{0, 5})), /*2*/
-        new Actuacion(4, 3, 45.50, Artista.arrayde(Artista.convertir(ARTISTAS), new int[]{0, 5})), /*3*/
-        new Actuacion(5, 5, 240.00, Artista.arrayde(Artista.convertir(ARTISTAS), new int[]{0, 5})), /*4*/
-        new Actuacion(6, 2, 240.00, Artista.arrayde(Artista.convertir(ARTISTAS), new int[]{0, 5})), /*5*/
-        new Actuacion(7, 2, 240.00, Artista.arrayde(Artista.convertir(ARTISTAS), new int[]{0, 5})), /*6*/
-        new Actuacion(8, 6, 240.00, Artista.arrayde(Artista.convertir(ARTISTAS), new int[]{0, 5})), /*7*/
-        new Actuacion(9, 3, 240.00, Artista.arrayde(Artista.convertir(ARTISTAS), new int[]{0, 5})), /*8*/
-        new Actuacion(10, 4, 240.00, Artista.arrayde(Artista.convertir(ARTISTAS), new int[]{0, 5})), /*9*/
-        new Actuacion(11, 5, 240.00, Artista.arrayde(Artista.convertir(ARTISTAS), new int[]{0, 5})), /*10*/
-        new Actuacion(12, 1, 240.00, Artista.arrayde(Artista.convertir(ARTISTAS), new int[]{0, 5})), /*11*/
-        new Actuacion(13, 2, 240.00, Artista.arrayde(Artista.convertir(ARTISTAS), new int[]{0, 5})), /*12*/
+        new Actuacion(1, 6, 240.00, Artista.arrayde(Artista.convertir(ARTISTAS), new int[]{1,2})), /*0*/
+        new Actuacion(2, 4, 130.00, Artista.arrayde(Artista.convertir(ARTISTAS), new int[]{1})), /*1*/
+        new Actuacion(3, 1, 50.00, Artista.arrayde(Artista.convertir(ARTISTAS), new int[]{2})), /*2*/
+        new Actuacion(4, 3, 45.50, Artista.arrayde(Artista.convertir(ARTISTAS), new int[]{3})), /*3*/
+        new Actuacion(5, 5, 240.00, Artista.arrayde(Artista.convertir(ARTISTAS), new int[]{1,2,3})), /*4*/
+        new Actuacion(6, 2, 240.00, Artista.arrayde(Artista.convertir(ARTISTAS), new int[]{2})), /*5*/
+        new Actuacion(7, 2, 240.00, Artista.arrayde(Artista.convertir(ARTISTAS), new int[]{4})), /*6*/
+        new Actuacion(8, 6, 240.00, Artista.arrayde(Artista.convertir(ARTISTAS), new int[]{4})), /*7*/
+        new Actuacion(9, 3, 240.00, Artista.arrayde(Artista.convertir(ARTISTAS), new int[]{5})), /*8*/
+        new Actuacion(10, 4, 240.00, Artista.arrayde(Artista.convertir(ARTISTAS), new int[]{6})), /*9*/
+        new Actuacion(11, 5, 240.00, Artista.arrayde(Artista.convertir(ARTISTAS), new int[]{7})), /*10*/
+        new Actuacion(12, 1, 240.00, Artista.arrayde(Artista.convertir(ARTISTAS), new int[]{3})), /*11*/
+        new Actuacion(13, 2, 240.00, Artista.arrayde(Artista.convertir(ARTISTAS), new int[]{5})), /*12*/
         new Actuacion(14, 6, 240.00, Artista.arrayde(Artista.convertir(ARTISTAS), new int[]{0, 5})), /*13*/
         new Actuacion(15, 3, 240.00, Artista.arrayde(Artista.convertir(ARTISTAS), new int[]{0, 5})), /*14*/
         new Actuacion(16, 5, 240.00, Artista.arrayde(Artista.convertir(ARTISTAS), new int[]{0, 5})), /*15*/
@@ -137,27 +140,19 @@ public class Utilidades {
     };
     public static final int numActuaciones = ACTUACIONES.length;
     
-   
-    public static final Entrada ENTRADAS[] = {
-        new Entrada(1, 12.01, false, COMPRAS[3]),
-        new Entrada(2, 432.1, true, COMPRAS[1]),
-        new Entrada(3, 12.01, false, COMPRAS[5]),
-        new Entrada(4, 432.1, true, COMPRAS[4]),
-        new Entrada(5, 12.01, false, COMPRAS[3])
-    };
-    public static final int numEntradas = ENTRADAS.length;
     
     public static final Concierto CONCIERTOS[] = {
-        new Concierto(1, Date.valueOf(LocalDate.parse("20/01/2026", dateFormatter)), Actuacion.arrayde(Actuacion.convertir(ACTUACIONES), new int[]{2, 11, 18, 24, 27}), Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{0, 5})),
-        new Concierto(2, Date.valueOf(LocalDate.parse("19/02/2026", dateFormatter)), Actuacion.arrayde(Actuacion.convertir(ACTUACIONES), new int[]{5, 6, 12, 17, 22}), Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{0, 5})),
-        new Concierto(3, Date.valueOf(LocalDate.parse("19/03/2026", dateFormatter)), Actuacion.arrayde(Actuacion.convertir(ACTUACIONES), new int[]{3, 8, 14, 20, 25}), Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{0, 5})),
-        new Concierto(4, Date.valueOf(LocalDate.parse("1/04/2026", dateFormatter)), Actuacion.arrayde(Actuacion.convertir(ACTUACIONES), new int[]{1, 9, 16, 23, 28}), Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{0, 5})),
-        new Concierto(5, Date.valueOf(LocalDate.parse("15/05/2026", dateFormatter)), Actuacion.arrayde(Actuacion.convertir(ACTUACIONES), new int[]{4, 10, 15, 19, 25}), Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{0, 5})),
-        new Concierto(6, Date.valueOf(LocalDate.parse("18/06/2026", dateFormatter)), Actuacion.arrayde(Actuacion.convertir(ACTUACIONES), new int[]{0, 7, 13, 21, 29}), Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{0, 5}))
+        new Concierto(1, Date.valueOf(LocalDate.parse("20/01/2026", dateFormatter))/*, Actuacion.arrayde(Actuacion.convertir(ACTUACIONES), new int[]{2, 11, 18, 24, 27})*/, Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{1, 5})),
+        new Concierto(2, Date.valueOf(LocalDate.parse("19/02/2026", dateFormatter))/*, Actuacion.arrayde(Actuacion.convertir(ACTUACIONES), new int[]{5, 6, 12, 17, 22})*/, Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{1, 5})),
+        new Concierto(3, Date.valueOf(LocalDate.parse("19/03/2026", dateFormatter))/*, Actuacion.arrayde(Actuacion.convertir(ACTUACIONES), new int[]{3, 8, 14, 20, 25})*/, Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{1, 5})),
+        new Concierto(4, Date.valueOf(LocalDate.parse("11/04/2026", dateFormatter))/*, Actuacion.arrayde(Actuacion.convertir(ACTUACIONES), new int[]{1, 9, 16, 23, 28})*/, Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{2})),
+        new Concierto(5, Date.valueOf(LocalDate.parse("15/05/2026", dateFormatter))/*, Actuacion.arrayde(Actuacion.convertir(ACTUACIONES), new int[]{4, 10, 15, 19, 25})*/, Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{1, 5})),
+        new Concierto(6, Date.valueOf(LocalDate.parse("18/06/2026", dateFormatter))/*, Actuacion.arrayde(Actuacion.convertir(ACTUACIONES), new int[]{2, 7, 13, 21, 29})*/, Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{1, 5}))
         
     };
     public static final int numConciertos = CONCIERTOS.length;
     
+    /*
     public static final Momento MOMENTOS[] = {
         new Momento(0, Date.valueOf(LocalDate.parse("22:35", dateFormatter)), "DescripcionGiraEspañola", REPORTEROS[1]),
         new Momento(1, Date.valueOf(LocalDate.parse("21:15", dateFormatter)), "DescripcionGiraUK", REPORTEROS[1]),
@@ -185,9 +180,7 @@ public class Utilidades {
 
     //public static final int numMomenos = MOMENTOS.length;*/
     
-     public static String removeDiacriticalMarks(String string) {
-        //Form.NFC acepta ñ y distingue las tildes en español
-        return Normalizer.normalize(string, Normalizer.Form.NFC)
-                .replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
-    }
+     
+    
+    
 }

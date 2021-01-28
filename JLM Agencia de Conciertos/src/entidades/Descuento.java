@@ -141,7 +141,7 @@ public class Descuento {
     /*método toString*/
     @Override
     public String toString() {
-        return "Descuento{" + "id=" + id + ", codigo=" + codigo + ", fechavalidez=" + fechavalidez + '}';
+        return "Con id: " + id + "  codigo del descuento: " + codigo+"  " ;
     }
 
 }

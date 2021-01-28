@@ -33,21 +33,18 @@ public class JLMAgenciaDeConciertos {
 
         ArrayList<Usuario> usuarios = new ArrayList<Usuario>();//Se cargan todos los usuarios que hay en utilidades en la variable usuarios(que es un arrayList que se puede modificar)
         usuarios = Usuario.todosUsuarios();
-        ArrayList<Compra> compras = new ArrayList<Compra>();//Se cargan todos los compras que hay en utilidades en la variable compras(que es un arrayList que se puede modificar)
-        compras = Compra.todascompras();
-        ArrayList<Reserva> reservas = new ArrayList<Reserva>();//Se cargan todos los reservas que hay en utilidades en la variable reservas(que es un arrayList que se puede modificar)
-        reservas = Reserva.todasReservas();
-        ArrayList<Descuento> descuentos = new ArrayList<Descuento>();//Se cargan todos los descuentos que hay en utilidades en la variable descuentos(que es un arrayList que se puede modificar)
-        usuarios = Usuario.todosUsuarios();
+
+        ArrayList<Concierto> conciertos = new ArrayList<Concierto>();
 
         Usuario usuariologeado = new Usuario();//Creo dos variables para guardar en una los datos del usuario que inicia sesion para asi compararlo con la pseudo base de datos y ver que ese usuario ya tiene cuenta para poder iniciar sesion
         Usuario usuarioregistrado = new Usuario();//y en la otra el usuario registrado para posterior compararle con los que ya tenemos y asi ver que no exista ya un usuario con esos datos
-        boolean sinusuario = false;
+
+        boolean sinusuario = false, encontrado = false;
         int opcion = -1, numerodeusuario = 0;//La variable opcion servira para moverse por todo el menu con los do while
 
         do {
 
-            opcion = menuRegistroIniciosesion();
+            opcion = menuRegistroIniciosesion();//Al usuario se le mostrara un menu para que elija que quiere hacer,registrarse,iniciar sesion o salir del menu
 
             do {//Una vez se sepa que quiere hacer tendra tres opciones
                 switch (opcion) {
@@ -60,16 +57,16 @@ public class JLMAgenciaDeConciertos {
 
                     case 1://El caso 1 es que se registra con una nueva cuenta añadiendo esa cuenta a la lista de usuarios que ya tenemos
 
-                        usuarioregistrado = Usuario.registrousuario(usuarios);//Se crea un usuario que nos servira para todo el prgrama
+                        usuarioregistrado = Usuario.registrousuario(usuarios);//Se crea un usuario dentro de los parametros establecidos
 
                         if (usuarioregistrado == null) {//Si lo que retorna de nuevousuario es null es por que desde la funcion nuevousuario el usuairo metio por teclado que queria salirse del programa y es lo que hara
                             return;
 
                         } else {//Sino retornara un objeto entero(un nuevo usuario con todos sus datos)
-                            System.out.println("Su usuario ha sido registrado correctamente");//Se muestra el siguiente mensaje y se añade el nuevo usuario al arrayList de usuairos
+                            System.out.println("Su USUARIO ha sido registrado correctamente");//Se muestra el siguiente mensaje y se añade el nuevo usuario al arrayList de usuairos
                             usuarios.add(usuarioregistrado);
 
-                            opcion = submenuRegistro();
+                            opcion = submenuRegistro();//Se le mostrara un submenu, el cual servira para preguntarle si quiere registrar otro usuairo,iniciar sesion o salir del programa
 
                             if (opcion == 0) {//Si la opcion es salir del programa se saldra del programa
                                 return;
@@ -85,7 +82,7 @@ public class JLMAgenciaDeConciertos {
                             return;
 
                         } else {
-                            System.out.println("Usuario encontrado,bienvenido " + usuariologeado.getNombre() + " " + usuariologeado.getApellido());
+                            System.out.println("Usuario encontrado,BIENVENIDO " + usuariologeado.getNombre() + " " + usuariologeado.getApellido());
                             opcion = 20;//Se le pone una opcion que no sea 1 o 2 para que salga del menu de registro inicio de sesion
 
                         }
@@ -96,7 +93,7 @@ public class JLMAgenciaDeConciertos {
 
             do {//Una vez se haya registrado o iniciado sesion , se le enselara el menu para que elija que desea
 
-                opcion = menuInicio();
+                opcion = menuInicio();//Se le muestra al usuairo un menu de inicio para que elija que desea hacer en el programa
 
                 switch (opcion) {
 
@@ -119,50 +116,229 @@ public class JLMAgenciaDeConciertos {
 
                                     break;
 
-                                case 1://En el caso 1 se le muestra todos los usuarios por pantalla con sus datos 
+                                case 1://En el caso 1 se le muestra todos los usuarios por pantalla con sus datos,asi como las compras y reservas que ha realizado
 
-                                    Usuario.mostrarUsuarios(usuarios);
+                                    Usuario.mostrarUsuariosbasico(usuarios);
 
+                                    System.out.print("¿Quiere ver informacion mas detallada de los usuario?\nPulse 1 para SI\nPulse 0 para NO\n(0 o 1): ");
+                                    opcion = in.nextInt();
+
+                                    if (opcion == 0) {
+                                        opcion = 1;
+
+                                    } else {
+
+                                    do{    
+                                        Usuario verdetallado = new Usuario();
+                                        verdetallado = Usuario.buscarUsuariosID(usuarios);
+
+                                        if (verdetallado == null) {//Si lo que retorna la anterior funcion es nulo significa que no se ha encontrado ninguna coincidencia y por lo tanto no hay ningun usuairo con ese id
+
+                                            do {
+
+                                                in = new Scanner(System.in);
+                                                System.out.print("No existe ningun uduario con ese id,¿quiere buscar otro?\nPulse 1 para SI\nPulse 0 para NO\n(0 o 1): ");//Se le dira al usuairo que no existe nadie con ese id y le pregunta que si quiere volver a buscar
+                                                opcion = in.nextInt();
+
+                                                if ((opcion != 0) && (opcion != 1)) {
+
+                                                    System.out.println("Opcion no valida,por favor vuelve a introducirla");//Si la opcion es incorrecta se le muestra el siguiente mensaje
+                                                }
+
+                                            } while ((opcion != 0) && (opcion != 1));
+
+                                            if (opcion == 0) {
+                                                opcion = 2;
+                                            }
+                                        } else {
+
+                                            Usuario.mostrarUsuariocompleto(verdetallado);
+
+                                            do {
+
+                                                in = new Scanner(System.in);
+                                                System.out.print("¿Desea realizar otra busqueda?\nPulse 1 para SI\nPulse 0 para NO\n(0 o 1): ");//Se le pregutnara al usuairo si nquiere buscar algun otro usuairo
+                                                opcion = in.nextInt();
+
+                                                if ((opcion != 0) && (opcion != 1)) {
+                                                    System.out.println("Opcion no valida,por favor vuelve a introducirla");
+
+                                                }
+
+                                            } while ((opcion != 1) && (opcion != 0));
+
+                                            if (opcion == 0) {
+                                                opcion = 2;
+
+                                            }
+                                        }
+                                    }while(opcion == 1);
+
+                                    }
                                     break;
 
-                                case 2:
+                                case 2://En el caso 2 se le dara la opcion al usuario de buscar un usuario en concreto mediante su id o su nif
 
-                                    do {
+                                    do {//Este do while se realizara siempre que el usuario quiera buscar otro usuario
 
-                                        opcion = menuBusquedaUsuario();
+                                        opcion = menuBusquedaUsuario();//Se le pregunta si quiere realizar la busqueda por nif o por id
 
                                         switch (opcion) {
 
-                                            case 1:
+                                            case 1://El caso 1 busca un usuario por id
 
-                                                opcion = Usuario.buscarUsuariosID(usuarios);
+                                                Usuario usuariobuscadoporid = Usuario.buscarUsuariosID(usuarios);//Se declara un usuario en el cual se guardara el usuario buscado,una vez hecho se llama a la funcion buscar por id
+
+                                                if (usuariobuscadoporid == null) {//Si lo que retorna la anterior funcion es nulo significa que no se ha encontrado ninguna coincidencia y por lo tanto no hay ningun usuairo con ese id
+
+                                                    do {
+
+                                                        in = new Scanner(System.in);
+                                                        System.out.print("No existe ningun uduario con ese id,¿quiere buscar otro?\nPulse 1 para SI\nPulse 0 para NO\n(0 o 1): ");//Se le dira al usuairo que no existe nadie con ese id y le pregunta que si quiere volver a buscar
+                                                        opcion = in.nextInt();
+
+                                                        if ((opcion != 0) && (opcion != 1)) {
+
+                                                            System.out.println("Opcion no valida,por favor vuelve a introducirla");//Si la opcion es incorrecta se le muestra el siguiente mensaje
+                                                        }
+
+                                                    } while ((opcion != 0) && (opcion != 1));
+
+                                                    if (opcion == 0) {
+                                                        opcion = 2;
+                                                    }
+                                                } else {
+
+                                                    System.out.println("El usuario que buscas es " + usuariobuscadoporid);//Si lo que retorna no es nulo,significa que ha encontrado un usuario con ese id
+
+                                                    do {
+
+                                                        in = new Scanner(System.in);
+                                                        System.out.print("¿Desea realizar otra busqueda?\nPulse 1 para SI\nPulse 0 para NO\n(0 o 1): ");//Se le pregutnara al usuairo si nquiere buscar algun otro usuairo
+                                                        opcion = in.nextInt();
+
+                                                        if ((opcion != 0) && (opcion != 1)) {
+                                                            System.out.println("Opcion no valida,por favor vuelve a introducirla");
+
+                                                        }
+
+                                                    } while ((opcion != 1) && (opcion != 0));
+
+                                                    if (opcion == 0) {
+                                                        opcion = 2;
+
+                                                    }
+                                                }
 
                                                 break;
 
-                                            case 2:
+                                            case 2://idem al buscar por id pero con un NIF(string) 
 
-                                                opcion = Usuario.buscarUsuarioNIF(usuarios);
+                                                Usuario usuariobuscadopornif = Usuario.buscarUsuarioNIF(usuarios);
+
+                                                if (usuariobuscadopornif == null) {
+                                                    do {
+
+                                                        in = new Scanner(System.in);
+                                                        System.out.print("No existe ningun uduario con ese NIF,¿quiere buscar otro?\nPulse para 1 SI\nPulse 0 para NO\n(0 o 1): ");
+                                                        opcion = in.nextInt();
+
+                                                        if ((opcion != 0) && (opcion != 1)) {
+                                                            System.out.println("Opcion no valida,por favor vuelve a introducirla");
+
+                                                        }
+
+                                                    } while ((opcion != 0) && (opcion != 1));
+
+                                                    if (opcion == 0) {
+                                                        opcion = 2;
+
+                                                    }
+
+                                                } else {
+
+                                                    System.out.println("El usuario que buscas es " + usuariobuscadopornif);
+
+                                                    do {
+
+                                                        in = new Scanner(System.in);
+                                                        System.out.print("¿Desea realizar otra busqueda?\nPulse 1 para SI\nPulse 0 para NO\n(0 o 1): ");
+                                                        opcion = in.nextInt();
+
+                                                        if ((opcion != 0) && (opcion != 1)) {
+                                                            System.out.println("Opcion no valida,por favor vuelve a introducirla");
+
+                                                        }
+
+                                                    } while ((opcion != 1) && (opcion != 0));
+
+                                                    if (opcion == 0) {
+                                                        opcion = 2;
+
+                                                    }
+                                                }
 
                                                 break;
                                         }
-                                    } while (opcion == 1);
+                                    } while (opcion == 1);//Si el usuario una vez haya buscado introduce que quiere buscar otro usuairo se volvera a realizar una busqueda
                                     break;
 
-                                case 3:
+                                case 3://La opcion 3 sera la gestion de tu propio usuairo en la cual podras editarle y borrarle
 
                                     do {
 
-                                        opcion = menuGestionartuUsuario(usuariologeado);
+                                        opcion = menuGestionartuUsuario(usuariologeado);//Se le muestra un minimenu preguntando si quiere editar o borrar
 
                                         switch (opcion) {
 
-                                            case 1:
+                                            case 1://En caso de querer editar
 
-                                                opcion = Usuario.editartuUsuario(usuarios, usuariologeado);
+                                                Usuario usuarioeditado;
+
+                                                do {
+
+                                                    numerodeusuario = Usuario.numeroUsuariologeado(usuarios, usuariologeado);
+
+                                                    System.out.println("Introduzca de nuevo sus datos para poder editarlos");
+                                                    usuarioeditado = Usuario.usuarioEditado(usuariologeado);
+
+                                                    do {
+
+                                                        System.out.print("¿Son estos los datos correctos?\n" + usuarioeditado + "\nPulse 1 para SI\nPulse 0 para NO\n(0 o 1): ");
+                                                        opcion = in.nextInt();
+
+                                                        if ((opcion != 1) && (opcion != 0)) {
+                                                            System.out.println("Opcion no valida,por favor vuelve a introducirla");
+
+                                                        }
+
+                                                    } while ((opcion != 1) && (opcion != 0));
+
+                                                    if (opcion == 1) {
+                                                        System.out.println("Su usuario se ha editado correctamente");
+                                                        usuarios.set(numerodeusuario, usuarioeditado);
+                                                        opcion = 0;
+
+                                                    } else {
+
+                                                        do {
+                                                            System.out.println("¿Quiere volver a intentar meter los datos para editar su usuario?\nPulse 1 para SI\nPulse 0 para NO\n(0 o 1): ");
+                                                            opcion = in.nextInt();
+
+                                                            if ((opcion != 1) && (opcion != 0)) {
+                                                                System.out.println("Opcion no valida,por favor vuelve a introducirla");
+
+                                                            }
+
+                                                        } while ((opcion != 0) && (opcion != 1));
+
+                                                    }
+
+                                                } while (opcion == 1);
 
                                                 break;
 
-                                            case 2:
+                                            case 2://En caso de querer borrar
 
                                                 opcion = menuEliminarUsuario();
 
@@ -180,6 +356,8 @@ public class JLMAgenciaDeConciertos {
 
                                         if (!sinusuario) {
 
+                                            opcion = volverGestionartuUsuario();
+
                                         }
 
                                     } while ((opcion == 1) && (!sinusuario));
@@ -189,7 +367,7 @@ public class JLMAgenciaDeConciertos {
 
                             if ((opcion != 0) && (!sinusuario)) {//Esto es para volver al menu de gestion de usuarios para ello el usuario no tiene que borrar su usuario y no le ha tenido que dar a volver al menu de inicio
 
-                                opcion = volverGestionUusairos();
+                                opcion = volverGestionUusairos();//Se le muestra un menu para pregutarle si quiere volver a la gestion de usuairos o salir del programa
 
                                 if (opcion == 0) {
                                     return;
@@ -203,10 +381,10 @@ public class JLMAgenciaDeConciertos {
                         break;
                 }
 
-                volverIniciooRegistro(opcion, sinusuario);
+                volverIniciooRegistro(opcion, sinusuario);//Son mensajes que se mostrtarian en pantalla dependiendo los parametros que se le pasen
 
-            } while ((opcion == 0) && (!sinusuario));//Si la opcion es distinta a 1,2 o 3 se le volvera a preguntar al usuario
-        } while (sinusuario);
+            } while ((opcion == 0) && (!sinusuario));//Si la opcion es 0  y existe el usuairo se vuelve al menu principal
+        } while (sinusuario);//Si no existe usuario se vuelve al registro de usuarios
     }
 
     //
@@ -220,12 +398,13 @@ public class JLMAgenciaDeConciertos {
 
         do {//Antes de todo el programa el usuario tendra que identificarse para poder hacer todo lo que tiene que ver con el programa,en caso de que tenga cuenta solo tendra que introducir sus credenciales 
             //y en caso de que no tenga cuenta tendra que crearse una reggistrandose para posteriormente iniciar sesion con esa cuenbta que ha creado
-            System.out.print("Para poder hacer una consulta necesitas ser usuario con cuenta.\nNo tiene cuenta y desea registrarse(pulse 1) \nYa tiene una cuenta y desea iniciar sesion(pulse 2)\nSalir del programa(pulse 0)\n(0,1 o 2): ");
+            System.out.println("Bienvenido a la AGENCIA CONCIERTOS JML");
+            System.out.print("Para poder hacer una consulta necesitas ser usuario con cuenta.\nPulse 1 para CREAR CUENTA(registrarte) \nPulse 2 para INICIAR SESION\nPulse 0 para SALIR DEL PROGRAMA\n(0,1 o 2): ");
             opcion = in.nextInt();//Se le muestra al usuario el menu de registros e inicios de sesion y le obliga a introducir que quiere hacer
             System.out.println("");
 
             if ((opcion < 0) || (opcion > 2)) {
-                System.out.println("Valor invalido,por fsavor introduzcalo de nuevo\n");///En caso de valor invalido se muestra el siguiente mensaje
+                System.out.println("Valor invalido,por favor introduzcalo de nuevo\n");///En caso de valor invalido se muestra el siguiente mensaje
 
             }
 
@@ -240,7 +419,7 @@ public class JLMAgenciaDeConciertos {
 
         do {//Posteriormente s ele muestra otro minimenu en el cual le dan la opciuon al usuario de regitrar otra cuenta(por ejemplo la de un familiar),iniciar sesion o salir del programa
 
-            System.out.print("Desea registrar otro usuario(pulse 1),iniciar sesion(pulse 2) o desea salirse del programa(pulse 0)\n(0,1 o 2): ");
+            System.out.print("Pulse 1 para REGISTRAR OTRO USUARIO\nPulse 2 para INICIAR SESION\nPulse 3 para SALIR DEL PROGRAMA\n(0,1 o 2): ");
             opcion = in.nextInt();
 
             if ((opcion < 0) || (opcion > 2)) {
@@ -259,8 +438,8 @@ public class JLMAgenciaDeConciertos {
 
         do {
 
-            System.out.println("¿Hola que desea?");
-            System.out.print("1)Gestion de Usuarios\n2)Gestion de Conciertos\n3)Gestion de Entradas\n0)salir del programa\n(0,1,2 o 3):");//Se le muestra al usuario el menu
+            System.out.println("Esta en el MENU PRINCIPAL");
+            System.out.print("Pulse 1 para GESTIONAR USUARIOS\nPulse 2 para GESTIONAR CONCIERTOS\nPulse 3 para GESTIONAR ENTRADAS\nPulse 0 para SALIR DEL PROGRAMA\n(0,1,2 o 3):");//Se le muestra al usuario el menu
             opcion = in.nextInt();//El usuario introducira la opcion que quiere
 
             if ((opcion < 0) || (opcion > 3)) {
@@ -280,7 +459,7 @@ public class JLMAgenciaDeConciertos {
         do {
 
             System.out.println("\nEstas en la opcion de gestion de usuarios,que desea");
-            System.out.print("1)Ver todos los Usuarios registrados\n2)Buscar un usuario en concreto y verlo\n3)Gestionar tu usuario\n0)Volver al menu de inicio\n(0,1,2 o 3): ");
+            System.out.print("Pulse 1 para VER TODOS LOS USUARIOS\nPulse 2 para BUSCAR 1 USUARIO(por su NIF o id)\nPulse 3 para GESTIONAR TU USUARIO\nPulse 0 para VOLVER AL MENU INICI0\n(0,1,2 o 3): ");
             opcion = in.nextInt();
 
             if ((opcion < 0) || (opcion > 3)) {
@@ -299,7 +478,7 @@ public class JLMAgenciaDeConciertos {
 
         do {
 
-            System.out.print("Las opciones de busqueda son:\n1)Por el id de usuario\n2)Por el NIF\n(1 o 2): ");
+            System.out.print("Las opciones de busqueda son:\nPulse 1 para BUSCAR POR ID\nPulse 2 para BUSCAR POR NIF\n(1 o 2): ");
             opcion = in.nextInt();
 
             if ((opcion != 1) && (opcion != 2)) {
@@ -312,6 +491,26 @@ public class JLMAgenciaDeConciertos {
         return opcion;
     }
 
+    public static long idabuscar() {
+
+        Scanner in = new Scanner(System.in);
+        long idbuscado;
+
+        do {
+
+            System.out.println("Introduzca el id del usuario a buscar");
+            idbuscado = in.nextLong();
+
+            if ((idbuscado <= 0)) {
+                System.out.println("El valor introducido no es valido pusto que es menor que 0");
+
+            }
+
+        } while (idbuscado <= 0);
+
+        return idbuscado;
+    }
+
     public static int menuGestionartuUsuario(Usuario usuariologeado) {
 
         Scanner in = new Scanner(System.in);
@@ -320,7 +519,7 @@ public class JLMAgenciaDeConciertos {
         do {
 
             System.out.println("Su usuario es " + usuariologeado.getId() + " " + usuariologeado);
-            System.out.println("Quiere editar su usuario(pulse 1)\nQuiere eliminar su usuario(pulse 2)");
+            System.out.print("Pulse 1 para EDITAR SU USUARIO\nPulse 2 para ELIMINAR SU USUAIRO\n(1 o 2): ");
             opcion = in.nextInt();
 
             if ((opcion != 1) && (opcion != 2)) {
@@ -339,7 +538,7 @@ public class JLMAgenciaDeConciertos {
 
         do {
 
-            System.out.println("¿Esta segiro de que quiere eliminar su usuario? Si(pulse 1) o No(pulse 0)");
+            System.out.print("¿Esta segiro de que quiere eliminar su usuario?\nPulse 1 para SI\nPulse 0 para NO\n(0 o 1): ");
             opcion = in.nextInt();
 
             if ((opcion != 1) && (opcion != 0)) {
@@ -358,7 +557,7 @@ public class JLMAgenciaDeConciertos {
 
         do {
 
-            System.out.println("¿Desea realizar algo mas relacionado con su usuario?\nSi(Pulse 1) o No(Pulse 0): ");
+            System.out.print("¿Desea realizar algo mas relacionado con su usuario?\nPulse 1 para SI\nPulse 0 para NO\n(0 o 1): ");
             opcion = in.nextInt();
 
             if ((opcion != 1) && (opcion != 0)) {
@@ -382,7 +581,7 @@ public class JLMAgenciaDeConciertos {
 
         do {
 
-            System.out.print("Desea volver al registro de usuarios(pulse 1) o desea salir del programa(pulse 0)\n(0 o 1): ");
+            System.out.print("Pulse 1 para VOLVER MENU GESTION DE USUARIOS \nPulse 0 para SALIR DEL PROGRAMA\n(0 o 1): ");
             opcion = in.nextInt();
 
             if ((opcion < 0) || (opcion > 1)) {

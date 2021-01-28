@@ -88,7 +88,11 @@ public class Artista {
     }
 
     public static ArrayList<Artista> convertir(Artista[] array) {
-        return new Artista().convertir(array);
+        ArrayList<Artista> ret = new ArrayList<Artista>();
+        for (Artista t : array) {
+            ret.add((Artista) t);
+        }
+        return ret;
     }
 
     public static ArrayList<Artista> arrayde(ArrayList<Artista> lista, int[] ids) {

@@ -22,6 +22,12 @@ public class Concierto {
         this.actuaciones = actuaciones;
         this.entradas = entradas;
     }
+    public Concierto(long id, Date diahora, ArrayList<Entrada> entradas) {
+        this.id = id;
+        this.diahora = diahora;
+        this.entradas = entradas;
+
+    }
 
     public Concierto(Concierto c) {
         this.id = c.id;

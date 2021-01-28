@@ -10,24 +10,21 @@ public class Entrada {
     private long id;
     private double precio;
     private boolean VIP = false;
-    private Compra compra;
     
    
     public Entrada(){}
     
     
-    public Entrada(long id, double precio, boolean VIP, Compra compra){
+    public Entrada(long id, double precio, boolean VIP){
         this.id = id;
         this.precio = precio;
         this.VIP = VIP;
-        this.compra = compra;
     }
     
     public Entrada(Entrada e) {
         this.id = e.id;
         this.precio = e.precio;
         this.VIP = e.VIP;
-        this.compra = e.compra;
     }
 
     public long getId() {
@@ -54,23 +51,22 @@ public class Entrada {
         this.VIP = VIP;
     }
 
-    public Compra getCompra() {
-        return compra;
-    }
-
-    public void setCompra(Compra compra) {
-        this.compra = compra;
-    }
-    
-
     @Override
     public String toString() {
-        return "Entrada{" + "id=" + id + ", precio=" + precio + ", VIP=" + VIP + ", compra=" + compra + '}';
+        return "ID de la entrada:" + id + "  precio entrada" + precio + " Entrada VIP: " + VIP ;
     }
+
+ 
     
+
+  
     
     public static ArrayList<Entrada> convertir(Entrada[] array) {
-        return new Entrada().convertir(array);
+        ArrayList<Entrada> ret = new ArrayList<Entrada>();
+        for (Entrada t : array) {
+            ret.add((Entrada) t);
+        }
+        return ret;
     }
     
     
@@ -80,7 +76,7 @@ public class Entrada {
             for (int j = 0; j < lista.size(); j++) {
                 //el método getCodigo() es propio de Producto
                 if (lista.get(j).getId() == ids[i]) {
-                    ret.add((Entrada) lista.get(ids[i]));
+                    ret.add((Entrada) lista.get(j));
                     break;
                 }
             }

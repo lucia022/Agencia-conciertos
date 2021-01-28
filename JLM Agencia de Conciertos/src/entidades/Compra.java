@@ -26,6 +26,8 @@ public class Compra {
     private String metodopago;
 
     private Descuento descuento;
+    
+    private ArrayList<Entrada>entradas = new ArrayList<Entrada>(); 
 
     /*Relación “se aplica” entre Descuento y Compra, la cual es 1:1, he decidido añadir un atributo de Descuento en la clase Compra, ya que en este caso, el atributo sería necesario, debido a que la cardinalidad mínima es superior a 0*/
  /*Cabe destacar, que sin la clase Compra no existiría la clase Descuento, por lo que se trata de una dependencia.*/
@@ -35,12 +37,22 @@ public class Compra {
     }
 
     /*constructor con parámetros*/
+    public Compra(long id, double precio, String metodopago, Descuento descuento,ArrayList<Entrada>entradas) {
+        this.id = id;
+        this.precio = precio;
+        this.metodopago = metodopago;
+        this.descuento = descuento;
+        this.entradas = entradas;
+    }
+    
     public Compra(long id, double precio, String metodopago, Descuento descuento) {
         this.id = id;
         this.precio = precio;
         this.metodopago = metodopago;
         this.descuento = descuento;
+
     }
+    
 
     /*constructor de copia*/
     public Compra(Compra com) {
@@ -49,6 +61,8 @@ public class Compra {
         this.metodopago = com.metodopago;
         this.descuento = com.descuento;
     }
+
+
 
 
     /*getters y setters de cada atributo*/
@@ -83,6 +97,24 @@ public class Compra {
     public void setIddescuento(Descuento iddescuento) {
         this.descuento = iddescuento;
     }
+
+    public Descuento getDescuento() {
+        return descuento;
+    }
+
+    public void setDescuento(Descuento descuento) {
+        this.descuento = descuento;
+    }
+
+    public ArrayList<Entrada> getEntradas() {
+        return entradas;
+    }
+
+    public void setEntradas(ArrayList<Entrada> entradas) {
+        this.entradas = entradas;
+    }
+    
+    
 
     public static Compra nuevaCompra()  {
 
@@ -238,9 +270,16 @@ public class Compra {
     /*método toString*/
 
     @Override
+    
     public String toString() {
-        return "Compra{" + "id=" + id + ", precio=" + precio + ", metodopago=" + metodopago + ", descuento=" + descuento + '}';
+        
+        String ret;
+        ret = "ID de compra:" + id + "  Precio de la compra: " + precio + "€   Metodo de pago: " + metodopago + "  Descuento:" + descuento;
+        
+        return ret;
+                
     }
+    
 
     
     

@@ -24,6 +24,8 @@ public class Reserva {
     //VALORES INVALIDOS: Todo lo que no sea Date o si el Date no tiene el formato dd/mm/aaaa.
     private Date fechamaxima;
 
+    private ArrayList<Entrada>entradas = new ArrayList<Entrada>(); 
+    
     /*Relación "realiza" entre Usuario y Reserva, la cual es N:1, he decidido añadir un atributo de Usuario en la clase Reserva, ya que en este caso, el atributo sería necesario, debido a que la cardinalidad mínima es superior a 0*/
  /*Cabe destacar, que se trata de una asociación directa entre Usuario y Reserva*/
 
@@ -35,6 +37,12 @@ public class Reserva {
     public Reserva(long id, Date fechamaxima) {
         this.id = id;
         this.fechamaxima = fechamaxima;
+    }
+    
+    public Reserva(long id, Date fechamaxima,ArrayList<Entrada>entradas) {
+        this.id = id;
+        this.fechamaxima = fechamaxima;
+        this.entradas = entradas;
     }
 
     /*constructor de copia*/
@@ -60,6 +68,17 @@ public class Reserva {
         this.fechamaxima = fechamaxima;
     }
 
+    public ArrayList<Entrada> getEntradas() {
+        return entradas;
+    }
+
+    public void setEntradas(ArrayList<Entrada> entradas) {
+        this.entradas = entradas;
+    }
+
+    
+    
+    
     public static Reserva nuevaReserva() throws ParseException {
 
         Reserva nuevareserva = new Reserva();
@@ -145,7 +164,7 @@ public class Reserva {
 
     @Override
     public String toString() {
-        return "Reserva{" + "id=" + id + ", fechamaxima=" + fechamaxima + '}';
+        return "Con id: " + id + "  fecha maxima para realizar la compra" + fechamaxima;
     }
    
 }
