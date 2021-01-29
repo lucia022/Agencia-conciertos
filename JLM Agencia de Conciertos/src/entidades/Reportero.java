@@ -213,4 +213,21 @@ public class Reportero {
         return "Reportero{" + "id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", telefono=" + telefono + ", nif=" + nif + ", conciertos=" + '}';
     }
 
+    public static ArrayList<Reportero> convertir(Reportero[] array) {
+        return new Gen<Reportero>().convertir(array);
+    }
+    
+    public static ArrayList<Reportero> arrayde(ArrayList<Reportero> lista, int[] ids) {
+        ArrayList<Reportero> ret = new ArrayList<Reportero>();
+        for (int i = 0; i < ids.length; i++) {
+            for (int j = 0; j < lista.size(); j++) {
+                //el método getId() es propio de Actuación.
+                if (lista.get(j).getId() == ids[i]) {
+                    ret.add((Reportero) lista.get(j));
+                    break;
+                }
+            }
+        }
+        return ret;
+    }
 }
