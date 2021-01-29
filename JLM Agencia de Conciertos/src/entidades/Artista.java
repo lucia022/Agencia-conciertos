@@ -6,32 +6,29 @@ import java.util.Scanner;
 //Clase y Atributos de Artista
 public class Artista {
 
+    //VALORES VALIDOS: Long mayores que 0.
+    //VALORES INVALIDOS: Todo lo que no sea long y que el long sea menor igual que 0.
     private long id;
+    //VALORES VÁLIDOS: solo será válido las cadenas de carácteres comprendidas entre 2 y 40 carácteres
+    //VALORES INVÁLIDOS: Cadena de caracteres con caracteres no permitidos: '_', '&', '#' , ',' ':', ';' '?', '¿', '!','¡', '+', '*', '/', '\', '', cadenas de carácteres mayores de 40 y menores de 2.                       
     private String nombre;
+    //VALORES VÁLIDOS: solo están permitidos los valores de tipo char, cuyo valor solo puede ser una letra comprendida entre [A-Z] en mayúscula.
+    //VALORES INVÁLIDOS: valores que no sean de tipo char, valores en minúsculas, o la introducción de carácteres no permitidos como: '_', '&', '#' , ',' ':', ';' '?', '¿', '!','¡', '+', '*', '/', '\', ''
     private char generomusical;
-    private ArrayList<Actuacion> actuaciones = new ArrayList<Actuacion>();
-    private ArrayList<Individual> individuales = new ArrayList<Individual>();
-    private ArrayList<Colaboracion> colaboraciones = new ArrayList<Colaboracion>();
 
     public Artista() {
     }
 
-    public Artista(long id, String nombre, char generomusical, ArrayList<Actuacion> actuaciones, ArrayList<Individual> individuales, ArrayList<Colaboracion> colaboraciones) {
+    public Artista(long id, String nombre, char generomusical) {
         this.id = id;
         this.nombre = nombre;
         this.generomusical = generomusical;
-        this.actuaciones = actuaciones;
-        this.individuales = individuales;
-        this.colaboraciones = colaboraciones;
     }
 
     public Artista(Artista ar) {
         this.id = ar.id;
         this.nombre = ar.nombre;
         this.generomusical = ar.generomusical;
-        this.actuaciones = ar.actuaciones;
-        this.individuales = ar.individuales;
-        this.colaboraciones = ar.colaboraciones;
     }
 
     public long getId() {
@@ -58,33 +55,9 @@ public class Artista {
         this.generomusical = generomusical;
     }
 
-    public ArrayList<Actuacion> getActuaciones() {
-        return actuaciones;
-    }
-
-    public void setActuaciones(ArrayList<Actuacion> actuaciones) {
-        this.actuaciones = actuaciones;
-    }
-
-    public ArrayList<Individual> getIndividuales() {
-        return individuales;
-    }
-
-    public void setIndividuales(ArrayList<Individual> individuales) {
-        this.individuales = individuales;
-    }
-
-    public ArrayList<Colaboracion> getColaboraciones() {
-        return colaboraciones;
-    }
-
-    public void setColaboraciones(ArrayList<Colaboracion> colaboraciones) {
-        this.colaboraciones = colaboraciones;
-    }
-
     @Override
     public String toString() {
-        return "Artista{" + "id=" + id + ", nombre=" + nombre + ", generomusical=" + generomusical + ", actuaciones=" + actuaciones + ", individuales=" + individuales + ", colaboraciones=" + colaboraciones + '}';
+        return "Artista" + "\nId del artista:" + id + "\nNombre del artista:" + nombre + "\nGénero musical del artista:" + generomusical;
     }
 
     public static ArrayList<Artista> convertir(Artista[] array) {
@@ -99,7 +72,7 @@ public class Artista {
         ArrayList<Artista> ret = new ArrayList<Artista>();
         for (int i = 0; i < ids.length; i++) {
             for (int j = 0; j < lista.size(); j++) {
-                //el método getCodigo() es propio de Producto
+                //el método getId() es propio de Artista
                 if (lista.get(j).getId() == ids[i]) {
                     ret.add((Artista) lista.get(ids[i]));
                     break;
@@ -120,7 +93,7 @@ public class Artista {
             if (idartista <= 0) {
                 System.out.println("El id introducido no es válido, introduzcalo de nuevo:");
             }
-        } while (idartista <=0);
+        } while (idartista <= 0);
         String nombreartista;
         boolean fallo = true;
         do { //Pedira un nombre(String) pero este no podra tener numeros,ni estar vacio o tener un espacio ya que en ese caso lo volvera a pedir hasta que este sea correcto con lo anterior
