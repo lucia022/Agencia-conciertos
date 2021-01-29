@@ -378,6 +378,26 @@ public class JLMAgenciaDeConciertos {
                         break;
 
                     case 2: //AQUÍ COMIENZA LA GESTION DE CONCIERTOS
+                        System.out.println("¿Qué desea?");
+                        System.out.println("Pulse 1 para ver giras");
+                        System.out.println("Pulse 2 para ver conciertos");
+                        System.out.println("Pulse 3 para nuevo concierto");
+                        opcion = in.nextInt();
+                        
+                        ArrayList<Concierto> todosconciertos = new ArrayList<Concierto>();
+                        Concierto concierto;
+                        
+                        switch (opcion) {
+                            case 1:
+                                break;
+                            case 2:
+                                todosconciertos = Concierto.todosconciertos();
+                                System.out.println(todosconciertos);
+                                break;
+                            case 3:
+                                concierto = Concierto.nuevoConcierto();
+                                break;
+                        }
                         break;
                 }
 
