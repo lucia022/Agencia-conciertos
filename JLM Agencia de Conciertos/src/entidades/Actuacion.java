@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 //Clase y Atributos de Actuacion
-public class Actuacion {
+public class Actuacion { 
 
     //VALORES VALIDOS: Long mayores que 0.
     //VALORES INVALIDOS: Todo lo que no sea long y que el long sea menor igual que 0.
