@@ -7,9 +7,15 @@ import java.util.Scanner;
 //Clase y Atributos de la clase Entrada
 public class Entrada {
     
+    //VALORES VALIDOS: Long mayores que 0.
+    //VALORES INVALIDOS: Todo lo que no sea long y que el long sea menor igual que 0.
     private long id;
+    //VALORES VÁLIDOS: solo se aceptan los valores con formato 0.00, correspondiendo al precio de las entradas en euros.
+    //VALORES INVÁLIDOS: aquellos valores que no sean introducidos con el fomato 0.00, y el valor del precio de las entradas no sea en euros.
     private double precio;
+    
     private boolean VIP = false;
+    private Compra compra; /*relación 1:1 entre compra y entrada, en la que introducimos un objeto de compra dentro de la clase Ebtrada.*/
     
    
     public Entrada(){}
@@ -51,15 +57,11 @@ public class Entrada {
         this.VIP = VIP;
     }
 
+    /*Método toString de la clase Entrada*/
     @Override
     public String toString() {
-        return "ID de la entrada:" + id + "  precio entrada" + precio + " Entrada VIP: " + VIP ;
+        return "Entrada" + "\nId de la entrada:" + id + "\nEl precio en euros de la entrada es:" + precio + "\nLa entrada es VIP?" + VIP + "\ncompra:" + compra;
     }
-
- 
-    
-
-  
     
     public static ArrayList<Entrada> convertir(Entrada[] array) {
         ArrayList<Entrada> ret = new ArrayList<Entrada>();
@@ -74,7 +76,7 @@ public class Entrada {
         ArrayList<Entrada> ret = new ArrayList<Entrada>();
         for (int i = 0; i < ids.length; i++) {
             for (int j = 0; j < lista.size(); j++) {
-                //el método getCodigo() es propio de Producto
+                //el método getId() es propio de Entrada
                 if (lista.get(j).getId() == ids[i]) {
                     ret.add((Entrada) lista.get(j));
                     break;
