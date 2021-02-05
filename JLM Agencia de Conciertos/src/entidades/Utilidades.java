@@ -89,15 +89,39 @@ public class Utilidades {
         new Gira(3, "UK", Date.valueOf(LocalDate.parse("14/04/2020", dateFormatter)), Date.valueOf(LocalDate.parse("18/09/2020", dateFormatter)), INFORMES[1]),};
    
     //public static final int numGiras = GIRAS.length;
+    
+      public static final Momento MOMENTOS[] = {
+        new Momento(0, Date.valueOf(LocalDate.parse("20/03/2019", dateFormatter)), "DescripcionGiraEspañola"),
+        new Momento(1, Date.valueOf(LocalDate.parse("14/04/2020", dateFormatter)), "DescripcionGiraUK"),
+        new Momento(2, Date.valueOf(LocalDate.parse("03/03/2020", dateFormatter)), "DescripcionGiraLationoamericana"),
+        new Momento(3, Date.valueOf(LocalDate.parse("30/01/2020", dateFormatter)), "DescripcionGiraEuropea"),
+        new Momento(4, Date.valueOf(LocalDate.parse("12/12/2000", dateFormatter)), "DescripcionGiraLatinoamericana"),
+        new Momento(5, Date.valueOf(LocalDate.parse("03/03/2020", dateFormatter)), "DescripcionGiraLatinoamericana"),
+        new Momento(6, Date.valueOf(LocalDate.parse("12/12/2000", dateFormatter)), "DescripcionGiraEpañola"),
+        new Momento(7, Date.valueOf(LocalDate.parse("12/12/2000", dateFormatter)), "DescripcionGiraUK"),
+        new Momento(8, Date.valueOf(LocalDate.parse("12/12/2000", dateFormatter)), "DescripcionGiraUK"),
+        new Momento(9, Date.valueOf(LocalDate.parse("12/12/2000", dateFormatter)), "DescripcionGiraUK"),
+        new Momento(10, Date.valueOf(LocalDate.parse("12/12/2000", dateFormatter)), "DescripcionGiraEspañola"),
+        new Momento(11, Date.valueOf(LocalDate.parse("03/03/2020", dateFormatter)), "DescripcionGiraLatinoamericana"),
+        new Momento(12, Date.valueOf(LocalDate.parse("12/12/2000", dateFormatter)), "DescripcionGiraEuropea"),
+        new Momento(13, Date.valueOf(LocalDate.parse("03/03/2020", dateFormatter)), "DescripcionGiraLatinoamericanaa"),
+        new Momento(14, Date.valueOf(LocalDate.parse("12/12/2000", dateFormatter)), "DescripcionGiraEspañola"),
+        new Momento(15, Date.valueOf(LocalDate.parse("12/12/2000", dateFormatter)), "DescripcionGiraEspañola"),
+        new Momento(16, Date.valueOf(LocalDate.parse("12/12/2000", dateFormatter)), "DescripcionGiraEuropea"),
+        new Momento(17, Date.valueOf(LocalDate.parse("12/12/2000", dateFormatter)), "DescripcionGiraEuropea"),
+        new Momento(18, Date.valueOf(LocalDate.parse("12/12/2000", dateFormatter)), "DescripcionGiraUK"),
+        new Momento(19, Date.valueOf(LocalDate.parse("12/12/2000", dateFormatter)), "DescripcionGiraUK"),
+        new Momento(20, Date.valueOf(LocalDate.parse("03/03/2020", dateFormatter)), "DescripcionGiraLatinoamericana"),
+        new Momento(21, Date.valueOf(LocalDate.parse("12/12/2000", dateFormatter)), "DescripcionGiraEspañola"),
+        new Momento(22, Date.valueOf(LocalDate.parse("12/12/2000", dateFormatter)), "DescripcionGiraEuropea"),};
 
     public static final Reportero REPORTEROS[] = {
-        new Reportero(0, "Maria", "Fernandez", "652145983", "73021645N"),
+        new Reportero(0, "Maria", "Fernandez", "652145983", "73021645N",Momento.arrayde(Momento.convertir(MOMENTOS), new int[]{1})),
         new Reportero(1, "Juan", "Ruiz", "942851546", "72051486B"),
         new Reportero(2, "Ricardo", "Perez", "652148987", "10234568C"),
         new Reportero(3, "Ana", "Carrasco", "676963369", "78021645X")
     };
-    
-
+   
     
     public static final Artista ARTISTAS[] = {
         new Artista(1, "La Rosalia", 'F'), /*0*/
@@ -149,6 +173,7 @@ public class Utilidades {
     };
     public static final int numColaboraciones = COLABORACIONES.length;
     
+    
     public static final Actuacion ACTUACIONES[] = {
         new Actuacion(1, 6, 240.00, Artista.arrayde(Artista.convertir(ARTISTAS), new int[]{0, 3}), Reportero.arrayde(Reportero.convertir(REPORTEROS), new int[]{0, 3})), /*0*/
         new Actuacion(2, 4, 130.00, Artista.arrayde(Artista.convertir(ARTISTAS), new int[]{2, 5}), Reportero.arrayde(Reportero.convertir(REPORTEROS), new int[]{0, 3})), /*1*/
@@ -180,7 +205,9 @@ public class Utilidades {
         new Actuacion(28, 1, 240.00, Artista.arrayde(Artista.convertir(ARTISTAS), new int[]{5}), Reportero.arrayde(Reportero.convertir(REPORTEROS), new int[]{0, 3})), /*27*/
         new Actuacion(29, 4, 240.00, Artista.arrayde(Artista.convertir(ARTISTAS), new int[]{0}), Reportero.arrayde(Reportero.convertir(REPORTEROS), new int[]{0, 3})), /*28*/
         new Actuacion(30, 6, 240.00, Artista.arrayde(Artista.convertir(ARTISTAS), new int[]{4}), Reportero.arrayde(Reportero.convertir(REPORTEROS), new int[]{0, 3})) /*29*/
-    };
+    }; 
+
+
     public static final int numActuaciones = ACTUACIONES.length;
 
      
@@ -195,33 +222,10 @@ public class Utilidades {
     };
     public static final int numConciertos = CONCIERTOS.length;
     
-    /*
-    public static final Momento MOMENTOS[] = {
-        new Momento(0, Date.valueOf(LocalDate.parse("22:35", dateFormatter)), "DescripcionGiraEspañola", REPORTEROS[1]),
-        new Momento(1, Date.valueOf(LocalDate.parse("21:15", dateFormatter)), "DescripcionGiraUK", REPORTEROS[1]),
-        new Momento(2, Date.valueOf(LocalDate.parse("23:23", dateFormatter)), "DescripcionGiraLationoamericana", REPORTEROS[1]),
-        new Momento(3, Date.valueOf(LocalDate.parse("19:30", dateFormatter)), "DescripcionGiraEuropea", REPORTEROS[1]),
-        new Momento(4, Date.valueOf(LocalDate.parse("22:46", dateFormatter)), "DescripcionGiraLatinoamericana", REPORTEROS[1]),
-        new Momento(5, Date.valueOf(LocalDate.parse("23:50", dateFormatter)), "DescripcionGiraLatinoamericana", REPORTEROS[1]),
-        new Momento(6, Date.valueOf(LocalDate.parse("21:45", dateFormatter)), "DescripcionGiraEpañola", REPORTEROS[1]),
-        new Momento(7, Date.valueOf(LocalDate.parse("21:25", dateFormatter)), "DescripcionGiraUK", REPORTEROS[1]),
-        new Momento(8, Date.valueOf(LocalDate.parse("22:12", dateFormatter)), "DescripcionGiraUK", REPORTEROS[1]),
-        new Momento(9, Date.valueOf(LocalDate.parse("22:36", dateFormatter)), "DescripcionGiraUK", REPORTEROS[1]),
-        new Momento(10, Date.valueOf(LocalDate.parse("23:01", dateFormatter)), "DescripcionGiraEspañola", REPORTEROS[1]),
-        new Momento(11, Date.valueOf(LocalDate.parse("22:13", dateFormatter)), "DescripcionGiraLatinoamericana", REPORTEROS[1]),
-        new Momento(12, Date.valueOf(LocalDate.parse("21:12", dateFormatter)), "DescripcionGiraEuropea", REPORTEROS[1]),
-        new Momento(13, Date.valueOf(LocalDate.parse("22:48", dateFormatter)), "DescripcionGiraLatinoamericanaa", REPORTEROS[1]),
-        new Momento(14, Date.valueOf(LocalDate.parse("22:14", dateFormatter)), "DescripcionGiraEspañola", REPORTEROS[1]),
-        new Momento(15, Date.valueOf(LocalDate.parse("22:46", dateFormatter)), "DescripcionGiraEspañola", REPORTEROS[1]),
-        new Momento(16, Date.valueOf(LocalDate.parse("19:56", dateFormatter)), "DescripcionGiraEuropea", REPORTEROS[1]),
-        new Momento(17, Date.valueOf(LocalDate.parse("20:36", dateFormatter)), "DescripcionGiraEuropea", REPORTEROS[1]),
-        new Momento(18, Date.valueOf(LocalDate.parse("21:39", dateFormatter)), "DescripcionGiraUK", REPORTEROS[1]),
-        new Momento(19, Date.valueOf(LocalDate.parse("22:02", dateFormatter)), "DescripcionGiraUK", REPORTEROS[1]),
-        new Momento(20, Date.valueOf(LocalDate.parse("23:36", dateFormatter)), "DescripcionGiraLatinoamericana", REPORTEROS[1]),
-        new Momento(21, Date.valueOf(LocalDate.parse("00:12", dateFormatter)), "DescripcionGiraEspañola", REPORTEROS[1]),
-        new Momento(22, Date.valueOf(LocalDate.parse("21:56", dateFormatter)), "DescripcionGiraEuropea", REPORTEROS[1]),};
+    
+  
 
-    //public static final int numMomenos = MOMENTOS.length;*/
+    //public static final int numMomenos = MOMENTOS.length;
     
      
     

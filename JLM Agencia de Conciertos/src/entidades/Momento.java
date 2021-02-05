@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package entidades;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
@@ -17,10 +13,19 @@ import java.util.Scanner;
 public class Momento {
 
     //Atributos de la clase Momento
+    
+   // Valores Validos!! Estan permitodos todos los int/long cuyo valor sea entre 0 e infinito
+   // Valores Invalidos!! Queda prohibido el uso de caracteres especiales, numeros negativos, tipos `char, tipo double, tipo booblean, basicamento todo aquello que no sea un int/long primitivo´
     private long id;
+    
+     // Valores Validos!! Sera valida toda aquella fecha con el formato comprendido como "dd/MM/yyy o dd-MM-yyy o "dd de "String"(Enero, Febrero...etc) de yyyy"
+    // Valores Invalidos!! Todos aquellos que difieran con lo descrito anterior, fechas con formatos de otros paises, String que no hagan referencia al mes de la fecha, primitivos.
     private Date hora;
+    
+    // Valores Validos!! Por el momento solo se aceptan cadena de caracteres/String.
+    // Valores Invalidos!! Quedan prohibidos el uso de primitivos, ya sea, int, long, double, char, short...etc QUEDAN PROHIBIDO TODO LO QUE NO SEA UNA CADENA DE CARACTERES
     private String descripcion;
-    private Reportero reportero;
+    
 
     /*Relacion "capturar" entre Momento y Reportero la cual es 1:N y en este caso he decidido añadir 
     un atributo de tipo Reportero en la clase Momento,tambien hay que decir que seria obligatorio ya que la cardinalidad minima es superior a 0ç
@@ -29,18 +34,16 @@ public class Momento {
     public Momento() {
     }
 
-    public Momento(long id, Date hora, String descripcion, Reportero reportero) {
+    public Momento(long id, Date hora, String descripcion) {
         this.id = id;
         this.hora = hora;
         this.descripcion = descripcion;
-        this.reportero = reportero;
     }
 
     public Momento(Momento m) {
         this.id = m.id;
         this.hora = m.hora;
         this.descripcion = m.descripcion;
-        this.reportero = m.reportero;
     }
 
     //Getters de la clase Momento
@@ -56,10 +59,7 @@ public class Momento {
         return descripcion;
     }
 
-    public Reportero getReportero() {
-        return reportero;
-    }
-
+    
     //Setters de la clase Momento
     public void setId(long id) {
         this.id = id;
@@ -73,10 +73,31 @@ public class Momento {
         this.descripcion = descripcion;
     }
 
-    public void setReportero(Reportero reportero) {
-        this.reportero = reportero;
-    }
+   
 
+            public static ArrayList<Momento> convertir(Momento[] array) {
+        ArrayList<Momento> ret = new ArrayList<Momento>();
+        for (Momento m : array) {
+            ret.add((Momento) m);
+        }
+        return ret;
+    }
+    
+    public static ArrayList<Momento> arrayde(ArrayList<Momento> lista, int[] ids) {
+        ArrayList<Momento> ret = new ArrayList<Momento>();
+        for (int i = 0; i < ids.length; i++) {
+            for (int j = 0; j < lista.size(); j++) {
+                //el método getId() es propio de Entrada
+                if (lista.get(j).getId() == ids[i]) {
+                    ret.add((Momento) lista.get(j));
+                    break;
+                }
+            }
+        }
+        return ret;
+    }
+    
+    
     //Nuevo Metodo
     public static Momento nuevoMomento() {
 
@@ -122,34 +143,6 @@ public class Momento {
 
         } while ((descripcionNuevo.equals("")) || (descripcionNuevo.equals(" ")) || (fallo == true));
 
-         
-         /* No se si habia que pedir estos datos, además me estaba dando fallo, a si que no lo borro, lo comento y lo dejamos para un futuro por si fuese necesario.
-        do {
-
-            System.out.println("Introduzca el Reportero");
-            String Reportero = in.nextLine();
-            ret.setReportero(reportero);
-
-            for (int i = 0; i < Reportero.length(); i++) {
-                if (Character.isDigit(Reportero.charAt(i))) {
-                    fallo = true;
-                    System.out.println(" La Reportero que ha introducido contiene numeros,inntroduzcalo sin ellos");
-                    break;
-                } else {
-                    fallo = false;
-                }
-            }
-
-            if ((Reportero.equals("")) || (Reportero.equals(" "))) {
-                System.out.println("No has introducido ningun Reportero, es necesario introducir alguno");
-            }
-
-        } while ((Reportero.equals("")) || (Reportero.equals(" ")) || (fallo == true));
-
-        */
-
-     
-         
         return ret;
 
     }
@@ -181,7 +174,8 @@ public class Momento {
 
     @Override
     public String toString() {
-        return "Momento{" + "id=" + id + ", hora=" + hora + ", descripcion=" + descripcion + ", reportero=" + reportero + '}';
+        return "Los datos de los momentos obtenidos corresponden a:" + "\n" + "El id del momento es: "  + id  + "\n" + " La hora en la que se obtuvo el momento fue: "  + hora + "\n" + " Descripción del momento: " + descripcion;
     }
 
 }
+

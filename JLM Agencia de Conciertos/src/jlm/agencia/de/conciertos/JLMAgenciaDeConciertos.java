@@ -8,12 +8,14 @@ package jlm.agencia.de.conciertos;
 import entidades.Compra;
 import entidades.Concierto;
 import entidades.Descuento;
+import entidades.Fecha;
 import entidades.Gira;
 import entidades.Reserva;
 import entidades.Usuario;
 import entidades.Utilidades;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 /**

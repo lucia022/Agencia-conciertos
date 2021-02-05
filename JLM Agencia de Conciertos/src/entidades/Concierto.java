@@ -79,6 +79,32 @@ public class Concierto {
     public String toString() {
         return "Concierto" + "\nId del concierto:" + id + "\nfecha del concieto:" + diahora + "\nContiene las siguientes actuaciones:" + actuaciones + "\nDispone de estas entradas:" + entradas;
     }
+    
+    //Parte Introducida por Jonathan
+          public static ArrayList<Concierto> arrayde(ArrayList<Concierto> lista,int[] ids) {
+       
+        ArrayList<Concierto> ret = new ArrayList<Concierto>();
+        for (int i = 0; i < ids.length; i++) {
+            for (int j = 0; j < lista.size(); j++) {
+                if (lista.get(j).getId() == ids[i]) {
+                    ret.add((Concierto) lista.get(j));
+                    break;
+                }
+            }
+        }
+        return ret;
+    }
+
+    public static ArrayList<Concierto> convertir(Concierto[] array) {
+        ArrayList<Concierto> ret = new ArrayList<Concierto>();
+        for (Concierto c : array) {
+            ret.add((Concierto) c);
+        }
+        return ret;
+    }
+    //Hasta aqui
+ 
+
 
     public static Concierto nuevoConcierto() throws ParseException {
         Concierto ret = new Concierto();
@@ -106,4 +132,113 @@ public class Concierto {
         }
         return todosconciertos;
     }
+    
+    
+    /*  Parte hecha por Jonathan
+    
+      
+        public static Concierto buscarConciertos(ArrayList<Concierto> conciertos) {
+        Concierto deseado;
+        ArrayList<Concierto> encontrados;
+        Scanner in;
+        int option = -1;
+    
+        do {
+            deseado = null;
+            encontrados = new ArrayList<Concierto>();
+            in = new Scanner(System.in, "Elija una de estas opciones segun sus preferencias");
+            System.out.println("Pulse 1 para buscar el Concierto por su ID.");
+            System.out.println("Pulse 2 para buscar el Concierto por su Día de realización.");
+            System.out.println("Pulse 3 para buscar el Concierto por sus Actuaciones.");
+            System.out.println("Pulse 0 para VOLVER.");
+              option = in.nextInt();
+            if (option < 0 || option > 3) {
+                System.out.println("Opción incorrecta.");
+                continue;
+        }
+            
+            in = new Scanner(System.in, "Elija una de estas opciones segun sus preferencias");
+             switch (option) {
+                case 0:
+                    break;
+                    
+                case 1:
+                     System.out.println("Introduzca el ID del concierto que desee encontrar:");
+                    int idConcierto = in.nextInt();
+                    deseado = Concierto.buscarConciertoPorId(idConcierto, conciertos);
+                    if (deseado != null) {
+                        System.out.print("Concierto localizado: ");
+                        System.out.println(deseado.getId() + ". " + deseado.getDiahora());
+                    } else {
+                        System.out.println("Empleado con id:" + idConcierto + " NO ENCONTRADO.");
+                    }
+                    break;
+    
+    
+                    
+                    // Este caso lo comento, puesto que estoy haciendo este ejemplo con conciertos por quie tengo que buscarlos yo junto con las giras
+                      y no se como hacer para pedir una fecha.
+                    
+                case 2:
+                        System.out.println("Introduzca el día del concierto que desee encontrar:");
+                    Date diaConcierto = in.n();
+                    deseado = Concierto.buscarConciertoPorId(idConcierto, conciertos);
+                    if (deseado != null) {
+                        System.out.print("Concierto localizado: ");
+                        System.out.println(deseado.getId() + ". " + deseado.getDiahora());
+                    } else {
+                        System.out.println("Empleado con id:" + idConcierto + " NO ENCONTRADO.");
+                    }
+                    break;
+                   // 
+    
+    
+                    
+                case 3:
+                        System.out.println("Introduzca la Actuación del concierto que desee encontrar:");
+                    int actConcierto = in.nextInt();
+                    deseado = Concierto.buscarConciertoPorId(actConcierto, conciertos);
+                    if (deseado != null) {
+                        System.out.print("Actuacion Encontrada: ");
+                        System.out.println(deseado.getId() + ". " + deseado.getActuaciones());
+                    } else {
+                        System.out.println("Actuacion:" + actConcierto + " NO ENCONTRADa.");
+                    }
+                    break;
+    
+         
+                default:
+                    break;
+            }
+        } while (option != 0);
+        
+       }   
+    
+    
+      
+    public static Concierto buscarConciertoPorId(int idConcierto, ArrayList<Concierto> conciertos) {
+        Concierto ret = null;
+        for (Concierto c : conciertos) {
+            if (c.getId() == idConcierto) {
+                ret = c;
+                break;
+            }
+        }
+        return ret;
+    }
+    
+      
+    public static Concierto buscarConciertoPorDia(Date diaConcierto, ArrayList<Concierto> conciertos) {
+        Concierto ret = null;
+        for (Concierto c : conciertos) {
+            if (c.getDiahora() == diaConcierto) {
+                ret = c;
+                break;
+            }
+        }
+        return ret;
+    }
+    
+    */
+    
 }
