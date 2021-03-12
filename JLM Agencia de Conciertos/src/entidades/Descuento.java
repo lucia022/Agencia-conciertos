@@ -5,9 +5,10 @@
  */
 package entidades;
 
-import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  *
@@ -25,6 +26,9 @@ public class Descuento {
     //VALORES VALIDOS: Date con el formato dd/mm/aaaa.
     //VALORES INVALIDOS: Todo lo que no sea Date o si el Date no tiene el formato dd/mm/aaaa y si la fecha de validez introducida es inferior a la actual(Esto lo hare para la proxima practica ya que no me dio tiempo).
     private Date fechavalidez;
+    //VALORES VALIDOS:Numeros mayores que 0.00
+    //VALORES INVALIDOS: numeros que sean menores o iguales que 0.00
+    private double cantidad;
 
     /*constructor por defecto*/
     public Descuento() {
@@ -35,6 +39,13 @@ public class Descuento {
         this.id = id;
         this.codigo = codigo;
         this.fechavalidez = fechavalidez;
+    }
+    
+    public Descuento(long id, String codigo, Date fechavalidez, double cantidad) {
+        this.id = id;
+        this.codigo = codigo;
+        this.fechavalidez = fechavalidez;
+        this.cantidad = cantidad;
     }
 
     /*constructor de copia*/
@@ -48,79 +59,51 @@ public class Descuento {
     public long getId() {
         return id;
     }
-
+    
     public void setId(long id) {
         this.id = id;
     }
-
+    
     public String getCodigo() {
         return codigo;
     }
-
+    
     public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
-
+    
     public Date getFechavalidez() {
         return fechavalidez;
     }
-
+    
     public void setFechavalidez(Date fechavalidez) {
         this.fechavalidez = fechavalidez;
     }
-
-    public static Descuento nuevoDescuento() throws ParseException {//Este metodo seria en caso de que se quiera pedir al usuario los datos del descuento pero lo normal es que estos datos vengan ya dados
-
+    
+    public double getCantidad() {
+        return cantidad;
+    }
+    
+    public void setCantidad(double cantidad) {
+        this.cantidad = cantidad;
+    }
+    
+    public static Descuento nuevoDescuentoparaNuevosUsuarios() {//Este metodo seria en caso de que se quiera pedir al usuario los datos del descuento pero lo normal es que estos datos vengan ya dados
         Descuento nuevodescuento = new Descuento();
-        Scanner in = new Scanner(System.in);
-
         long iddescuento;
         String codigodescuento;
-        Boolean fallo = false;
-        
-        //En caso de que el id quiera ser pedido por teclado
-        /*do {//Pedira un id(long) el cual no podra ser menor igual que 0 o este se volvera a pedir hasta que sea mayor que cero
-
-            System.out.print("¿Cual es el id de su descuento?: ");//Pide el id de usuario
-            idusuario = in.nextLong();
-
-            if ((idusuario <= 0)) {
-                System.out.println("El id introducido no es valido ya que " + iddescuento + " es menor que 1,introduzcalo de nuevo"); //En caso de que este sea menor igual que cero se mostrara un mensaje para advertir de que es erroneo.
-            }
-
-        } while ((iddescuento <= 0));//Se pedira otra vez el id siempre que este sea menor que 1
-        nuevodescuento.setId(iddescuento);//Se setea el id del descuento*/
-        //En caso de que quiera ser automatico
+        double cantidaddescontada = 5.00;
+        //Descuento autocalculado
         iddescuento = Descuento.iddescuento();
-        System.out.println("Su id de descuento sera el " + iddescuento);
         nuevodescuento.setId(iddescuento);
-
         System.out.println("");
-
-        do {
-            
-            in = new Scanner(System.in);
-
-            System.out.print("¿Cual es el codigo del descuento?(7 digitos): "); //Se pedira el codigo de descuento
-            codigodescuento = in.nextLine();
-
-            if (codigodescuento.length() != 7) {
-                fallo = true;
-                System.out.println("codigo de descuento invalido por no ser de 7 carazteres,por favor introduzcalo de nuevo");//En caso de tener mas de 9 o menos de 90 caracteres saldra el siguiente mensahje
-            }
-
-        } while (fallo); //Si el NIF esta vacio o este tiene mas o menos de 9 caractertes se volvera a pedir al usuario el NIF
+        codigodescuento = Descuento.codigoDescuentoAleatorio();
         nuevodescuento.setCodigo(codigodescuento);
-
         System.out.println("");
-
-        System.out.println("A continuacion introduzca la fecha de validez del descuento:");
-        Date fechavalidezdescuento = Fecha.dameFecha();//Se llamara a la funcion damefecha de utilidades en la cual pedira un fecha y la validara.
-        nuevodescuento.setFechavalidez(fechavalidezdescuento);
-
+        nuevodescuento.setCantidad(cantidaddescontada);
         return nuevodescuento;
     }
-
+    
     public static long iddescuento() {//Metodo para conseguir el id de forma automatica(se le suma uno al numero mas grande de id que haya)
 
         long masalto = 0;
@@ -137,11 +120,51 @@ public class Descuento {
         masalto++;
         return masalto;
     }
+    
+    public static ArrayList<Descuento> arrayde(ArrayList<Descuento> descuentos, int[] ids) {
+        ArrayList<Descuento> ret = new ArrayList<Descuento>();
+        for (int i = 0; i < ids.length; i++) {
+            for (int j = 0; j < descuentos.size(); j++) {
+                if (descuentos.get(j).getId() == ids[i]) {
+                    ret.add((Descuento) descuentos.get(j));
+                    break;
+                }
+            }
+        }
+        return ret;
+    }
+    
+    public static ArrayList<Descuento> convertir(Descuento[] array) {
+        ArrayList<Descuento> ret = new ArrayList<Descuento>();
+        for (Descuento t : array) {
+            ret.add((Descuento) t);
+        }
+        return ret;
+    }
+    
+    public static String codigoDescuentoAleatorio() {
+        // El banco de caracteres
+        String valoresValidos = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        // La cadena en donde iremos agregando un carácter aleatorio
+        String codigo = "";
+        for (int x = 0; x < 7; x++) {
+            int indiceAleatorio = numeroAleatorioEnRango(0, valoresValidos.length() - 1);
+            char caracterAleatorio = valoresValidos.charAt(indiceAleatorio);
+            codigo += caracterAleatorio;
+        }
+        return codigo;
+    }
+    
+    public static int numeroAleatorioEnRango(int minimo, int maximo) {
+        // nextInt regresa en rango pero con límite superior exclusivo, por eso sumamos 1
+        return ThreadLocalRandom.current().nextInt(minimo, maximo + 1);
+    }
+
 
     /*método toString*/
     @Override
     public String toString() {
-        return "Con id: " + id + "  codigo del descuento: " + codigo+"  " ;
+        return "Con id: " + id + "  codigo del descuento: " + codigo + "  ";
     }
-
+    
 }

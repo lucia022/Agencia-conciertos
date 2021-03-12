@@ -63,11 +63,11 @@ public class Utilidades {
     
     public static final Usuario USUARIOS[] = {
         
-        new Usuario(1, "Mario", "Araujo", "@", "11111111A",Compra.arrayde(Compra.convertir(COMPRAS), new int[]{2}),Reserva.arrayde(Reserva.convertir(RESERVAS), new int[]{1})),
-        new Usuario(12, "Lucia", "Rodriguez", "lucia@gmail.com", "22222222B",Compra.arrayde(Compra.convertir(COMPRAS), new int[]{16}),Reserva.arrayde(Reserva.convertir(RESERVAS), new int[]{2})),
-        new Usuario(3, "Jonathan", "Caballero", "jony@hotmail.es", "33333333C",Compra.arrayde(Compra.convertir(COMPRAS), new int[]{20}),Reserva.arrayde(Reserva.convertir(RESERVAS), new int[]{1,2})),
-        new Usuario(4, "Pepe", "Gonzalez", "pepe@hotmail.es", "44444444D",Compra.arrayde(Compra.convertir(COMPRAS), new int[]{12,11}),Reserva.arrayde(Reserva.convertir(RESERVAS), new int[]{1,2})),
-        new Usuario(8, "Gaizka", "Patron", "gaizka@hotmail.es", "55555555E",Compra.arrayde(Compra.convertir(COMPRAS), new int[]{4}),Reserva.arrayde(Reserva.convertir(RESERVAS), new int[]{2})),
+        new Usuario(1, "Mario", "Araujo", "@", "11111111A",Compra.arrayde(Compra.convertir(COMPRAS), new int[]{2}),Reserva.arrayde(Reserva.convertir(RESERVAS), new int[]{1}),Descuento.arrayde(Descuento.convertir(DESCUENTOS), new int[]{1})),
+        new Usuario(12, "Lucia", "Rodriguez", "lucia@gmail.com", "22222222B",Compra.arrayde(Compra.convertir(COMPRAS), new int[]{16}),Reserva.arrayde(Reserva.convertir(RESERVAS), new int[]{2}),Descuento.arrayde(Descuento.convertir(DESCUENTOS), new int[]{1})),
+        new Usuario(3, "Jonathan", "Caballero", "jony@hotmail.es", "33333333C",Compra.arrayde(Compra.convertir(COMPRAS), new int[]{20}),Reserva.arrayde(Reserva.convertir(RESERVAS), new int[]{1,2}),Descuento.arrayde(Descuento.convertir(DESCUENTOS), new int[]{1})),
+        new Usuario(4, "Pepe", "Gonzalez", "pepe@hotmail.es", "44444444D",Compra.arrayde(Compra.convertir(COMPRAS), new int[]{12,11}),Reserva.arrayde(Reserva.convertir(RESERVAS), new int[]{1,2}),Descuento.arrayde(Descuento.convertir(DESCUENTOS), new int[]{1})),
+        new Usuario(8, "Gaizka", "Patron", "gaizka@hotmail.es", "55555555E",Compra.arrayde(Compra.convertir(COMPRAS), new int[]{4}),Reserva.arrayde(Reserva.convertir(RESERVAS), new int[]{2}),Descuento.arrayde(Descuento.convertir(DESCUENTOS), new int[]{1})),
         //new Usuario(6, "Aitor", "Perez", "aitor@hotmail.es", "66666666F",null,null)
     };
     public static final int numUsuarios = USUARIOS.length;

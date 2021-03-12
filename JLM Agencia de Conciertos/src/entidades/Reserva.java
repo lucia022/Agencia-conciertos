@@ -23,23 +23,21 @@ public class Reserva {
     //VALORES VALIDOS: Date con el formato dd/mm/aaaa.
     //VALORES INVALIDOS: Todo lo que no sea Date o si el Date no tiene el formato dd/mm/aaaa.
     private Date fechamaxima;
+    //Es una coleccion de objetos del tipo entrafas en el cual se guardaran todas las entradas realizadas en la reserva x
+    private ArrayList<Entrada> entradas = new ArrayList<Entrada>();
 
-    private ArrayList<Entrada>entradas = new ArrayList<Entrada>(); 
-    
-    /*Relación "realiza" entre Usuario y Reserva, la cual es N:1, he decidido añadir un atributo de Usuario en la clase Reserva, ya que en este caso, el atributo sería necesario, debido a que la cardinalidad mínima es superior a 0*/
- /*Cabe destacar, que se trata de una asociación directa entre Usuario y Reserva*/
-
- /*constructor por defecto*/
+    /*constructor por defecto*/
     public Reserva() {
     }
 
-    /*constructor con parámetros*/
+    //constructor con parámetros ain el array de entradas
     public Reserva(long id, Date fechamaxima) {
         this.id = id;
         this.fechamaxima = fechamaxima;
     }
-    
-    public Reserva(long id, Date fechamaxima,ArrayList<Entrada>entradas) {
+
+    //constructor con parámetros con el array de entradas
+    public Reserva(long id, Date fechamaxima, ArrayList<Entrada> entradas) {
         this.id = id;
         this.fechamaxima = fechamaxima;
         this.entradas = entradas;
@@ -49,6 +47,7 @@ public class Reserva {
     public Reserva(Reserva res) {
         this.id = res.id;
         this.fechamaxima = res.fechamaxima;
+        this.entradas = res.entradas;
     }
 
     /*getters y setters de cada atributo*/
@@ -76,50 +75,18 @@ public class Reserva {
         this.entradas = entradas;
     }
 
-    
-    
-    
-    public static Reserva nuevaReserva() throws ParseException {
+    public static Reserva nuevaReserva(){
 
         Reserva nuevareserva = new Reserva();
-        Scanner in = new Scanner(System.in);
-
         long idreserva;
-        boolean repetir;
-
-        //En caso de que el id quiera ser pedido por teclado
-        do {//Pedira un id(long) el cual no podra ser menor igual que 0 o este se volvera a pedir hasta que sea mayor que cero
-
-            System.out.print("¿Cual es el id de su reserva?: ");//Pide por teclado el id
-            idreserva = in.nextLong();
-
-            System.out.print("¿" + idreserva + " es su id de reserva?(true en caso afirmativo y false en negativo): ");//Se le dice al usuario lo que ha introducido y le pregunta si esta bien
-            repetir = in.nextBoolean();
-
-            if (repetir == false) {
-                System.out.println("Vale,entonces introduzcalo de nuevo");//En caso negativo vuelve a preguntar
-                continue;
-            }
-
-            if ((idreserva <= 0)) {
-                System.out.println("El id introducido no es valido ya que " + idreserva + " es menor que 1,introduzcalo de nuevo"); //En caso de que este sea menor igual que cero se mostrara un mensaje para advertir de que es erroneo.
-            }
-
-        } while ((idreserva <= 0) || (repetir == false));
-        nuevareserva.setId(idreserva);
-
-        //En caso de que no se quiera pedir por teclado
-        //nuevareserva.setId(Utilidades.numReservas + 1); Se le suma uno a la cantidad de reservas que existan en utilidades
-        
-        
+        //En caso de que quiera ser automatico
+        idreserva = Reserva.idReserva(); //En idusuario se guardara lo que retorne de la funcion idUusairo 
+        System.out.println("Su id de reserva sera el " + idreserva);//Se le muestra por pantalla que id tiene
+        nuevareserva.setId(idreserva);//Se settea la variable idusuario en el objeto nuevousuario
         System.out.println("");
-
+        System.out.println("Esta fecha tendra validez hasta");
+        System.out.println("Elija ");
         
-        System.out.println("Introduzca la fecha maxima de reserva");
-        Date fechamaximareserva = Fecha.dameFecha();//Se llama a la funcion dame fecha y se setea la fecha dada
-        nuevareserva.setFechamaxima(fechamaximareserva);
-        
-
         return nuevareserva;
     }
 
@@ -132,12 +99,7 @@ public class Reserva {
         }
         return reservas;
     }
-    /**
-     * 
-     * @param reservas
-     * @param ids
-     * @return 
-     */
+
     public static ArrayList<Reserva> arrayde(ArrayList<Reserva> reservas, int[] ids) {
         ArrayList<Reserva> ret = new ArrayList<Reserva>();
         for (int i = 0; i < ids.length; i++) {
@@ -158,13 +120,34 @@ public class Reserva {
         }
         return ret;
     }
-    
-    
-    /*método toString*/
 
+    /**
+     * Funcion que obtiene el id proximo al ultimo idresaerva de nuestrta base
+     * de datos
+     *
+     * @return long el cual es el id de la reserva nuevo
+     */
+    public static long idReserva() {//Metodo para conseguir el id de forma automatica(se le suma uno al numero mas grande de id que haya)
+
+        long masalto = 0;
+        if (Utilidades.RESERVAS.length == 0) {     //En caso de que no haya ningun objeto se empezara en uno
+
+        } else {
+            for (int i = 0; i < Utilidades.RESERVAS.length; i++) {//Busca el id mas grande que hay entre los objetos y le suma 1
+
+                if (Utilidades.RESERVAS[i].getId() > masalto) {
+                    masalto = Utilidades.RESERVAS[i].getId();
+                }
+            }
+        }
+        masalto++; //Sea cual sea se le suma 1
+        return masalto; //Se devuelve el nuevo id
+    }
+
+    /*método toString*/
     @Override
     public String toString() {
         return "Con id: " + id + "  fecha maxima para realizar la compra" + fechamaxima;
     }
-   
+
 }
