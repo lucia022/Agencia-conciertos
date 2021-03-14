@@ -40,7 +40,7 @@ public class Descuento {
         this.codigo = codigo;
         this.fechavalidez = fechavalidez;
     }
-    
+
     public Descuento(long id, String codigo, Date fechavalidez, double cantidad) {
         this.id = id;
         this.codigo = codigo;
@@ -59,35 +59,35 @@ public class Descuento {
     public long getId() {
         return id;
     }
-    
+
     public void setId(long id) {
         this.id = id;
     }
-    
+
     public String getCodigo() {
         return codigo;
     }
-    
+
     public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
-    
+
     public Date getFechavalidez() {
         return fechavalidez;
     }
-    
+
     public void setFechavalidez(Date fechavalidez) {
         this.fechavalidez = fechavalidez;
     }
-    
+
     public double getCantidad() {
         return cantidad;
     }
-    
+
     public void setCantidad(double cantidad) {
         this.cantidad = cantidad;
     }
-    
+
     public static Descuento nuevoDescuentoparaNuevosUsuarios() {//Este metodo seria en caso de que se quiera pedir al usuario los datos del descuento pero lo normal es que estos datos vengan ya dados
         Descuento nuevodescuento = new Descuento();
         long iddescuento;
@@ -103,14 +103,14 @@ public class Descuento {
         nuevodescuento.setCantidad(cantidaddescontada);
         return nuevodescuento;
     }
-    
+
     public static long iddescuento() {//Metodo para conseguir el id de forma automatica(se le suma uno al numero mas grande de id que haya)
 
         long masalto = 0;
         if (Utilidades.DESCUENTOS.length == 0) {     //En caso de que no haya ningun objeto se empezara en uno
 
         } else {
-            for (int i = 0; i < Utilidades.numDescuentos; i++) {//Busca el id mas grande que hay entre los objetos y le suma 1
+            for (int i = 0; i < Utilidades.DESCUENTOS.length; i++) {//Busca el id mas grande que hay entre los objetos y le suma 1
 
                 if (Utilidades.DESCUENTOS[i].getId() > masalto) {
                     masalto = Utilidades.DESCUENTOS[i].getId();
@@ -120,7 +120,7 @@ public class Descuento {
         masalto++;
         return masalto;
     }
-    
+
     public static ArrayList<Descuento> arrayde(ArrayList<Descuento> descuentos, int[] ids) {
         ArrayList<Descuento> ret = new ArrayList<Descuento>();
         for (int i = 0; i < ids.length; i++) {
@@ -133,7 +133,7 @@ public class Descuento {
         }
         return ret;
     }
-    
+
     public static ArrayList<Descuento> convertir(Descuento[] array) {
         ArrayList<Descuento> ret = new ArrayList<Descuento>();
         for (Descuento t : array) {
@@ -141,7 +141,7 @@ public class Descuento {
         }
         return ret;
     }
-    
+
     public static String codigoDescuentoAleatorio() {
         // El banco de caracteres
         String valoresValidos = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
@@ -154,7 +154,7 @@ public class Descuento {
         }
         return codigo;
     }
-    
+
     public static int numeroAleatorioEnRango(int minimo, int maximo) {
         // nextInt regresa en rango pero con límite superior exclusivo, por eso sumamos 1
         return ThreadLocalRandom.current().nextInt(minimo, maximo + 1);
@@ -164,7 +164,7 @@ public class Descuento {
     /*método toString*/
     @Override
     public String toString() {
-        return "Con id: " + id + "  codigo del descuento: " + codigo + "  ";
+        return "ID del descuento:" + id + "  Codigo del descuento:" + codigo + "  Cantidad descontada:" + cantidad + "€";
     }
-    
+
 }

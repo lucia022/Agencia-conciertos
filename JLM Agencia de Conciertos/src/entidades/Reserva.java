@@ -25,6 +25,8 @@ public class Reserva {
     private Date fechamaxima;
     //Es una coleccion de objetos del tipo entrafas en el cual se guardaran todas las entradas realizadas en la reserva x
     private ArrayList<Entrada> entradas = new ArrayList<Entrada>();
+    
+    private ArrayList<Reserva> identradas = new ArrayList<>();
 
     /*constructor por defecto*/
     public Reserva() {
@@ -147,7 +149,7 @@ public class Reserva {
     /*método toString*/
     @Override
     public String toString() {
-        return "Con id: " + id + "  fecha maxima para realizar la compra" + fechamaxima;
+        return "ID de reserva:" + id + "  Fecha maxima para realizar la compra:" + fechamaxima;
     }
 
 }

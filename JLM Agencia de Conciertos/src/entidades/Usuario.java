@@ -5,15 +5,34 @@
  */
 package entidades;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Lucia
  */
-public class Usuario {
+public class Usuario implements Serializable {
 
+    private static final long serialVersionUID = 92384220498345203L;
     //Todos los atributos no podran quedar vacios
     //VALORES VALIDOS: Long mayores que 0.
     //VALORES INVALIDOS: Todo lo que no sea long y que el long sea menor igual que 0.
@@ -37,6 +56,10 @@ public class Usuario {
     //Es una coleccion de objetos del tipo reservas en el cual se guardaran todas las reservas realizadas por el usuario x
     private ArrayList<Reserva> reservas = new ArrayList<Reserva>();
 
+    private ArrayList<Reserva> idreservas = new ArrayList<>();
+    private ArrayList<Descuento> iddescuentos = new ArrayList<>();
+    private ArrayList<Compra> idcompras = new ArrayList<>();
+    
     /*constructor por defecto*/
     public Usuario() {
     }
@@ -170,6 +193,7 @@ public class Usuario {
         System.out.println("");
         nifusuario = Usuario.pedirNIFValido();//Nos da un nif ya validado
         nuevousuario.setNif(nifusuario);//Se setea el nif en el objeto nuevousuario
+        System.out.println("");
         return nuevousuario;//Delvuelve el objeto completo nuevousuario con los campos basicos de id,nombre,apellido,email y nif
     }
 
@@ -352,7 +376,7 @@ public class Usuario {
         if (Utilidades.USUARIOS.length == 0) {     //En caso de que no haya ningun objeto se empezara en uno
 
         } else {
-            for (int i = 0; i < Utilidades.numUsuarios; i++) {//Busca el id mas grande que hay entre los objetos y le suma 1
+            for (int i = 0; i < Utilidades.USUARIOS.length; i++) {//Busca el id mas grande que hay entre los objetos y le suma 1
                 if (Utilidades.USUARIOS[i].getId() > masalto) {
                     masalto = Utilidades.USUARIOS[i].getId();
                 }
@@ -414,38 +438,30 @@ public class Usuario {
      */
     public static void mostrarUsuarioCompleto(Usuario verdetallado) {
         int i;
-        System.out.println("NOMBRE:" + verdetallado.getNombre() + "  APELLIDO:" + verdetallado.getApellido() + "  EMAIL:" + verdetallado.getEmail() + "  NIF:" + verdetallado.getNif());
+        System.out.println("\nNOMBRE:" + verdetallado.getNombre() + "  APELLIDO:" + verdetallado.getApellido() + "  EMAIL:" + verdetallado.getEmail() + "  NIF:" + verdetallado.getNif());
         if (verdetallado.getCompras().size() > 0) {
-            System.out.println("COMPRAS realizadas " + verdetallado.getCompras().size());
+            System.out.println("--COMPRAS realizadas--");
             for (i = 0; i < (verdetallado.getCompras().size()); i++) {
-
-                System.out.println("Compra Nº" + (i + 1) + "  " + verdetallado.getCompras().get(i));
-                System.out.println("Entradas compradas " + verdetallado.getCompras().get(i).getEntradas().size());
+                System.out.println("  -Compra Nº " + (i + 1) + "  " + verdetallado.getCompras().get(i));
+                System.out.println("   --ENTRADAS compradas--");
                 for (int j = 0; j < verdetallado.getCompras().get(i).getEntradas().size(); j++) {
-
-                    System.out.println("  Entrada Nº" + (j + 1) + verdetallado.getCompras().get(i).getEntradas().get(j));
-
+                    System.out.println("     -Entrada Nº " + (j + 1) + "  " + verdetallado.getCompras().get(i).getEntradas().get(j));
                 }
-
             }
         } else {
             System.out.println("El usuario no ha realizado ninguna COMPRA aun");
         }
         if (verdetallado.getReservas().size() > 0) {
-            System.out.println("RESERVAS realizadas " + verdetallado.getReservas().size());
+            System.out.println("--RESERVAS realizadas--");
             for (i = 0; i < (verdetallado.getReservas().size()); i++) {
-
-                System.out.println("Reserva Nº" + (i + 1) + "  " + verdetallado.getReservas().get(i));
-                System.out.println("Entradas reservadas " + verdetallado.getReservas().get(i).getEntradas().size());
+                System.out.println("  -Reserva Nº " + (i + 1) + "  " + verdetallado.getReservas().get(i));
+                System.out.println("   --ENTRADAS reservadas--");
                 for (int j = 0; j < verdetallado.getReservas().get(i).getEntradas().size(); j++) {
-
-                    System.out.println("  Entrada Nº" + (j + 1) + "  " + verdetallado.getReservas().get(i).getEntradas().get(j));
-
+                    System.out.println("     -Entrada Nº " + (j + 1) + "  " + verdetallado.getReservas().get(i).getEntradas().get(j));
                 }
             }
         } else {
             System.out.println("El usuario no ha realizado ninguna RESERVA aun");
-
         }
     }
 
@@ -456,7 +472,7 @@ public class Usuario {
      * @param usuarios
      * @return el usuario completo que tenga ese id
      */
-    public static Usuario buscarUsuarioporID(ArrayList<Usuario> usuarios,long idbuscado) {//Esta funcion pedira un numero id el cual lo comparara con los id de todos los usuarios que hay registrados y si encuentra coincidencia retornara ese usuario
+    public static Usuario buscarUsuarioporID(ArrayList<Usuario> usuarios, long idbuscado) {//Esta funcion pedira un numero id el cual lo comparara con los id de todos los usuarios que hay registrados y si encuentra coincidencia retornara ese usuario
         //En caso de que no encuentre ninguno igual retornara el objeto nulo
         Usuario usuariobuscado;
         for (int i = 0; i < usuarios.size(); i++) {//Una vez sabido ese id a buscar recorrera todos los usuarios uno por uno
@@ -487,108 +503,242 @@ public class Usuario {
         return null;//En caso de que no haya coincidencia,retornara el objeto nulo
     }
 
-    public static int editartuUsuario(ArrayList<Usuario> usuarios, Usuario usuariologeado) {
+    public static Usuario editartuUsuario(Usuario usuariologeado) {
 
         Scanner in = new Scanner(System.in);
-        int numerodeusuario = 0, opcion = -1;
-        Usuario usuarioeditado = null;
+        Usuario usuarioeditado = new Usuario();
+        String nombreusuario, apellidousuario, nifusuario, emailusuario;
 
-        do {
-
-            numerodeusuario = Usuario.numeroUsuarioLogeado(usuarios, usuariologeado);//Conseguimos el numero de lista en el que esta el usuario para luego añadir ahi el editado
-
-            System.out.println("Introduzca de nuevo sus datos para poder editarlos");
-
-            String nombreusuario, apellidousuario, nifusuario, emailusuario;
-
-            usuarioeditado.setId(usuariologeado.getId());//El id sera igual al anterior
-
-            System.out.println("");
-
-            System.out.print("¿Cual es su nombre?: ");  //Se pide el nombre
-            nombreusuario = in.nextLine();  //El usuario lo introduce
-
-            //En caso de que el campo quede vacio,supondremos que es el mismo al antes de editarlo
-            if (nombreusuario.length() == 0) {
-                usuarioeditado.setNombre(usuariologeado.getNombre());
-            } else {
-                usuarioeditado.setNombre(nombreusuario);
-            }
-
-            System.out.println("");
-
-            System.out.print("¿Cual es su apellido?: ");  //Se pide el apellido
-            apellidousuario = in.nextLine();  //El usuario lo introduce
-
-            //En caso de que el campo quede vacio,supondremos que es el mismo al antes de editarlo
-            if (apellidousuario.length() == 0) {
-                usuarioeditado.setApellido(usuariologeado.getApellido());
-            } else {
-                usuarioeditado.setApellido(apellidousuario);
-            }
-
-            System.out.println("");
-
-            System.out.print("¿Cual es su email?: ");//Se pide el email
-            emailusuario = in.nextLine();
-
-            //En caso de que el campo quede vacio,supondremos que es el mismo al antes de editarlo
-            if (emailusuario.length() == 0) {
-                usuarioeditado.setEmail(usuariologeado.getEmail());
-            } else {
-                usuarioeditado.setEmail(emailusuario);
-            }
-
-            System.out.println("");
-
-            System.out.print("¿Cual es su nif?: "); //Se pedira el NIF
-            nifusuario = in.nextLine();//El usuario introduce el NIF
-
-            //En caso de que el campo quede vacio,supondremos que es el mismo al antes de editarlo
-            if (nifusuario.length() == 0) {
-                usuarioeditado.setNif(usuariologeado.getNif());
-
-            } else {
-                usuarioeditado.setNif(nifusuario);
-
-            }
-
-            do {//En caso de que no sea 1 o 0 se realizara otra iteracion
-
-                System.out.print("¿Son estos los datos correctos?\n" + usuarioeditado + "\nPulse 1 para SI\nPulse 0 para NO\n(0 o 1): ");
-                opcion = in.nextInt();
-
-                if ((opcion != 1) && (opcion != 0)) {
-                    System.out.println("Opcion no valida,por favor vuelve a introducirla");
-
-                }
-
-            } while ((opcion != 1) && (opcion != 0));
-
-            if (opcion == 1) {
-                System.out.println("Su usuario se ha editado correctamente");
-                usuarios.set(numerodeusuario, usuarioeditado);
-                opcion = 0;
-
-            } else {
-
-                do {
-                    System.out.println("¿Quiere volver a intentar meter los datos para editar su usuario?\nPulse 1 para SI\nPulse 0 para NO\n(0 o 1): ");
-                    opcion = in.nextInt();
-
-                    if ((opcion != 1) && (opcion != 0)) {
-                        System.out.println("Opcion no valida,por favor vuelve a introducirla");
-
-                    }
-
-                } while ((opcion != 0) && (opcion != 1));
-
-            }
-
-        } while (opcion == 1);
-        return opcion;
+        System.out.println("Introduzca de nuevo sus datos para poder editarlos");
+        usuarioeditado.setId(usuariologeado.getId());//El id sera igual al anterior
+        System.out.println("");
+        System.out.print("¿Cual es su nombre?: ");  //Se pide el nombre
+        nombreusuario = in.nextLine();  //El usuario lo introduce
+        //En caso de que el campo quede vacio,supondremos que es el mismo al antes de editarlo
+        if (nombreusuario.length() == 0) {
+            usuarioeditado.setNombre(usuariologeado.getNombre());
+        } else {
+            usuarioeditado.setNombre(nombreusuario);
+        }
+        System.out.println("");
+        System.out.print("¿Cual es su apellido?: ");  //Se pide el apellido
+        apellidousuario = in.nextLine();  //El usuario lo introduce
+        //En caso de que el campo quede vacio,supondremos que es el mismo al antes de editarlo
+        if (apellidousuario.length() == 0) {
+            usuarioeditado.setApellido(usuariologeado.getApellido());
+        } else {
+            usuarioeditado.setApellido(apellidousuario);
+        }
+        System.out.println("");
+        System.out.print("¿Cual es su email?: ");//Se pide el email
+        emailusuario = in.nextLine();
+        //En caso de que el campo quede vacio,supondremos que es el mismo al antes de editarlo
+        if (emailusuario.length() == 0) {
+            usuarioeditado.setEmail(usuariologeado.getEmail());
+        } else {
+            usuarioeditado.setEmail(emailusuario);
+        }
+        System.out.println("");
+        System.out.print("¿Cual es su nif?: "); //Se pedira el NIF
+        nifusuario = in.nextLine();//El usuario introduce el NIF
+        //En caso de que el campo quede vacio,supondremos que es el mismo al antes de editarlo
+        if (nifusuario.length() == 0) {
+            usuarioeditado.setNif(usuariologeado.getNif());
+        } else {
+            usuarioeditado.setNif(nifusuario);
+        }
+        return usuarioeditado;
     }
 
+    public String data() {
+        return this.id + "|" + this.nombre + "|" + this.apellido + "|" + this.email + "|" + this.nif;
+    }
+
+    public void guardarUsuarioTexto() {
+
+        BufferedWriter bw = null;
+        try {
+            FileWriter fw = new FileWriter("UsuarioenTexto.txt", true);
+            bw = new BufferedWriter(fw);
+            bw.write(this.data());
+            bw.newLine();
+        } catch (FileNotFoundException e) {
+            System.out.println("¡El fichero no existe!");
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            if (bw != null) {
+                try {
+                    bw.close();
+                } catch (IOException ex) {
+                    System.out.println("Error al cerrar el Stream");
+                }
+            }
+        }
+
+    }
+
+    public static void guardarListaUsuariosTexto(ArrayList<Usuario> usuarios) {
+
+        BufferedWriter bw = null;
+        File f = new File("UsuariosenTexto.txt");
+        try {
+            FileWriter fw = new FileWriter(f, true);
+            bw = new BufferedWriter(fw);
+            for (Usuario u : usuarios) {
+                bw.write(u.data());
+                bw.newLine();
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("¡El fichero no existe!");
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                bw.close();
+            } catch (IOException e) {
+                System.out.println("Error");
+            }
+
+        }
+
+    }
+
+    public static ArrayList<Usuario> importarUsuariosTexto(String ruta){
+        
+        ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
+        Usuario nuevo = new Usuario();
+        String texto;
+        File f = new File(ruta);
+        try {
+            FileReader fr = new FileReader(f);
+            BufferedReader br = new BufferedReader(fr);
+            try {
+                while ((texto = br.readLine()) != null) { 
+                    String[] array = texto.split("\\|");
+                    nuevo.setId(Long.valueOf(array[0]));
+                    nuevo.setNombre(array[1]);
+                    nuevo.setApellido(array[2]);
+                    nuevo.setNif(array[3]);
+                    nuevo.setEmail(array[4]);
+                    usuarios.add(nuevo);
+                }
+                br.close();
+            } catch (IOException i) {
+                System.out.println(i.getMessage());
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Error");
+        }
+        return usuarios;
+        
+    }
+    
+    public static Usuario obtenerUsuarioPorID(long id) {
+        Usuario nuevo = new Usuario();
+        String texto;
+        File f = new File("UsuariosenTexto.txt");
+        try {
+            FileReader fr = new FileReader(f);
+            BufferedReader br = new BufferedReader(fr);
+            try {
+                while ((texto = br.readLine()) != null) {
+                    String[] array = texto.split("\\|");
+                    if (Long.valueOf(array[0]) == id) {
+                        nuevo.setId(Long.valueOf(array[0]));
+                        nuevo.setNombre(array[1]);
+                        nuevo.setApellido(array[2]);
+                        nuevo.setNif(array[3]);
+                        nuevo.setEmail(array[4]);
+    
+                        return nuevo;
+                    }
+                }
+                br.close();
+            } catch (IOException i) {
+                System.out.println(i.getMessage());
+            }
+        } catch (FileNotFoundException ex) {
+            System.out.println("Error");
+        }
+        return nuevo;
+    }
+
+    
+    public void guardarUsuarioBinario() {
+
+        ObjectOutputStream objetoSalida = null;
+        try {
+            String nombreFichero = "UsuarioenBinario.dat";
+            FileOutputStream ficheroSalida = new FileOutputStream(nombreFichero);
+            objetoSalida = new ObjectOutputStream(ficheroSalida);
+            objetoSalida.writeObject(this);
+
+        } catch (FileNotFoundException e) {
+            System.out.println("¡El fichero no existe!");
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                objetoSalida.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+    }
+
+    public static void guardarListaUsuariosBinario(ArrayList<Usuario> usuarios) {
+
+        ObjectOutputStream out = null;
+        try {
+            OutputStream os = new FileOutputStream("UsuariosenBinario.txt");
+            out = new ObjectOutputStream(os);
+            out.writeObject(usuarios);
+        } catch (FileNotFoundException e) {
+            System.out.println("¡El fichero no existe!");
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                out.close();
+            } catch (IOException e) {
+                System.out.println("No se ha podido cerrar el Stream");
+            }
+        }
+
+    }
+
+    public static ArrayList<Usuario> importarUsuariosBinario(String ruta){
+        
+        ArrayList<Usuario> ret = new ArrayList<Usuario>();
+        try {
+            InputStream is = new FileInputStream(ruta);
+            ObjectInput oi = new ObjectInputStream(is);
+            ArrayList<Usuario> usuarios = (ArrayList<Usuario>) oi.readObject();
+            for (Usuario u : usuarios) {
+                System.out.println("Se ha importado con exito el usuario: ");
+                System.out.println(u.data());
+                ret.add(u);
+            }
+        }  catch (FileNotFoundException e) {
+            System.out.println("¡El fichero no existe!");
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return ret;
+        
+    }
     /*metodo toString*/ @Override
 
     public String toString() {

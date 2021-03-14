@@ -26,8 +26,12 @@ public class Compra {
     private String metodopago;
 
     private Descuento descuento;
+
+    private long iddescuento;
     
-    private ArrayList<Entrada>entradas = new ArrayList<Entrada>(); 
+    private ArrayList<Entrada> entradas = new ArrayList<Entrada>();
+    
+    private ArrayList<Reserva> iddescuentos = new ArrayList<>();
 
     /*Relación “se aplica” entre Descuento y Compra, la cual es 1:1, he decidido añadir un atributo de Descuento en la clase Compra, ya que en este caso, el atributo sería necesario, debido a que la cardinalidad mínima es superior a 0*/
  /*Cabe destacar, que sin la clase Compra no existiría la clase Descuento, por lo que se trata de una dependencia.*/
@@ -37,14 +41,21 @@ public class Compra {
     }
 
     /*constructor con parámetros*/
-    public Compra(long id, double precio, String metodopago, Descuento descuento,ArrayList<Entrada>entradas) {
+    public Compra(long id, double precio, String metodopago, Descuento descuento, ArrayList<Entrada> entradas) {
         this.id = id;
         this.precio = precio;
         this.metodopago = metodopago;
         this.descuento = descuento;
         this.entradas = entradas;
     }
-    
+
+    public Compra(long id, double precio, String metodopago, ArrayList<Entrada> entradas) {
+        this.id = id;
+        this.precio = precio;
+        this.metodopago = metodopago;
+        this.entradas = entradas;
+    }
+
     public Compra(long id, double precio, String metodopago, Descuento descuento) {
         this.id = id;
         this.precio = precio;
@@ -52,7 +63,7 @@ public class Compra {
         this.descuento = descuento;
 
     }
-    
+
 
     /*constructor de copia*/
     public Compra(Compra com) {
@@ -61,9 +72,6 @@ public class Compra {
         this.metodopago = com.metodopago;
         this.descuento = com.descuento;
     }
-
-
-
 
     /*getters y setters de cada atributo*/
     public long getId() {
@@ -113,10 +121,8 @@ public class Compra {
     public void setEntradas(ArrayList<Entrada> entradas) {
         this.entradas = entradas;
     }
-    
-    
 
-    public static Compra nuevaCompra()  {
+    public static Compra nuevaCompra() {
 
         Compra nuevacompra = new Compra();
         Scanner in = new Scanner(System.in);
@@ -150,11 +156,8 @@ public class Compra {
 
         //En caso de que no se quiera pedir por teclado
         //nuevacompra.setId(Utilidades.numReservas + 1); Se le suma uno a la cantidad de reservas que existan en utilidades
-
-        
         System.out.println("");
-        
-        
+
         do {//Pedira un precio(double) el cual no podra ser menor igual que 0 o este se volvera a pedir hasta que sea mayor que cero
 
             System.out.print("¿Cual es el precio de su compra?(La separacion de decimales va con comas): ");//Se pide el precio
@@ -174,11 +177,9 @@ public class Compra {
 
         } while ((preciocompra <= 00.00) || (repetir == false));
         nuevacompra.setPrecio(preciocompra);
-        
-     
+
         System.out.println("");
 
-        
         do {//Se repetira mientras el usuario diga que lo que introducio no es correcto
 
             in = new Scanner(System.in);
@@ -197,14 +198,14 @@ public class Compra {
                 case 3:
                     metodopagocompra = "PayPal";//Los 4 primeros casos se guarda el elegido en la variable de metododepagocompra
                     break;
-                    
+
                 case 4:
                     metodopagocompra = "Bizum";
                     break;
-                    
+
                 case 5:
                     in = new Scanner(System.in);//En el 5 se pide al usuario que pregunte cual es  la otra
-                    
+
                     System.out.print("Introduzca cual es la Otra: ");
                     String otra = in.nextLine();
                     metodopagocompra = otra;
@@ -222,10 +223,10 @@ public class Compra {
 
         } while ((repetir == false)); //Si usuario dice que es falso lo que introducio se hara otra iteracion
         nuevacompra.setMetodopago(metodopagocompra);
-        
+
         return nuevacompra;
     }
-    
+
     public static ArrayList<Compra> todascompras() {   //Metodo para copiar todos los objetos de utilidades en un arraylist y poder manipularlo
 
         ArrayList<Compra> compras = new ArrayList<Compra>();
@@ -236,9 +237,8 @@ public class Compra {
         return compras;
     }
 
-    
-    public static ArrayList<Compra> arrayde(ArrayList<Compra> lista,int[] ids) {
-       
+    public static ArrayList<Compra> arrayde(ArrayList<Compra> lista, int[] ids) {
+
         ArrayList<Compra> ret = new ArrayList<Compra>();
         for (int i = 0; i < ids.length; i++) {
             for (int j = 0; j < lista.size(); j++) {
@@ -251,7 +251,6 @@ public class Compra {
         return ret;
     }
 
-    
     public static ArrayList<Compra> convertir(Compra[] array) {
         ArrayList<Compra> ret = new ArrayList<Compra>();
         for (Compra t : array) {
@@ -259,29 +258,24 @@ public class Compra {
         }
         return ret;
     }
-    
+
 //    public static ArrayList<Compra> convertir(Compra[] array) {
 //        return new Gen<Compra>().convertir(array);
 //
 //    }
-
-    
-    
     /*método toString*/
-
     @Override
-    
-    public String toString() {
-        
-        String ret;
-        ret = "ID de compra:" + id + "  Precio de la compra: " + precio + "€   Metodo de pago: " + metodopago + "  Descuento:" + descuento;
-        
-        return ret;
-                
-    }
-    
 
-    
-    
+    public String toString() {
+
+        String ret;
+        if (descuento == null) {
+            ret = "ID de compra:" + id + "  Precio de la compra: " + precio + "€   Metodo de pago: " + metodopago + "  NO HUBO DESCUENTO USADO";
+        } else {
+            ret = "ID de compra:" + id + "  Precio de la compra: " + precio + "€   Metodo de pago: " + metodopago + "  DESCUENTO USADO  " + descuento;
+        }
+        return ret;
+
+    }
 
 }

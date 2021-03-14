@@ -80,6 +80,10 @@ public class Concierto {
         return "Concierto" + "\nId del concierto:" + id + "\nfecha del concieto:" + diahora + "\nContiene las siguientes actuaciones:" + actuaciones + "\nDispone de estas entradas:" + entradas;
     }
     
+    public String datosconcierto(){
+        return  "\nID del concierto:" + id + "  Fecha del concieto:" + diahora + "  Contiene las siguientes actuaciones:" + actuaciones ;
+    }
+    
     //Parte Introducida por Jonathan
           public static ArrayList<Concierto> arrayde(ArrayList<Concierto> lista,int[] ids) {
        
@@ -240,5 +244,17 @@ public class Concierto {
     }
     
     */
-    
+    /**
+     * Metodo para copiar todos los objetos de utilidades en un arraylist para
+     * poder manipularlo
+     *
+     * @return Un array con todos los conciertos de nuestra base de datos
+     */
+    public static ArrayList<Concierto> cargarConciertos() {
+        ArrayList<Concierto> conciertos = new ArrayList<Concierto>();//Creamos un array vacio llamado usaurios
+        for (int i = 0; i < Utilidades.CONCIERTOS.length; i++) { //Recorremos el array encontrado en la clase utilidades
+            conciertos.add(Utilidades.CONCIERTOS[i]);//Y vamos añadiendo cada entrada a nuestro nuevo array vacio
+        }
+        return conciertos;//Devuelve el array que declaramos al principio de la funcion
+    }
 }
