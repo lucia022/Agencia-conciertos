@@ -55,10 +55,7 @@ public class Usuario implements Serializable {
     private ArrayList<Compra> compras = new ArrayList<Compra>();
     //Es una coleccion de objetos del tipo reservas en el cual se guardaran todas las reservas realizadas por el usuario x
     private ArrayList<Reserva> reservas = new ArrayList<Reserva>();
-
-    private ArrayList<Reserva> idreservas = new ArrayList<>();
-    private ArrayList<Descuento> iddescuentos = new ArrayList<>();
-    private ArrayList<Compra> idcompras = new ArrayList<>();
+ 
     
     /*constructor por defecto*/
     public Usuario() {
@@ -67,6 +64,14 @@ public class Usuario implements Serializable {
     //constructor con parámetros,solo con los datos basicos del usuario
     public Usuario(long id, String nombre, String apellido, String email, String nif) {
         this.id = id;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.email = email;
+        this.nif = nif;
+    }
+    
+    public Usuario( String nombre, String apellido, String email, String nif) {
+  
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
