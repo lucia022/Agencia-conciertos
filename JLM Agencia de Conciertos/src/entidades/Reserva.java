@@ -26,7 +26,7 @@ public class Reserva {
     //Es una coleccion de objetos del tipo entrafas en el cual se guardaran todas las entradas realizadas en la reserva x
     private ArrayList<Entrada> entradas = new ArrayList<Entrada>();
     
-    private ArrayList<Reserva> identradas = new ArrayList<>();
+    private long idUsuario;
 
     /*constructor por defecto*/
     public Reserva() {

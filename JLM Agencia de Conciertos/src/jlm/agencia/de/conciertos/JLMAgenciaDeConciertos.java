@@ -5,6 +5,8 @@
  */
 package jlm.agencia.de.conciertos;
 
+import dao.EntradaDAO;
+import dao.UsuarioDAO;
 import entidades.Compra;
 import entidades.Concierto;
 import entidades.Descuento;
@@ -33,11 +35,16 @@ public class JLMAgenciaDeConciertos {
      */
     public static void main(String[] args) {
         //Inicio del MAIN
+
         Scanner in = new Scanner(System.in);
         ArrayList<Usuario> usuarios = new ArrayList<Usuario>();//Se cargan todos los usuarios que hay en utilidades en la variable usuarios(que es un arrayList que se puede modificar)
-        usuarios = Usuario.cargarUsuarios();
-        ArrayList<Entrada> entradas = new ArrayList<Entrada>();
-        entradas = Entrada.cargarEntradas();
+        UsuarioDAO u = new UsuarioDAO();
+        usuarios = u.todosUsuarios();
+        
+        ArrayList<Entrada> entradas = new ArrayList<Entrada>();//Se cargan todos los usuarios que hay en utilidades en la variable usuarios(que es un arrayList que se puede modificar)
+        EntradaDAO e = new EntradaDAO();
+        entradas = e.todasEntradas();
+        System.out.println(entradas);
         ArrayList<Concierto> conciertos = new ArrayList<Concierto>();
         conciertos = Concierto.cargarConciertos();
         Usuario usuariologeado = new Usuario();//Creo dos variables para guardar en una los datos del usuario que inicia sesion para asi compararlo con la pseudo base de datos y ver que ese usuario ya tiene cuenta para poder iniciar sesion
@@ -45,7 +52,7 @@ public class JLMAgenciaDeConciertos {
         boolean sinusuario;//Variable en kla cual se guarda true en caso de que el usuario borre su usuario y false en caso de que el usuario siga existiendo
         int opcion = -1, opcion1 = -1, numerodeusuario = 0;//La variable opcion servira para moverse por todo el menu con los do while 
         long idabuscar;
-       
+
         //Aqui empieza el Registro de Usuario o Inicio de Sesion de Usuario
         do {
             opcion = menuRegistroIniciosesion();//Al usuario se le mostrara un menu para que elija que quiere hacer,registrarse,iniciar sesion o salir del menu
@@ -62,6 +69,7 @@ public class JLMAgenciaDeConciertos {
                             System.out.println("\n--BIENVENIDO AL REGISTRO DE USUARIO--");//Le da la bienvenida al registro del usuario
                             usuarioregistrado = Usuario.nuevoUsuarioBasico();//Se le piden todos los datos basicos para realizar su registro
                             for (int i = 0; i < usuarios.size(); i++) {//Recorremos todos los usuarios de nuestra base de datos para ver si alguno coincide con nuestro usuario nuevo
+                                System.out.println(i);
                                 if (usuarioregistrado.getNif().equals(usuarios.get(i).getNif()) || usuarioregistrado.getEmail().equals(usuarios.get(i).getEmail())) {
                                     if (usuarioregistrado.getNif().equals(usuarios.get(i).getNif())) {
                                         System.out.println("Ese NIF ya esta siendo utilizado por otro usuario,por favor introduzca datos personales.");//Si coincide en el nif se muestra el siguiente mensaje
@@ -85,7 +93,8 @@ public class JLMAgenciaDeConciertos {
                         } while (opcion1 == 1);//En caso de que un usuario ya exista se volvera a realizar una iteracion
                         //Aqui solo llegara en caso de que el usuario se haya registrado correctamente
                         System.out.println("Su USUARIO ha sido registrado correctamente");//Se muestra el siguiente mensaje y se añade el nuevo usuario al arrayList de usuairos
-                        usuarios.add(usuarioregistrado);
+                        u.insertarUsuario(usuarioregistrado);
+                        usuarios = u.todosUsuarios();
                         opcion = submenuRegistro();//Se le mostrara un submenu, el cual servira para preguntarle si quiere registrar otro usuairo,iniciar sesion o salir del programa
                         if (opcion == 0) {
                             System.out.println("Sentimos no poder ayudarle,que tenga un buen dia.");
@@ -109,6 +118,7 @@ public class JLMAgenciaDeConciertos {
                                 if ((emailusuario.equals(usuarios.get(i).getEmail())) && (nifusuario.equals(usuarios.get(i).getNif()))) {//Si el email y NIF coincide 
                                     usuariologeado = usuarios.get(i);//Guardamos todos los datos bgasicos del usuairo de la base de datos en el nuevo objeto de usuario creado
                                     numerodeusuario = i;
+                                    opcion1 = 0;
                                     break;
                                 }
                             }
@@ -203,7 +213,7 @@ public class JLMAgenciaDeConciertos {
                                                     usuarioeditado = Usuario.editartuUsuario(usuariologeado);
                                                     opcion = datosCorrectosEditados(usuarioeditado);
                                                     if (opcion == 1) {
-                                                        System.out.println("Su usuario se ha editado correctamente");
+                                                        System.out.println("Su USUARIO se ha editado correctamente");
                                                         usuarios.set(numerodeusuario, usuarioeditado);
                                                     } else {
                                                         opcion = volverEditar();
@@ -304,25 +314,27 @@ public class JLMAgenciaDeConciertos {
                                     opcion = in.nextInt();
                                     if (opcion == 1) {
                                         System.out.println("Cual es el id del concierto que quiere reservar las entradas");
-                                        opcion = in.nextInt();
+                                        int id = in.nextInt();
                                         System.out.println("Para ese concierto estan disponibles las siguientes ENTRADAS");
                                         for (int i = 0; i < conciertos.size(); i++) {
-                                            if (conciertos.get(i).getEntradas().size() > 0) {
-                                                int contador = 0;
-                                                for (int j = 0; j < conciertos.get(i).getEntradas().size(); j++) {
-                                                    if (conciertos.get(i).getEntradas().get(j).isDisponible()) {
-                                                        System.out.println(conciertos.get(i).getEntradas().get(j));
-                                                        contador++;
+                                            if (id == conciertos.get(id).getId()) {
+                                                if (conciertos.get(i).getEntradas().size() > 0) {
+                                                    int contador = 0;
+                                                    for (int j = 0; j < conciertos.get(i).getEntradas().size(); j++) {
+                                                        
+                                                        if (conciertos.get(i).getEntradas().get(j).isDisponible()) {
+                                                            System.out.println(conciertos.get(i).getEntradas().get(j));
+                                                            contador++;
+                                                        }
                                                     }
+                                                    if (contador == 0) {
+                                                        System.out.println("ENTRADAS AGOTADAS");
+                                                    }
+                                                    break;
+                                                } else {
+                                                    System.out.println("No existen entradas para este CONCIERTO");
                                                 }
-                                                if (contador == 0) {
-                                                    System.out.println("ENTRADAS AGOTADAS");
-                                                }
-                                            } else {
-                                                System.out.println("No existen entradas para este CONCIERTO");
                                             }
-                                            System.out.println("Cuantas entradas desea reservar?(MAXIMO 5)");
-                                            opcion = in.nextInt();
 
                                         }
                                         break;

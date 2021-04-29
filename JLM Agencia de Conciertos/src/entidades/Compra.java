@@ -26,12 +26,12 @@ public class Compra {
     private String metodopago;
 
     private Descuento descuento;
-
-    private long iddescuento;
     
     private ArrayList<Entrada> entradas = new ArrayList<Entrada>();
     
-    private ArrayList<Reserva> iddescuentos = new ArrayList<>();
+      private long idDescuento;
+      private long idUsuario;
+   
 
     /*Relación “se aplica” entre Descuento y Compra, la cual es 1:1, he decidido añadir un atributo de Descuento en la clase Compra, ya que en este caso, el atributo sería necesario, debido a que la cardinalidad mínima es superior a 0*/
  /*Cabe destacar, que sin la clase Compra no existiría la clase Descuento, por lo que se trata de una dependencia.*/

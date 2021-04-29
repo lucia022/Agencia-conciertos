@@ -28,10 +28,13 @@ public class Entrada {
     //VALORES VÁLIDOS: solo se aceptan los valores con formato 0.00, correspondiendo al precio de las entradas en euros.
     //VALORES INVÁLIDOS: aquellos valores que no sean introducidos con el fomato 0.00, y el valor del precio de las entradas no sea en euros.
     private double precio;
-
     private boolean VIP = false;
     private boolean disponible = true;
 
+    private long idConcierto;
+    private long idReserva;
+    private long idCompra;
+    
     public Entrada() {
     }
 
@@ -46,6 +49,16 @@ public class Entrada {
         this.precio = precio;
         this.VIP = VIP;
         this.disponible = disponible;
+    }
+    
+    public Entrada(long id, double precio, boolean VIP, boolean disponible,long idConcierto,long idReserva,long idCompra) {
+        this.id = id;
+        this.precio = precio;
+        this.VIP = VIP;
+        this.disponible = disponible;
+        this.idConcierto = idConcierto;
+        this.idReserva = idReserva;
+        this.idCompra = idCompra;
     }
 
     public Entrada(Entrada e) {

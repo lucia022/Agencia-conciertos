@@ -29,7 +29,9 @@ public class Descuento {
     //VALORES VALIDOS:Numeros mayores que 0.00
     //VALORES INVALIDOS: numeros que sean menores o iguales que 0.00
     private double cantidad;
-
+    
+    private long idUsuario;
+    
     /*constructor por defecto*/
     public Descuento() {
     }
