@@ -29,8 +29,9 @@ public class Descuento {
     //VALORES VALIDOS:Numeros mayores que 0.00
     //VALORES INVALIDOS: numeros que sean menores o iguales que 0.00
     private double cantidad;
+    private int usado;
     
-    private long idUsuario;
+    private int idUsuario;
     
     /*constructor por defecto*/
     public Descuento() {
@@ -43,11 +44,21 @@ public class Descuento {
         this.fechavalidez = fechavalidez;
     }
 
-    public Descuento(long id, String codigo, Date fechavalidez, double cantidad) {
+    public Descuento(long id, String codigo, Date fechavalidez, double cantidad,int usado,int idUsuario) {
         this.id = id;
         this.codigo = codigo;
         this.fechavalidez = fechavalidez;
         this.cantidad = cantidad;
+        this.usado = usado;
+        this.idUsuario = idUsuario;
+    }
+    public Descuento( String codigo, Date fechavalidez, double cantidad,int usado,int idUsuario) {
+      
+        this.codigo = codigo;
+        this.fechavalidez = fechavalidez;
+        this.cantidad = cantidad;
+        this.usado = usado;
+        this.idUsuario = idUsuario;
     }
 
     /*constructor de copia*/
@@ -90,7 +101,24 @@ public class Descuento {
         this.cantidad = cantidad;
     }
 
-    public static Descuento nuevoDescuentoparaNuevosUsuarios() {//Este metodo seria en caso de que se quiera pedir al usuario los datos del descuento pero lo normal es que estos datos vengan ya dados
+    public int getUsado() {
+        return usado;
+    }
+
+    public void setUsado(int usado) {
+        this.usado = usado;
+    }
+
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+    
+
+   /* public static Descuento nuevoDescuentoparaNuevosUsuarios() {//Este metodo seria en caso de que se quiera pedir al usuario los datos del descuento pero lo normal es que estos datos vengan ya dados
         Descuento nuevodescuento = new Descuento();
         long iddescuento;
         String codigodescuento;
@@ -105,8 +133,8 @@ public class Descuento {
         nuevodescuento.setCantidad(cantidaddescontada);
         return nuevodescuento;
     }
-
-    public static long iddescuento() {//Metodo para conseguir el id de forma automatica(se le suma uno al numero mas grande de id que haya)
+*/
+    /*public static long iddescuento() {//Metodo para conseguir el id de forma automatica(se le suma uno al numero mas grande de id que haya)
 
         long masalto = 0;
         if (Utilidades.DESCUENTOS.length == 0) {     //En caso de que no haya ningun objeto se empezara en uno
@@ -121,7 +149,7 @@ public class Descuento {
         }
         masalto++;
         return masalto;
-    }
+    }*/
 
     public static ArrayList<Descuento> arrayde(ArrayList<Descuento> descuentos, int[] ids) {
         ArrayList<Descuento> ret = new ArrayList<Descuento>();

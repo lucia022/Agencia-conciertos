@@ -5,6 +5,7 @@
  */
 package entidades;
 
+import dao.UsuarioDAO;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -25,6 +26,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -49,14 +52,17 @@ public class Usuario implements Serializable {
     //VALORES VALIDOS: Cadenas de caracteres(String).
     //VALORES NO VALIDOS: Todo lo que no sean cadenas de caracteres(String) y aquellas cadenas que contengan mas o menos de 9 caracteres,ya que se trata de un NIF.Ademas debe de tener el formato correcto que es 8 numeros y 1 letra mayuscula
     private String nif;
+    private Boolean administrador;
+    private String contraseña;
+    private int idDireccion;
+    private int idBancario;
     //Es una coleccion de objetos del tipo descuentos en el cual se guardaran todos los descuentos que puede usar el usuario x
     private ArrayList<Descuento> descuentos = new ArrayList<Descuento>();
     //Es una coleccion de objetos del tipo compras en el cual se guardaran todas las compras realizadas por el usuario x
     private ArrayList<Compra> compras = new ArrayList<Compra>();
     //Es una coleccion de objetos del tipo reservas en el cual se guardaran todas las reservas realizadas por el usuario x
     private ArrayList<Reserva> reservas = new ArrayList<Reserva>();
- 
-    
+
     /*constructor por defecto*/
     public Usuario() {
     }
@@ -69,13 +75,76 @@ public class Usuario implements Serializable {
         this.email = email;
         this.nif = nif;
     }
-    
-    public Usuario( String nombre, String apellido, String email, String nif) {
-  
+
+    public Usuario(String nombre, String apellido, String email, String nif) {
+
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;
         this.nif = nif;
+    }
+
+    public Usuario(String nombre, String apellido, String email, String nif, Boolean administrador, String contraseña) {
+
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.email = email;
+        this.nif = nif;
+        this.administrador = administrador;
+        this.contraseña = contraseña;
+    }
+    public Usuario(String nombre, String apellido, String email, String nif, Boolean administrador, String contraseña,int iddireccion) {
+
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.email = email;
+        this.nif = nif;
+        this.administrador = administrador;
+        this.contraseña = contraseña;
+        this.idDireccion = iddireccion;
+    }
+    public Usuario(String nombre, String apellido, String email, String nif, Boolean administrador, String contraseña,int iddireccion,int idbancario) {
+
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.email = email;
+        this.nif = nif;
+        this.administrador = administrador;
+        this.contraseña = contraseña;
+        this.idDireccion = iddireccion;
+         this.idBancario = idbancario;
+    }
+    public Usuario(int id,String nombre, String apellido, String email, String nif, Boolean administrador, String contraseña,int iddireccion) {
+        this.id= id;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.email = email;
+        this.nif = nif;
+        this.administrador = administrador;
+        this.contraseña = contraseña;
+        this.idDireccion = iddireccion;
+    }
+    public Usuario(int id,String nombre, String apellido, String email, String nif, Boolean administrador, String contraseña,int iddireccion,int idbancario) {
+        this.id= id;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.email = email;
+        this.nif = nif;
+        this.administrador = administrador;
+        this.contraseña = contraseña;
+        this.idDireccion = iddireccion;
+        this.idBancario = idbancario;
+    }
+    
+
+    public Usuario(int id, String nombre, String apellido, String email, String nif, Boolean administrador, String contraseña) {
+        this.id = id;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.email = email;
+        this.nif = nif;
+        this.administrador = administrador;
+        this.contraseña = contraseña;
     }
 
     //Constructor con parametros,con todos los atributos posibles como los arrays de compra,reserva y descuento
@@ -167,6 +236,39 @@ public class Usuario implements Serializable {
         this.reservas = reservas;
     }
 
+    public Boolean getAdministrador() {
+        return administrador;
+    }
+
+    public void setAdministrador(Boolean administrador) {
+        this.administrador = administrador;
+    }
+
+    public String getContraseña() {
+        return contraseña;
+    }
+
+    public void setContraseña(String contraseña) {
+        this.contraseña = contraseña;
+    }
+
+    public int getIdDireccion() {
+        return idDireccion;
+    }
+
+    public void setIdDireccion(int idDireccion) {
+        this.idDireccion = idDireccion;
+    }
+
+    public int getIdBancario() {
+        return idBancario;
+    }
+
+    public void setIdBancario(int idBancario) {
+        this.idBancario = idBancario;
+    }
+    
+
     /**
      *
      * Funcion en la cual se piden al usuario datos basicos del usuario y
@@ -183,9 +285,9 @@ public class Usuario implements Serializable {
         long idusuario;
         String nombreusuario, apellidousuario, nifusuario, emailusuario;//Declarados los campos basicos 
         //El id sera autocalculado
-        idusuario = Usuario.idUsuario(); //En idusuario se guardara lo que retorne de la funcion idUusairo 
-        System.out.println("Su id de usuario sera el " + idusuario);//Se le muestra por pantalla que id tiene
-        nuevousuario.setId(idusuario);//Se settea la variable idusuario en el objeto nuevousuario
+        //idusuario = Usuario.idUsuario(); //En idusuario se guardara lo que retorne de la funcion idUusairo 
+       // System.out.println("Su id de usuario sera el " + idusuario);//Se le muestra por pantalla que id tiene
+        nuevousuario.setId(2);//Se settea la variable idusuario en el objeto nuevousuario
         System.out.println("");
         nombreusuario = Usuario.pedirNombreValido();//Nos da el nombre ya validado
         nuevousuario.setNombre(nombreusuario);//Se setea el nombre del usuario en el objeto nuevousuario
@@ -264,7 +366,7 @@ public class Usuario implements Serializable {
      * sea invalido
      */
     public static boolean validarNombre(String nombreusuario) {
-        if ((nombreusuario.length() > 3 && nombreusuario.length() < 15)) { //Se mirara que el nombre de usuario tenga un minimo de 3 letras y un maximo de 15  
+        if ((nombreusuario.length() > 3 && nombreusuario.length() < 13)) { //Se mirara que el nombre de usuario tenga un minimo de 3 letras y un maximo de 15  
             //Una vez mirado que lalongitud del nombre sea corecta se miraraque solo contenga letras
             if (nombreusuario.matches(".*[^a-z-A-Z].*")) { //Buscara si el nombre de usuario tiene caracteres que son distintos a letras
                 System.out.println("El nombre introducido contiene caracteres invalidos,inntroduzcalo de nuevo(Solo letras)");    //Si contiene caracteres distintos a letras muestra este mensaje 
@@ -291,7 +393,7 @@ public class Usuario implements Serializable {
      * sea invalido
      */
     public static boolean validarApellido(String apellidousuario) {
-        if ((apellidousuario.length() > 4 && apellidousuario.length() < 15)) { //Se mirara que el nombre de usuario tenga un minimo de 3 letras y un maximo de 15  
+        if ((apellidousuario.length() > 2 && apellidousuario.length() < 13)) { //Se mirara que el nombre de usuario tenga un minimo de 3 letras y un maximo de 15  
             //Una vez mirado que lalongitud del nombre sea corecta se miraraque solo contenga letras
             if (apellidousuario.matches(".*[^a-z-A-Z].*")) { //Buscara si el nombre de usuario tiene caracteres que son distintos a letras
                 System.out.println("El apellido introducido contiene caracteres invalidos,inntroduzcalo de nuevo(Solo letras)");    //Si contiene caracteres distintos a letras muestra este mensaje 
@@ -299,10 +401,10 @@ public class Usuario implements Serializable {
             }
             return true;//En caso de que todo este corecto retornara true
         } else {
-            if (apellidousuario.length() < 4) {//Si el apellido tiene menos de cuatro letras se muestra un mensaje
+            if (apellidousuario.length() < 2) {//Si el apellido tiene menos de cuatro letras se muestra un mensaje
                 System.out.println("El apellido introducido no contiene el minimo de 4 letras,por favor introduzcalo de nuevo");
             }
-            if (apellidousuario.length() > 15) {//Si el apellido tiene mas de quince letras se muestra un mensaje
+            if (apellidousuario.length() > 13) {//Si el apellido tiene mas de quince letras se muestra un mensaje
                 System.out.println("El apellido introducido contiene mas del maximo de letras permitidasa(15),por favor introduzcalo de nuevo");
             }
             return false;//En caso de no estar dentro del numero de caracteres validos retornara false
@@ -348,26 +450,23 @@ public class Usuario implements Serializable {
      * sea invalido
      */
     public static boolean validarEmail(String emailusuario) {
-        for (int i = 0; i < emailusuario.length(); i++) {//Se mira si contiene arroba y si lo tiene sale del ciclo
-            if (emailusuario.charAt(i) == '@') {
-                return true;
-            }
-        }
+
         //Mirando por internet encontre este metodo por el cual valida un email
         //Es un poco mas avanzado ya que usa patrones pero YO LO ENTIENDO, lo dejo comentado por si mas adelante me seria util
-//            Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
-//
-//            Matcher mather = pattern.matcher(emailusuario);
-//
-//            if (mather.find() == true) {
-//                System.out.println("El email ingresado es válido.");
-//                fallo = false;
-//            } else {
-//                System.out.println("El email ingresado es inválido.");
-//                fallo = true;
-//            }
-        System.out.println("El email ingresado es válido,debe cobntener al menos un arroba.");
-        return false;
+        Boolean valido = false;
+        Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+
+        Matcher mather = pattern.matcher(emailusuario);
+
+        if (mather.find() == true) {
+            System.out.println("El email ingresado es válido.");
+            valido = true;
+        } else {
+            System.out.println("El email ingresado es inválido.");
+            valido = false;
+        }
+   
+        return valido;
     }
 
     /**
@@ -376,7 +475,7 @@ public class Usuario implements Serializable {
      *
      * @return long el cual es el id del usuario nuevo
      */
-    public static long idUsuario() {//Metodo para conseguir el id de forma automatica(se le suma uno al numero mas grande de id que haya)
+    /*public static long idUsuario() {//Metodo para conseguir el id de forma automatica(se le suma uno al numero mas grande de id que haya)
         long masalto = 0;
         if (Utilidades.USUARIOS.length == 0) {     //En caso de que no haya ningun objeto se empezara en uno
 
@@ -389,7 +488,7 @@ public class Usuario implements Serializable {
         }
         masalto++; //Sea cual sea se le suma 1,es decir si no hay usuarios aun retornara 1 y en caso de que hayaretornara qal siguiente del ultimo
         return masalto; //Se devuelve el nuevo id
-    }
+    }*/
 
     /**
      * Funcion mediante la cual conseguimos el numero del array en el que se
@@ -416,13 +515,13 @@ public class Usuario implements Serializable {
      *
      * @return Un array con todos los usuarios de nuestra base de datos
      */
-    public static ArrayList<Usuario> cargarUsuarios() {
+    /*public static ArrayList<Usuario> cargarUsuarios() {
         ArrayList<Usuario> usuarios = new ArrayList<Usuario>();//Creamos un array vacio llamado usaurios
         for (int i = 0; i < Utilidades.USUARIOS.length; i++) { //Recorremos el array encontrado en la clase utilidades
             usuarios.add(Utilidades.USUARIOS[i]);//Y vamos añadiendo cada usuario a nuestro nuevo array vacio
         }
         return usuarios;//Devuelve el array que declaramos al principio de la funcion
-    }
+    }*/
 
     /**
      * Funcion que muestra los datos basicos de un usuario
@@ -613,8 +712,8 @@ public class Usuario implements Serializable {
 
     }
 
-    public static ArrayList<Usuario> importarUsuariosTexto(String ruta){
-        
+    public static ArrayList<Usuario> importarUsuariosTexto(String ruta) {
+
         ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
         Usuario nuevo = new Usuario();
         String texto;
@@ -623,7 +722,7 @@ public class Usuario implements Serializable {
             FileReader fr = new FileReader(f);
             BufferedReader br = new BufferedReader(fr);
             try {
-                while ((texto = br.readLine()) != null) { 
+                while ((texto = br.readLine()) != null) {
                     String[] array = texto.split("\\|");
                     nuevo.setId(Long.valueOf(array[0]));
                     nuevo.setNombre(array[1]);
@@ -640,9 +739,35 @@ public class Usuario implements Serializable {
             System.out.println("Error");
         }
         return usuarios;
-        
+
     }
-    
+
+    public static ArrayList obtenerNIFs(String ruta) {
+
+        ArrayList nifs = new ArrayList<>();
+        String nuevo;
+        String texto;
+        File f = new File(ruta);
+        try {
+            FileReader fr = new FileReader(f);
+            BufferedReader br = new BufferedReader(fr);
+            try {
+                while ((texto = br.readLine()) != null) {
+                    String[] array = texto.split("\\\n");
+                    nuevo = array[0];
+                    nifs.add(nuevo);
+                }
+                br.close();
+            } catch (IOException i) {
+                System.out.println(i.getMessage());
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Error");
+        }
+        return nifs;
+
+    }
+
     public static Usuario obtenerUsuarioPorID(long id) {
         Usuario nuevo = new Usuario();
         String texto;
@@ -659,7 +784,7 @@ public class Usuario implements Serializable {
                         nuevo.setApellido(array[2]);
                         nuevo.setNif(array[3]);
                         nuevo.setEmail(array[4]);
-    
+
                         return nuevo;
                     }
                 }
@@ -673,7 +798,6 @@ public class Usuario implements Serializable {
         return nuevo;
     }
 
-    
     public void guardarUsuarioBinario() {
 
         ObjectOutputStream objetoSalida = null;
@@ -722,8 +846,8 @@ public class Usuario implements Serializable {
 
     }
 
-    public static ArrayList<Usuario> importarUsuariosBinario(String ruta){
-        
+    public static ArrayList<Usuario> importarUsuariosBinario(String ruta) {
+
         ArrayList<Usuario> ret = new ArrayList<Usuario>();
         try {
             InputStream is = new FileInputStream(ruta);
@@ -734,7 +858,7 @@ public class Usuario implements Serializable {
                 System.out.println(u.data());
                 ret.add(u);
             }
-        }  catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             System.out.println("¡El fichero no existe!");
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -742,8 +866,138 @@ public class Usuario implements Serializable {
             System.out.println(e.getMessage());
         }
         return ret;
-        
+
     }
+
+    public static boolean buscarIniciodeSesion(String nifbuscado, String contraseñabuscada) {
+
+        ArrayList<Usuario> todosUsuarios = new ArrayList<Usuario>();
+        UsuarioDAO u = new UsuarioDAO();
+        todosUsuarios = u.todosUsuarios();
+        System.out.println(nifbuscado);
+        System.out.println(contraseñabuscada);
+        for (int i = 0; i < todosUsuarios.size(); i++) {
+            System.out.println(todosUsuarios.get(i).getContraseña());
+            System.out.println(todosUsuarios.get(i).getNif());
+            if ((contraseñabuscada.equals(todosUsuarios.get(i).getContraseña())) && (nifbuscado.equals(todosUsuarios.get(i).getNif()))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static Boolean buscarEmail(String emailbuscado) {
+        Boolean ret = false;
+        ArrayList<Usuario> todosUsuarios = new ArrayList<Usuario>();
+        UsuarioDAO u = new UsuarioDAO();
+        todosUsuarios = u.todosUsuarios();
+        for (int i = 0; i < todosUsuarios.size(); i++) {
+            if (emailbuscado.equals(todosUsuarios.get(i).getEmail())) {
+                ret = true;
+            }
+        }
+        return ret;
+    }
+
+    public static Boolean buscarNIF(String nifbuscado) {
+        Boolean ret = false;
+        ArrayList<Usuario> todosUsuarios = new ArrayList<Usuario>();
+        UsuarioDAO u = new UsuarioDAO();
+        todosUsuarios = u.todosUsuarios();
+        for (int i = 0; i < todosUsuarios.size(); i++) {
+            if (nifbuscado.equals(todosUsuarios.get(i).getNif())) {
+                ret = true;
+            }
+        }
+        return ret;
+    }
+
+    public static long buscarIDdadoemail(String email) {
+        long idbuscado = 0;
+        ArrayList<Usuario> todosUsuarios = new ArrayList<Usuario>();
+        UsuarioDAO u = new UsuarioDAO();
+        todosUsuarios = u.todosUsuarios();
+        for (int i = 0; i < todosUsuarios.size(); i++) {
+            if (email.equalsIgnoreCase(todosUsuarios.get(i).getEmail())) {
+                idbuscado = todosUsuarios.get(i).getId();
+                break;
+            }
+        }
+        return idbuscado;
+    }
+
+    public static Usuario buscarUsuarioporEmail(String emailusuario) {
+        Usuario ret = new Usuario();
+        ArrayList<Usuario> todosUsuarios = new ArrayList<Usuario>();
+        UsuarioDAO u = new UsuarioDAO();
+        todosUsuarios = u.todosUsuarios();
+        for (int i = 0; i < todosUsuarios.size(); i++) {
+            if (emailusuario.equals(todosUsuarios.get(i).getEmail())) {
+                ret = todosUsuarios.get(i);
+                break;
+            }
+        }
+        return ret;
+    }
+    
+    public static Usuario buscarUsuarioporNIF(String nif) {
+        Usuario ret = new Usuario();
+        ArrayList<Usuario> todosUsuarios = new ArrayList<Usuario>();
+        UsuarioDAO u = new UsuarioDAO();
+        todosUsuarios = u.todosUsuarios();
+        for (int i = 0; i < todosUsuarios.size(); i++) {
+            if (nif.equals(todosUsuarios.get(i).getNif())) {
+                ret = todosUsuarios.get(i);
+                System.out.println(ret.getAdministrador()+" "+ret.getIdDireccion());
+                break;
+            }
+        }
+        return ret;
+    }
+
+    public static Boolean contraseñaValida(String contraseña) {
+        if (contraseña.matches("^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$")) {
+            return true;
+        }
+        return false;
+    }
+
+    public static Boolean esAdministrador(String nifusuario) {
+
+        ArrayList<Usuario> todosUsuarios = new ArrayList<Usuario>();
+        UsuarioDAO u = new UsuarioDAO();
+        todosUsuarios = u.todosUsuarios();
+        for (int i = 0; i < todosUsuarios.size(); i++) {
+            if (nifusuario.equals(todosUsuarios.get(i).getNif())) {
+                if (todosUsuarios.get(i).getAdministrador()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static Boolean validarContraseña(String contraseña) {
+
+        if (contraseña.matches("^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$")) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static Boolean buscarUsuarioporNombreApellidoEmailNIF(String nombre, String apellido, String email, String nif) {
+        ArrayList<Usuario> todosUsuarios = new ArrayList<Usuario>();
+        UsuarioDAO u = new UsuarioDAO();
+        todosUsuarios = u.todosUsuarios();
+        for (int i = 0; i < todosUsuarios.size(); i++) {
+            if ((nombre.equalsIgnoreCase(todosUsuarios.get(i).getNombre())) && (apellido.equalsIgnoreCase(todosUsuarios.get(i).getApellido())) && (email.equalsIgnoreCase(todosUsuarios.get(i).getEmail())) && (nif.equalsIgnoreCase(todosUsuarios.get(i).getNif()))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /*metodo toString*/ @Override
 
     public String toString() {

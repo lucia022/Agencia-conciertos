@@ -227,7 +227,7 @@ public class Compra {
         return nuevacompra;
     }
 
-    public static ArrayList<Compra> todascompras() {   //Metodo para copiar todos los objetos de utilidades en un arraylist y poder manipularlo
+  /*  public static ArrayList<Compra> todascompras() {   //Metodo para copiar todos los objetos de utilidades en un arraylist y poder manipularlo
 
         ArrayList<Compra> compras = new ArrayList<Compra>();
         for (int i = 0; i < Utilidades.COMPRAS.length; i++) {
@@ -235,7 +235,7 @@ public class Compra {
             compras.add(Utilidades.COMPRAS[i]);
         }
         return compras;
-    }
+    }*/
 
     public static ArrayList<Compra> arrayde(ArrayList<Compra> lista, int[] ids) {
 

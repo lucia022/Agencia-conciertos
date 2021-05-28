@@ -77,7 +77,7 @@ public class Reserva {
         this.entradas = entradas;
     }
 
-    public static Reserva nuevaReserva(){
+    /*public static Reserva nuevaReserva(){
 
         Reserva nuevareserva = new Reserva();
         long idreserva;
@@ -90,9 +90,9 @@ public class Reserva {
         System.out.println("Elija ");
         
         return nuevareserva;
-    }
+    }*/
 
-    public static ArrayList<Reserva> todasReservas() {   //Metodo para copiar todos los objetos de utilidades en un arraylist y poder manipularlo
+   /* public static ArrayList<Reserva> todasReservas() {   //Metodo para copiar todos los objetos de utilidades en un arraylist y poder manipularlo
 
         ArrayList<Reserva> reservas = new ArrayList<Reserva>();
         for (int i = 0; i < Utilidades.RESERVAS.length; i++) {
@@ -100,7 +100,7 @@ public class Reserva {
             reservas.add(Utilidades.RESERVAS[i]);
         }
         return reservas;
-    }
+    }*/
 
     public static ArrayList<Reserva> arrayde(ArrayList<Reserva> reservas, int[] ids) {
         ArrayList<Reserva> ret = new ArrayList<Reserva>();
@@ -129,7 +129,7 @@ public class Reserva {
      *
      * @return long el cual es el id de la reserva nuevo
      */
-    public static long idReserva() {//Metodo para conseguir el id de forma automatica(se le suma uno al numero mas grande de id que haya)
+   /* public static long idReserva() {//Metodo para conseguir el id de forma automatica(se le suma uno al numero mas grande de id que haya)
 
         long masalto = 0;
         if (Utilidades.RESERVAS.length == 0) {     //En caso de que no haya ningun objeto se empezara en uno
@@ -144,7 +144,7 @@ public class Reserva {
         }
         masalto++; //Sea cual sea se le suma 1
         return masalto; //Se devuelve el nuevo id
-    }
+    }*/
 
     /*método toString*/
     @Override

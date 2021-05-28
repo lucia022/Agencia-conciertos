@@ -19,14 +19,7 @@ public class Utilidades {
 
     private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    public static final Descuento DESCUENTOS[] = {
-        new Descuento(1, "ab3g56j", Date.valueOf(LocalDate.parse("20/05/2023", dateFormatter)), 5),
-        new Descuento(2, "frju87c", Date.valueOf(LocalDate.parse("22/01/2024", dateFormatter)), 5),
-        new Descuento(4, "shgt679", Date.valueOf(LocalDate.parse("20/02/2023", dateFormatter)), 5),
-        new Descuento(5, "s7f7c93", Date.valueOf(LocalDate.parse("23/07/2024", dateFormatter)), 5),
-        new Descuento(3, "sc56k97", Date.valueOf(LocalDate.parse("12/11/2023", dateFormatter)), 5),
-        new Descuento(6, "hj7d4fb", Date.valueOf(LocalDate.parse("01/10/2023", dateFormatter)), 5)
-    };
+   
 
     public static final Entrada ENTRADAS[] = {
         new Entrada(1, 12.00, false, false), /*0*/
@@ -45,27 +38,11 @@ public class Utilidades {
         new Entrada(15, 8.50, false, true),
         new Entrada(14, 12.50, false, true)};
 
-    public static final Compra COMPRAS[] = {
-        new Compra(1, 12.00, "Tarjeta", DESCUENTOS[0], Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{1})),
-        new Compra(2, 20.00, "PayPal", null,Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{2})),
-        new Compra(20, 47.10, "Tarjeta", DESCUENTOS[2], Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{3,4})),
-        new Compra(12, 12.00, "Paysafecard", null,Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{7})),
-        new Compra(11, 22.50, "Tarjeta", DESCUENTOS[1], Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{12})),};
 
-    public static final Reserva RESERVAS[] = {
-        new Reserva(1, Date.valueOf(LocalDate.parse("10/02/2023", dateFormatter)), Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{10,11})),
-        new Reserva(2, Date.valueOf(LocalDate.parse("11/12/2023", dateFormatter)), Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{8,9})),
-        new Reserva(3, Date.valueOf(LocalDate.parse("20/09/2024", dateFormatter)), Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{5}))
 
-    };
+   
 
-    public static final Usuario USUARIOS[] = {
-        new Usuario(1, "Mario", "Araujo", "@", "11111111A", Compra.arrayde(Compra.convertir(COMPRAS), new int[]{1}), Reserva.arrayde(Reserva.convertir(RESERVAS), new int[]{1}), Descuento.arrayde(Descuento.convertir(DESCUENTOS), new int[]{1})),
-        new Usuario(12, "Lucia", "Rodriguez", "lucia@gmail.com", "22222222B", Compra.arrayde(Compra.convertir(COMPRAS), new int[]{2,20}), Reserva.arrayde(Reserva.convertir(RESERVAS), new int[]{}), Descuento.arrayde(Descuento.convertir(DESCUENTOS), new int[]{2})),
-        new Usuario(3, "Jonathan", "Caballero", "jony@hotmail.es", "33333333C", Compra.arrayde(Compra.convertir(COMPRAS), new int[]{12}), Reserva.arrayde(Reserva.convertir(RESERVAS), new int[]{}), Descuento.arrayde(Descuento.convertir(DESCUENTOS), new int[]{3})),
-        new Usuario(4, "Pepe", "Gonzalez", "pepe@hotmail.es", "44444444D", Compra.arrayde(Compra.convertir(COMPRAS), new int[]{11}), Reserva.arrayde(Reserva.convertir(RESERVAS), new int[]{2}), Descuento.arrayde(Descuento.convertir(DESCUENTOS), new int[]{5})),
-        new Usuario(8, "Gaizka", "Patron", "gaizka@hotmail.es", "55555555E", Compra.arrayde(Compra.convertir(COMPRAS), new int[]{}), Reserva.arrayde(Reserva.convertir(RESERVAS), new int[]{3}), Descuento.arrayde(Descuento.convertir(DESCUENTOS), new int[]{})), //new Usuario(6, "Aitor", "Perez", "aitor@hotmail.es", "66666666F",null,null)
-    };
+    
 
     //Parte hecha por Jonathan...asi esta...(Escrito or el propio Jonathan....Si es que no se puede dejar todo para el ultimo día...)
     public static final Informe INFORMES[] = {

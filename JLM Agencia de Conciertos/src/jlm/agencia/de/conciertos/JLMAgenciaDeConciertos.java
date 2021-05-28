@@ -18,7 +18,9 @@ import entidades.Usuario;
 import entidades.Utilidades;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,11 +38,17 @@ public class JLMAgenciaDeConciertos {
     public static void main(String[] args) {
         //Inicio del MAIN
 
+        
+
+        Calendar c = new GregorianCalendar();
+        String diahoy = Integer.toString(c.get(Calendar.DATE));
+        System.out.println(diahoy);
+
         Scanner in = new Scanner(System.in);
         ArrayList<Usuario> usuarios = new ArrayList<Usuario>();//Se cargan todos los usuarios que hay en utilidades en la variable usuarios(que es un arrayList que se puede modificar)
         UsuarioDAO u = new UsuarioDAO();
         usuarios = u.todosUsuarios();
-        
+
         ArrayList<Entrada> entradas = new ArrayList<Entrada>();//Se cargan todos los usuarios que hay en utilidades en la variable usuarios(que es un arrayList que se puede modificar)
         EntradaDAO e = new EntradaDAO();
         entradas = e.todasEntradas();
@@ -321,7 +329,7 @@ public class JLMAgenciaDeConciertos {
                                                 if (conciertos.get(i).getEntradas().size() > 0) {
                                                     int contador = 0;
                                                     for (int j = 0; j < conciertos.get(i).getEntradas().size(); j++) {
-                                                        
+
                                                         if (conciertos.get(i).getEntradas().get(j).isDisponible()) {
                                                             System.out.println(conciertos.get(i).getEntradas().get(j));
                                                             contador++;

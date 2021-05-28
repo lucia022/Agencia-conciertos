@@ -50,7 +50,11 @@ public class UsuarioDAO {
                     String apellido = prs.getString("apellido");
                     String email = prs.getString("email");
                     String nif = prs.getString("nif");
-                    Usuario usu = new Usuario(id, nombre, apellido, email, nif);
+                    Boolean admin = prs.getBoolean("administrador");
+                    String contraseña = prs.getString("contrasena");
+                    int iddireccion = prs.getInt("iddireccion");
+                    int idbancario = prs.getInt("idbancario");
+                    Usuario usu = new Usuario(id, nombre, apellido, email, nif, admin, contraseña,iddireccion,idbancario);
                     todosUsuarios.add(usu);
                 }
             } catch (SQLException ex) {
@@ -80,8 +84,18 @@ public class UsuarioDAO {
                 String apellido = u.getApellido();
                 String email = u.getEmail();
                 String nif = u.getNif();
+                Boolean administrador1 = u.getAdministrador();
+                int administrador;
+                if (administrador1) {
+                    administrador = 1;
+                } else {
+                    administrador = 0;
+                }
+                String contraseña = u.getContraseña();
+                int iddireccion = u.getIdDireccion();
+                int idbancario = u.getIdBancario();
 
-                String sql = "INSERT INTO usuario(nombre, apellido, email, nif) VALUES('" + nombre + "', '" + apellido + "', '" + email + "', '" + nif + "')";
+                String sql = "INSERT INTO usuario(nombre, apellido, email, nif, administrador,contrasena,idDireccion,idbancario) VALUES('" + nombre + "', '" + apellido + "', '" + email + "', '" + nif + "','" + administrador + "','" + contraseña +"','" + iddireccion +"','" + idbancario + "')";
                 pstmt = conn.prepareStatement(sql);
                 pstmt.execute();
 
@@ -100,8 +114,8 @@ public class UsuarioDAO {
         }
         return u;
     }
-    
-      public void modificarUsuario(Usuario u) {
+
+    public void modificarUsuario(Usuario u) {
         try {
             if (conn == null || conn.isClosed()) {
                 conn = ConexionBD.establecerConexion();
@@ -110,20 +124,30 @@ public class UsuarioDAO {
                 PreparedStatement pstmt = null;
 
                 String nombre = u.getNombre();
-                String apellido = u.getNombre();
-                String email = u.getNombre();
-                String nif = u.getNombre();
+                String apellido = u.getApellido();
+                String email = u.getEmail();
+                String nif = u.getNif();
+                Boolean administrador1 = u.getAdministrador();
+                int administrador;
+                if (administrador1) {
+                    administrador = 1;
+                } else {
+                    administrador = 0;
+                }
+                String contraseña = u.getContraseña();
 
                 String sql = "UPDATE usuario SET ";
                 sql += "nombre='" + nombre + "',";
                 sql += "apellido='" + apellido + "',";
                 sql += "email='" + email + "',";
-                sql += "nif='" + nif + "'";
+                sql += "nif='" + nif + "',";
+                sql += "administrador='" + administrador + "',";
+                sql += "contrasena='" + contraseña + "'";
 
-                sql += " WHERE idUsuario = ?";
+                sql += " WHERE idUsuario = " + u.getId();
                 pstmt = conn.prepareStatement(sql);
-                pstmt.setString(1, String.valueOf(u.getId()));
-                pstmt.executeUpdate();
+
+                pstmt.executeUpdate(sql);
             } catch (SQLException ex) {
                 System.out.println("Se ha producido una SQLException:" + ex.getMessage());
                 Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -139,17 +163,15 @@ public class UsuarioDAO {
         }
     }
 
-      public void eliminarUsuario(int idUsuario) {
+    public void eliminarUsuario(int idUsuario) {
         try {
             if (conn == null || conn.isClosed()) {
                 conn = ConexionBD.establecerConexion();
             }
             try {
                 PreparedStatement pstmt = null;
-                pstmt = conn.prepareStatement("DELETE FROM usuario WHERE idUsuario = ?");
-                pstmt.setString(1, String.valueOf(idUsuario));
+                pstmt = conn.prepareStatement("DELETE FROM usuario WHERE idUsuario = "+idUsuario);
                 pstmt.executeUpdate();
-                System.out.println("Se ha eliminado el usuario de la BD.");
             } catch (SQLException ex) {
                 System.out.println("Se ha producido una SQLException:" + ex.getMessage());
                 Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -164,8 +186,8 @@ public class UsuarioDAO {
             Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-      
-      public static Usuario buscarUsuarioById(int idUsuario) {
+
+    public static Usuario buscarUsuarioById(int idUsuario) {
         Usuario usuario = null;
         try {
             if (conn == null || conn.isClosed()) {
@@ -202,5 +224,4 @@ public class UsuarioDAO {
         return usuario;
     }
 
-      
 }
