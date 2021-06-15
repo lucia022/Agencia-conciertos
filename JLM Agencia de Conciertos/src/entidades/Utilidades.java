@@ -19,30 +19,20 @@ public class Utilidades {
 
     private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-   
-
     public static final Entrada ENTRADAS[] = {
-        new Entrada(1, 12.00, false, false), /*0*/
-        new Entrada(2, 20.00, true, false), /*1*/
-        new Entrada(3, 10.50, false, false), /*2*/
-        new Entrada(4, 36.60, true, false), /*3*/
-        new Entrada(5, 9.40, false, false), /*4*/
-        new Entrada(6, 40.00, true, true), /*5*/
-        new Entrada(7, 12.00, false, false), /*6*/
-        new Entrada(8, 25.50, true, false), /*7*/
-        new Entrada(9, 10.40, false, false), /*8*/
-        new Entrada(10, 30.00, true, false), /*9*/
-        new Entrada(11, 11.50, false, false), /*10*/
-        new Entrada(12, 22.50, true, true), /*11*/
-        new Entrada(13, 25.80, true, true),
-        new Entrada(15, 8.50, false, true),
-        new Entrada(14, 12.50, false, true)};
-
-
-
-   
-
-    
+        new Entrada(1, 12.01, false, 4), /*0*/
+        new Entrada(2, 432.1, true, 20), /*1*/
+        new Entrada(3, 12.01, false, 2), /*2*/
+        new Entrada(4, 432.1, true, 10), /*3*/
+        new Entrada(5, 12.01, false, 9), /*4*/
+        new Entrada(6, 432.1, true, 2), /*5*/
+        new Entrada(7, 12.01, false, 1), /*6*/
+        new Entrada(8, 432.1, true, 5), /*7*/
+        new Entrada(9, 12.01, false, 10), /*8*/
+        new Entrada(10, 432.1, true, 8), /*9*/
+        new Entrada(11, 12.01, false, 0), /*10*/
+        new Entrada(12, 432.1, true, 7) /*11*/};
+    public static final int numEntradas = ENTRADAS.length;
 
     //Parte hecha por Jonathan...asi esta...(Escrito or el propio Jonathan....Si es que no se puede dejar todo para el ultimo día...)
     public static final Informe INFORMES[] = {
@@ -53,12 +43,12 @@ public class Utilidades {
 
     //public static final int numInformes = INFORMES.length;
     public static final Gira GIRAS[] = {
-        new Gira(0, "España", Date.valueOf(LocalDate.parse("20/03/2019", dateFormatter)), Date.valueOf(LocalDate.parse("20/09/2019", dateFormatter)), INFORMES[2]),
-        new Gira(1, "Europea", Date.valueOf(LocalDate.parse("30/01/2020", dateFormatter)), Date.valueOf(LocalDate.parse("24/10/2020", dateFormatter)), INFORMES[2]),
-        new Gira(2, "Latinoamericano", Date.valueOf(LocalDate.parse("03/03/2020", dateFormatter)), Date.valueOf(LocalDate.parse("14/11/2020", dateFormatter)), INFORMES[1]),
-        new Gira(3, "UK", Date.valueOf(LocalDate.parse("14/04/2020", dateFormatter)), Date.valueOf(LocalDate.parse("18/09/2020", dateFormatter)), INFORMES[1]),};
-
-    //public static final int numGiras = GIRAS.length;
+        new Gira(0, "España", Date.valueOf(LocalDate.parse("20/03/2019", dateFormatter)), Date.valueOf(LocalDate.parse("20/09/2019", dateFormatter)), 0),
+        new Gira(1, "Europea", Date.valueOf(LocalDate.parse("30/01/2020", dateFormatter)), Date.valueOf(LocalDate.parse("24/10/2020", dateFormatter)), 1),
+        new Gira(2, "Latinoamericano", Date.valueOf(LocalDate.parse("03/03/2020", dateFormatter)), Date.valueOf(LocalDate.parse("14/11/2020", dateFormatter)), 2),
+        new Gira(3, "UK", Date.valueOf(LocalDate.parse("14/04/2020", dateFormatter)), Date.valueOf(LocalDate.parse("18/09/2020", dateFormatter)), 3)
+    };
+    public static final int numGiras = GIRAS.length;
     public static final Momento MOMENTOS[] = {
         new Momento(0, Date.valueOf(LocalDate.parse("20/03/2019", dateFormatter)), "DescripcionGiraEspañola"),
         new Momento(1, Date.valueOf(LocalDate.parse("14/04/2020", dateFormatter)), "DescripcionGiraUK"),
@@ -175,13 +165,20 @@ public class Utilidades {
     public static final int numActuaciones = ACTUACIONES.length;
 
     public static final Concierto CONCIERTOS[] = {
-        new Concierto(1, Date.valueOf(LocalDate.parse("20/01/2026", dateFormatter)), Actuacion.arrayde(Actuacion.convertir(ACTUACIONES), new int[]{2, 11, 18, 24, 27}), Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{1,2,3})),
-        new Concierto(2, Date.valueOf(LocalDate.parse("19/02/2026", dateFormatter)), Actuacion.arrayde(Actuacion.convertir(ACTUACIONES), new int[]{5, 6, 12, 17, 22}), Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{4,6})),
-        new Concierto(3, Date.valueOf(LocalDate.parse("19/03/2026", dateFormatter)), Actuacion.arrayde(Actuacion.convertir(ACTUACIONES), new int[]{3, 8, 14, 20, 25}), Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{5,7,8})),
+        new Concierto(1, Date.valueOf(LocalDate.parse("20/01/2026", dateFormatter)), Actuacion.arrayde(Actuacion.convertir(ACTUACIONES), new int[]{2, 11, 18, 24, 27}), Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{1, 2, 3})),
+        new Concierto(2, Date.valueOf(LocalDate.parse("19/02/2026", dateFormatter)), Actuacion.arrayde(Actuacion.convertir(ACTUACIONES), new int[]{5, 6, 12, 17, 22}), Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{4, 6})),
+        new Concierto(3, Date.valueOf(LocalDate.parse("19/03/2026", dateFormatter)), Actuacion.arrayde(Actuacion.convertir(ACTUACIONES), new int[]{3, 8, 14, 20, 25}), Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{5, 7, 8})),
         new Concierto(4, Date.valueOf(LocalDate.parse("11/04/2026", dateFormatter)), Actuacion.arrayde(Actuacion.convertir(ACTUACIONES), new int[]{1, 9, 16, 23, 28}), Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{9})),
-        new Concierto(5, Date.valueOf(LocalDate.parse("15/05/2026", dateFormatter)), Actuacion.arrayde(Actuacion.convertir(ACTUACIONES), new int[]{4, 10, 15, 19, 25}), Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{10,11})),
-        new Concierto(6, Date.valueOf(LocalDate.parse("18/06/2026", dateFormatter)), Actuacion.arrayde(Actuacion.convertir(ACTUACIONES), new int[]{0, 7, 13, 21, 29}), Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{12,13,14}))
+        new Concierto(5, Date.valueOf(LocalDate.parse("15/05/2026", dateFormatter)), Actuacion.arrayde(Actuacion.convertir(ACTUACIONES), new int[]{4, 10, 15, 19, 25}), Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{10, 11})),
+        new Concierto(6, Date.valueOf(LocalDate.parse("18/06/2026", dateFormatter)), Actuacion.arrayde(Actuacion.convertir(ACTUACIONES), new int[]{0, 7, 13, 21, 29}), Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{12, 13, 14}))
 
     };
+
+    public static final Reserva RESERVAS[] = {
+        new Reserva(1, Date.valueOf(LocalDate.parse("10/02/2023", dateFormatter)), Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{10, 11})),
+        new Reserva(2, Date.valueOf(LocalDate.parse("11/12/2023", dateFormatter)), Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{8, 9})),
+        new Reserva(3, Date.valueOf(LocalDate.parse("20/09/2024", dateFormatter)), Entrada.arrayde(Entrada.convertir(ENTRADAS), new int[]{5}))
+    };
+    public static final int numReservas = RESERVAS.length;
 
 }

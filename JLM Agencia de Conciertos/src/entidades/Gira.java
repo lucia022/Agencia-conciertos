@@ -1,63 +1,94 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package entidades;
 
+import ConexionBD.ConexionBD;
+import dao.ConciertoDAO;
+import dao.GiraDAO;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import varios.Validacion;
 
-//Clase Gira
+/**
+ *
+ * @author lucia
+ */
 public class Gira {
 
-    //Atributos de la clase Gira
-    // Valores Validos!! Estan permitodos todos los int/long cuyo valor sea entre 0 e infinito
-    // Valores Invalidos!! Queda prohibido el uso de caracteres especiales, numeros negativos, tipos `char, tipo double, tipo booblean, basicamento todo aquello que no sea un int/long primitivo´ 
+    public static ArrayList<Gira> cargarGira() {
+        ArrayList<Gira> giras = new ArrayList<Gira>();
+        ArrayList<Concierto> conciertos = new ArrayList<Concierto>();
+        Gira giraPaso = new Gira();
+        //SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        //Date FechaCierre = null;
+        /*Utilidades.GIRAS[0].setFechacierra(sdf.parse("20/09/2019"));
+        Utilidades.GIRAS[1].setFechacierra(sdf.parse("24/10/2020"));
+        Utilidades.GIRAS[2].setFechacierra(sdf.parse("14/11/2020"));
+        Utilidades.GIRAS[3].setFechacierra(sdf.parse("18/09/2020"));*/
+        for (int i = 0; i < Utilidades.GIRAS.length; i++) {
+            giraPaso = Utilidades.GIRAS[i];
+            conciertos = new ArrayList<Concierto>();
+            if (i == 0) {
+                conciertos.add(Utilidades.CONCIERTOS[0]);
+                conciertos.add(Utilidades.CONCIERTOS[1]);
+            } else if (i == 1) {
+                conciertos.add(Utilidades.CONCIERTOS[2]);
+                conciertos.add(Utilidades.CONCIERTOS[3]);
+            }
+            if (i == 2) {
+                conciertos.add(Utilidades.CONCIERTOS[4]);
+            }
+            if (i == 3) {
+                conciertos.add(Utilidades.CONCIERTOS[5]);
+            }
+            giraPaso.setConciertos(conciertos);
+            giras.add(giraPaso);
+        }
+        return giras;
+    }
+
+    static boolean validarIdGira(int idGira) {
+        if (idGira != 0) {
+            if (idGira < 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean validarGira(Gira g) {
+        if (g.getId() != 0) {
+            if (g.getId() < 0) {
+                return false;
+            }
+        }
+        if (g.getNombre().isEmpty()) {
+            return false;
+        }
+        return true;
+    }
+
     private long id;
-
-    /*  Valores Validos!! Todas aquellas cadenas de caracteres que esten formadas por un número de caracteres inferior a 2 hasta un máximo de 80 caracteres,
-         estan permitidas las Dieresis ("ü")y las cerdillas ("Ç")
-         Valores Invalidos! Cadenas de caracteres inferior a 3 letras, y superiores a 60 letras, quedan prohido todos los caracteres especiales,
-          numeros, primitivos tipo char, bueno, todo los primitivos estan prohibidos. */
     private String nombre;
-
-    //
-    //
     private Date fechainicio;
-
-    //
-    //
     private Date fechacierra;
-
-    // Valores Validos!! Por el momento solo se aceptan cadena de caracteres/String, caracteres del tipo char y guiones bajos ("_")por si hubiera menciones a correos electronicos
-    /* Valores Invalidos!! Quedan prohibidos el uso de primitivos, excepto el ´char´, ya que en el informe puede hacerse referencia a correos electronicos,
-     y el guión bajo ("_") por el mismo motivo*/
-    private Informe informe;
-
+    private long idInforme;
+    private long idConcierto;
     private ArrayList<Concierto> conciertos = new ArrayList<Concierto>(); //relacion "Compuesto" entre Concierto y Gira
 
-    /*Relacion "tener" entre Informe y Gira la cual es 1:1 y he decidido en este caso meter un atributo de tipo Informe en la clase Gira
-    en este caso el atrbuto seria necesario ya que la cardinalidad minima es superior a 0*/
- /*Hay que decir que sin la clase Gira no existiria la clase informe y es por eso que se trata de una dependencia*/
-    //Constructores de la clase Gira
     public Gira() {
-    }
-
-    public Gira(long id, String nombre, Date fechainicio, Date fechacierra, Informe informe) {
-        this.id = id;
-        this.nombre = nombre;
-        this.fechainicio = fechainicio;
-        this.fechacierra = fechacierra;
-        this.informe = informe;
-    }
-
-    public Gira(long id, String nombre, Date fechainicio, Date fechacierra, Informe informe, ArrayList<Concierto> conciertos) {
-        this.id = id;
-        this.nombre = nombre;
-        this.fechainicio = fechainicio;
-        this.fechacierra = fechacierra;
-        this.informe = informe;
-        this.conciertos = conciertos;
-
     }
 
     public Gira(Gira g) {
@@ -65,7 +96,20 @@ public class Gira {
         this.nombre = g.nombre;
         this.fechainicio = g.fechainicio;
         this.fechacierra = g.fechacierra;
-        this.informe = g.informe;
+        this.idInforme = g.idInforme;
+    }
+
+    public Gira(long id, String nombre, Date fechainicio, Date fechacierra, long idInforme) {
+        this.id = id;
+        this.nombre = nombre;
+        this.fechainicio = fechainicio;
+        this.fechacierra = fechacierra;
+        this.idInforme = idInforme;
+    }
+
+    public Gira(int idGira, String nombre) {
+        this.id = idGira;
+        this.nombre = nombre;
     }
 
     //Getters de la clase Gira
@@ -85,8 +129,12 @@ public class Gira {
         return fechacierra;
     }
 
-    public Informe getInforme() {
-        return informe;
+    public long getIdInforme() {
+        return idInforme;
+    }
+
+    public ArrayList<Concierto> getConciertos() {
+        return conciertos;
     }
 
     //Setters de la clase Gira
@@ -106,8 +154,20 @@ public class Gira {
         this.fechacierra = fechacierra;
     }
 
-    public void setInforme(Informe informe) {
-        this.informe = informe;
+    public void setInforme(long idInforme) {
+        this.idInforme = idInforme;
+    }
+
+    public void setConciertos(ArrayList<Concierto> conciertos) {
+        this.conciertos = conciertos;
+    }
+
+    public long getIdConcierto() {
+        return idConcierto;
+    }
+
+    public void setIdConcierto(long idConcierto) {
+        this.idConcierto = idConcierto;
     }
 
     //Arraylist de la clase Gira
@@ -137,11 +197,9 @@ public class Gira {
             }
         }
     }
-    
-    
 
-    //Función para buscar Giras y Conciertos
-    public static Gira buscarGiraById(int id) {
+//Función para buscar Giras y Conciertos
+    public static Gira buscarGiraByIdArraylist(int id) {
         for (int i = 0; i < Utilidades.GIRAS.length; i++) {
             if (Utilidades.GIRAS[i].getId() == id) {
                 return Utilidades.GIRAS[i];
@@ -149,176 +207,90 @@ public class Gira {
         }
         return null;
     }
-    
-
-/*
-    
-      
-        public static Concierto buscarConciertos(ArrayList<Concierto> conciertos) {
-        Concierto deseado;
-        ArrayList<Concierto> encontrados;
-        Scanner in;
-        int option = -1;
-    
-        do {
-            deseado = null;
-            encontrados = new ArrayList<Concierto>();
-            in = new Scanner(System.in, "Elija una de estas opciones segun sus preferencias");
-            System.out.println("Pulse 1 para buscar el Concierto por su ID.");
-            System.out.println("Pulse 2 para buscar el Concierto por su Día de realización.");
-            System.out.println("Pulse 3 para buscar el Concierto por sus Actuaciones.");
-            System.out.println("Pulse 0 para VOLVER.");
-              option = in.nextInt();
-            if (option < 0 || option > 3) {
-                System.out.println("Opción incorrecta.");
-                continue;
-        }
-            
-            in = new Scanner(System.in, "Elija una de estas opciones segun sus preferencias");
-             switch (option) {
-                case 0:
-                    break;
-                    
-                case 1:
-                     System.out.println("Introduzca el ID del concierto que desee encontrar:");
-                    int idConcierto = in.nextInt();
-                    deseado = Concierto.buscarConciertoPorId(idConcierto, conciertos);
-                    if (deseado != null) {
-                        System.out.print("Concierto localizado: ");
-                        System.out.println(deseado.getId() + ". " + deseado.getDiahora());
-                    } else {
-                        System.out.println("Empleado con id:" + idConcierto + " NO ENCONTRADO.");
-                    }
-                    break;
-    
-    
-                    
-                    // Este caso lo comento, puesto que estoy haciendo este ejemplo con conciertos por quie tengo que buscarlos yo junto con las giras
-                      y no se como hacer para pedir una fecha.
-                    
-                case 2:
-                        System.out.println("Introduzca el día del concierto que desee encontrar:");
-                    Date diaConcierto = in.n();
-                    deseado = Concierto.buscarConciertoPorId(idConcierto, conciertos);
-                    if (deseado != null) {
-                        System.out.print("Concierto localizado: ");
-                        System.out.println(deseado.getId() + ". " + deseado.getDiahora());
-                    } else {
-                        System.out.println("Empleado con id:" + idConcierto + " NO ENCONTRADO.");
-                    }
-                    break;
-                   // 
-    
-    
-                    
-                case 3:
-                        System.out.println("Introduzca la Actuación del concierto que desee encontrar:");
-                    int actConcierto = in.nextInt();
-                    deseado = Concierto.buscarConciertoPorId(actConcierto, conciertos);
-                    if (deseado != null) {
-                        System.out.print("Actuacion Encontrada: ");
-                        System.out.println(deseado.getId() + ". " + deseado.getActuaciones());
-                    } else {
-                        System.out.println("Actuacion:" + actConcierto + " NO ENCONTRADa.");
-                    }
-                    break;
-    
-         
-                default:
-                    break;
-            }
-        } while (option != 0);
-        
-       }   
-    
-    
-      
-    public static Concierto buscarConciertoPorId(int idConcierto, ArrayList<Concierto> conciertos) {
-        Concierto ret = null;
-        for (Concierto c : conciertos) {
-            if (c.getId() == idConcierto) {
-                ret = c;
-                break;
-            }
-        }
-        return ret;
-    }
-    
-      
-    public static Concierto buscarConciertoPorDia(Date diaConcierto, ArrayList<Concierto> conciertos) {
-        Concierto ret = null;
-        for (Concierto c : conciertos) {
-            if (c.getDiahora() == diaConcierto) {
-                ret = c;
-                break;
-            }
-        }
-        return ret;
-    }
-    
-    */
 
     //Nuevo Metodo
     public static Gira nuevaGira() {
-
+        long idGira;
+        String nombreGira;
+        Date fechaInicio, fechaCierre;
         Gira ret = new Gira();
-        Scanner in = new Scanner(System.in);
+        //ID DE LA GIRA
+        //idGira = Gira.pedirIdGira();
+        //System.out.println("El ID de la Gira será el " + idGira);
+        ret.setId(0);
+        //NOMBRE DE LA GIRA
+        nombreGira = Gira.pedirNombreGira();
+        ret.setNombre(nombreGira);
+        //FECHA INICIO DE LA GIRA
+        fechaInicio = Gira.pedirFechaInicio();
+        ret.setFechainicio(fechaInicio);
+        //FECHA CIERRE DE LA GIRA
+        fechaCierre = Gira.pedirFechaCierre();
+        ret.setFechacierra(fechaCierre);
+        ret.setInforme(1);
+        return ret;
+    }
 
-        long idNuevo;
-        String nombreNuevo = null;
-        long idInformeNuevo;
-        boolean fallo = true;
+    public static long pedirIdGira() {
+        long masalto = 0;
+        if (Utilidades.GIRAS.length == 0) {
 
-        do {
-
-            System.out.print("Introduzca el id de la Gira");
-            idNuevo = in.nextLong();
-            ret.setId(idNuevo);
-            if (idNuevo <= 0) {
-                System.out.println("El id introducido no es valido,introduzcalo de nuevo");
-            }
-
-        } while (idNuevo <= 0);
-
-        do {
-
-            System.out.println("Introduzca el nombre de la Gira");
-            String nombre = in.nextLine();
-            ret.setNombre(nombre);
-
-            for (int i = 0; i < nombreNuevo.length(); i++) {
-                if (Character.isDigit(nombreNuevo.charAt(i))) {
-                    fallo = true;
-                    System.out.println("El nombre introducido contiene numeros,inntroduzcalo de nuevo");
-                    break;
-                } else {
-                    fallo = false;
+        } else {
+            for (int i = 0; i < Utilidades.GIRAS.length; i++) {
+                if (Utilidades.GIRAS[i].getId() > masalto) {
+                    masalto = Utilidades.GIRAS[i].getId();
                 }
             }
+        }
+        masalto++;
+        return masalto;
+    }
 
-            if ((nombreNuevo.equals("")) || (nombreNuevo.equals(" "))) {
-                System.out.println("No has introducido ningun nombre,es necesario introducir uno");
-            }
-
-        } while ((nombreNuevo.equals("")) || (nombreNuevo.equals(" ")) || (fallo == true));
-
+    public static String pedirNombreGira() {
+        Scanner in = new Scanner(System.in);
+        String nombreGira;
+        boolean valido = false;
         do {
+            System.out.println("Introduzca el NOMBRE DE LA GIRA: ");
+            nombreGira = in.nextLine();
+            valido = Validacion.validarNombre(nombreGira.trim());
+        } while (!valido);
+        return nombreGira;
+    }
 
-            System.out.print("Introduzca el id del informe de la Gira");
-            idInformeNuevo = in.nextLong();
-            ret.setId(idNuevo);
-            if (idInformeNuevo <= 0) {
-                System.out.println("El id introducido no es valido,introduzcalo de nuevo");
+    public static Date pedirFechaInicio() {
+        Scanner in = new Scanner(System.in);
+        String strFecha;
+        Date ret = new Date();
+        Boolean valido = false;
+        do {
+            System.out.println("Introduzca la FECHA DE INICIO DE LA GIRA con el formato dd/MM/yyyy: ");
+            strFecha = in.nextLine();
+            valido = Validacion.validarFecha(strFecha.trim());
+            if (valido) {
+                ret = Validacion.ParseFecha(strFecha);
             }
-
-        } while (idNuevo <= 0);
-
+        } while (!valido);
         return ret;
+    }
 
+    public static Date pedirFechaCierre() {
+        Scanner in = new Scanner(System.in);
+        String strFecha;
+        Date ret = new Date();
+        Boolean valido = false;
+        do {
+            System.out.println("Introduzca la FECHA DE CIERRE DE LA GIRA: ");
+            strFecha = in.nextLine();
+            valido = Validacion.validarFecha(strFecha.trim());
+            if (valido) {
+                ret = Validacion.ParseFecha(strFecha);
+            }
+        } while (!valido);
+        return ret;
     }
 
     public static Date dameFecha() {
-
         Scanner in = new Scanner(System.in);
         Date Date = new Date();
 
@@ -340,8 +312,11 @@ public class Gira {
 
     //Metodo tooString de la clase Gira
     @Override
+    //public String toString() {
+    //    return "Los datos de la Gira son:" + "\n" + "El id es: " + id + "\n" + " El nombre es: " + nombre + "\n" + "El inicio de la Gira se produjo el: " + fechainicio + "\n" + " La Gira se cerro el: " + fechacierra + "\n" + "Su informe corresponde a: " + idInforme + "\n" + "Los conciertos que se produjeron en la Gira fueron: " + conciertos;
+    //}
     public String toString() {
-        return "Los datos de la Gira son:" + "\n" + "El id es: " + id + "\n" + " El nombre es: " + nombre + "\n" + "El inicio de la Gira se produjo el: " + fechainicio + "\n" + " La Gira se cerro el: " + fechacierra + "\n" + "Su informe corresponde a: " + informe + "\n" + "Los conciertos que se produjeron en la Gira fueron: " + conciertos;
+        return(nombre);
     }
 
 }

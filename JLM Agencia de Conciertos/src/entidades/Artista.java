@@ -1,19 +1,21 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package entidades;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
-//Clase y Atributos de Artista
+/**
+ *
+ * @author lucia
+ */
 public class Artista {
 
-    //VALORES VALIDOS: Long mayores que 0.
-    //VALORES INVALIDOS: Todo lo que no sea long y que el long sea menor igual que 0.
     private long id;
-    //VALORES VÁLIDOS: solo será válido las cadenas de carácteres comprendidas entre 2 y 40 carácteres
-    //VALORES INVÁLIDOS: Cadena de caracteres con caracteres no permitidos: '_', '&', '#' , ',' ':', ';' '?', '¿', '!','¡', '+', '*', '/', '\', '', cadenas de carácteres mayores de 40 y menores de 2.                       
     private String nombre;
-    //VALORES VÁLIDOS: solo están permitidos los valores de tipo char, cuyo valor solo puede ser una letra comprendida entre [A-Z] en mayúscula.
-    //VALORES INVÁLIDOS: valores que no sean de tipo char, valores en minúsculas, o la introducción de carácteres no permitidos como: '_', '&', '#' , ',' ':', ';' '?', '¿', '!','¡', '+', '*', '/', '\', ''
     private char generomusical;
 
     public Artista() {
@@ -57,7 +59,7 @@ public class Artista {
 
     @Override
     public String toString() {
-        return "Artista" + "\nId del artista:" + id + "\nNombre del artista:" + nombre + "\nGénero musical del artista:" + generomusical;
+        return "Artista nº " + id + "; " + nombre + ", " + "cuyo género musical es " + generomusical;
     }
 
     public static ArrayList<Artista> convertir(Artista[] array) {
@@ -66,6 +68,10 @@ public class Artista {
             ret.add((Artista) t);
         }
         return ret;
+    }
+
+    public String data() {
+        return this.id + "|" + this.nombre + "|" + this.generomusical;
     }
 
     public static ArrayList<Artista> arrayde(ArrayList<Artista> lista, int[] ids) {
@@ -82,47 +88,84 @@ public class Artista {
         return ret;
     }
 
-    public static Artista nuevoArtista() {
-        Artista ret = new Artista();
+    public static String pedirNombreArtista() {
         Scanner in = new Scanner(System.in);
-        long idartista;
+        String nombreArtista;
+        boolean valido = false;
         do {
-            System.out.println("Introduzca el id del artista:");
-            idartista = in.nextLong();
-            ret.setId(idartista);
-            if (idartista <= 0) {
-                System.out.println("El id introducido no es válido, introduzcalo de nuevo:");
+            System.out.println("Introduzca el NOMBRE DEL ARTISTA: ");
+            nombreArtista = in.nextLine();
+            valido = Artista.validarNombre(nombreArtista);
+        } while (!valido);
+        return nombreArtista;
+    }
+
+    public static boolean validarNombre(String nombreArtista) {
+        if ((nombreArtista.length() > 3 && nombreArtista.length() < 15)) {
+            if (nombreArtista.matches(".*[^a-z-A-Z].*")) {
+                System.out.println("El NOMBRE del Artista introducido es inválido.");
+                return false;
             }
-        } while (idartista <= 0);
-        String nombreartista;
-        boolean fallo = true;
-        do { //Pedira un nombre(String) pero este no podra tener numeros,ni estar vacio o tener un espacio ya que en ese caso lo volvera a pedir hasta que este sea correcto con lo anterior
+        }
+        return true;
+    }
 
-            System.out.print("Introduzca el nombre del artista: ");  //Se pide el nombre
-            nombreartista = in.next();
-            ret.setNombre(nombreartista);
+    public static char pedirGeneroMusical() {
+        Scanner in = new Scanner(System.in);
+        char generomusical;
+        boolean valido = false;
+        do {
+            System.out.println("Introduzca el GÉNERO MUSICAL DEL ARTISTA: ");
+            generomusical = in.next().charAt(0);
+            valido = Artista.validarGeneroMusical(generomusical);
+        } while (!valido);
+        return generomusical;
+    }
 
-            for (int i = 0; i < nombreartista.length(); i++) {  //Se mira si contiene numeros
-                if (Character.isDigit(nombreartista.charAt(i))) {
-                    fallo = true;
-                    System.out.println("El nombre introducido contiene numeros,inntroduzcalo de nuevo");    //Si contiene numeros muestra este mensaje
-                    break;
-                } else {
-                    fallo = false;
+    public static boolean validarGeneroMusical(char generomusical) {
+
+        return false;
+    }
+
+    public static long pedirIdArtista() {
+        long masalto = 0;
+        if (Utilidades.ARTISTAS.length == 0) {
+
+        } else {
+            for (int i = 0; i < Utilidades.ARTISTAS.length; i++) {
+                if (Utilidades.ARTISTAS[i].getId() > masalto) {
+                    masalto = Utilidades.ARTISTAS[i].getId();
                 }
             }
+        }
+        masalto++;
+        return masalto;
+    }
 
-            if ((nombreartista.equals("")) || (nombreartista.equals(" "))) {
-                System.out.println("No has introducido ningun nombre,es necesario introducir uno");//Si no se introduce nada muestra este mensaje
-            }
-
-        } while ((nombreartista.equals("")) || (nombreartista.equals(" ")) || (fallo == true));//Si esta vacio o contiene numeros vuelve a pedir el nombre
-
-        System.out.println("");
-
-        System.out.println("Introduzca el genero musical del artista");
-        char generomusical = in.next().charAt(0);
+    public static Artista leerArtistaTeclado() {
+        long idArtista;
+        String nombreArtista;
+        char generomusical;
+        Artista ret = new Artista();
+        //ID DEL ARTISTA
+        idArtista = Artista.pedirIdArtista();
+        System.out.println("El ID del Artista será el " + idArtista);
+        ret.setId(idArtista);
+        //NOMBRE DEL ARTISTA
+        nombreArtista = Artista.pedirNombreArtista();
+        ret.setNombre(nombreArtista);
+        //GÉNERO MUSICAL DEL ARTISTA
+        generomusical = Artista.pedirGeneroMusical();
         ret.setGeneromusical(generomusical);
         return ret;
     }
+
+    public static ArrayList<Artista> cargarArtistas() {
+        ArrayList<Artista> artistas = new ArrayList<Artista>();
+        for (int i = 0; i < Utilidades.ARTISTAS.length; i++) {
+            artistas.add(Utilidades.ARTISTAS[i]);
+        }
+        return artistas;
+    }
+
 }

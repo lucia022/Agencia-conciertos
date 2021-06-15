@@ -25,7 +25,7 @@ public class Reserva {
     private Date fechamaxima;
     //Es una coleccion de objetos del tipo entrafas en el cual se guardaran todas las entradas realizadas en la reserva x
     private ArrayList<Entrada> entradas = new ArrayList<Entrada>();
-    
+
     private long idUsuario;
 
     /*constructor por defecto*/
@@ -52,7 +52,19 @@ public class Reserva {
         this.entradas = res.entradas;
     }
 
+    public Reserva(int id, java.sql.Date fechamaxima, int idUsuario) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public long getIdUsuario() {
+        return idUsuario;
+    }
+
     /*getters y setters de cada atributo*/
+    public void setIdUsuario(long idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
     public long getId() {
         return id;
     }
@@ -82,17 +94,17 @@ public class Reserva {
         Reserva nuevareserva = new Reserva();
         long idreserva;
         //En caso de que quiera ser automatico
-        idreserva = Reserva.idReserva(); //En idusuario se guardara lo que retorne de la funcion idUusairo 
+        idreserva = Reserva.idReserva(); //En idusuario se guardara lo que retorne de la funcion idUusairo
         System.out.println("Su id de reserva sera el " + idreserva);//Se le muestra por pantalla que id tiene
         nuevareserva.setId(idreserva);//Se settea la variable idusuario en el objeto nuevousuario
         System.out.println("");
         System.out.println("Esta fecha tendra validez hasta");
         System.out.println("Elija ");
-        
+
         return nuevareserva;
     }*/
 
-   /* public static ArrayList<Reserva> todasReservas() {   //Metodo para copiar todos los objetos de utilidades en un arraylist y poder manipularlo
+ /* public static ArrayList<Reserva> todasReservas() {   //Metodo para copiar todos los objetos de utilidades en un arraylist y poder manipularlo
 
         ArrayList<Reserva> reservas = new ArrayList<Reserva>();
         for (int i = 0; i < Utilidades.RESERVAS.length; i++) {
@@ -101,7 +113,6 @@ public class Reserva {
         }
         return reservas;
     }*/
-
     public static ArrayList<Reserva> arrayde(ArrayList<Reserva> reservas, int[] ids) {
         ArrayList<Reserva> ret = new ArrayList<Reserva>();
         for (int i = 0; i < ids.length; i++) {
@@ -129,7 +140,7 @@ public class Reserva {
      *
      * @return long el cual es el id de la reserva nuevo
      */
-   /* public static long idReserva() {//Metodo para conseguir el id de forma automatica(se le suma uno al numero mas grande de id que haya)
+    /* public static long idReserva() {//Metodo para conseguir el id de forma automatica(se le suma uno al numero mas grande de id que haya)
 
         long masalto = 0;
         if (Utilidades.RESERVAS.length == 0) {     //En caso de que no haya ningun objeto se empezara en uno
@@ -146,10 +157,18 @@ public class Reserva {
         return masalto; //Se devuelve el nuevo id
     }*/
 
-    /*método toString*/
+ /*método toString*/
     @Override
     public String toString() {
         return "ID de reserva:" + id + "  Fecha maxima para realizar la compra:" + fechamaxima;
+    }
+
+    public static ArrayList<Reserva> cargarReservas() {
+        ArrayList<Reserva> reservas = new ArrayList<Reserva>();
+        for (int i = 0; i < Utilidades.RESERVAS.length; i++) {
+            reservas.add(Utilidades.RESERVAS[i]);
+        }
+        return reservas;
     }
 
 }

@@ -1,22 +1,30 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package entidades;
 
-import java.sql.Date;
+import dao.*;
+import varios.*;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.Scanner;
 
-//Clase y Atributos de la clase Concierto
+
+/**
+ *
+ * @author lucia
+ */
 public class Concierto {
 
-    //VALORES VALIDOS: Long mayores que 0.
-    //VALORES INVALIDOS: Todo lo que no sea long y que el long sea menor igual que 0.
     protected long id;
-    //VALORES VÁLIDOS: fecha (Date) en el formato dd/mm/aaaa.
-    //VALORES INVÁLIDOS: aquellas fechas (Date) que no contengan el formato dd/mm/aaaa
     protected Date diahora;
-    protected ArrayList<Actuacion> actuaciones = new ArrayList<Actuacion>();/*relación "formar" 10:1 entre Actuación y Concierto, introduciendo un ArrayList de Actuación en la clase concierto*/
-    
-    protected ArrayList<Entrada> entradas = new ArrayList<Entrada>(); /*relación "tener" N:1 entre e Entrada y Concierto, introduciendo un ArrayList de entrada en la clase concierto*/
+    protected ArrayList<Actuacion> actuaciones = new ArrayList<Actuacion>();
+    protected ArrayList<Entrada> entradas = new ArrayList<Entrada>();
+    protected long idGira;
 
     public Concierto() {
     }
@@ -40,6 +48,19 @@ public class Concierto {
         this.diahora = c.diahora;
         this.actuaciones = c.actuaciones;
         this.entradas = c.entradas;
+    }
+
+    //CONSTRUCTOR DE CONCIERTODAO
+    public Concierto(long id, Date diahora, long idGira) {
+        this.id = id;
+        this.diahora = diahora;
+        this.idGira = idGira;
+    }
+
+    public Concierto(long id, Date diahora) {
+        this.id = id;
+        this.diahora = diahora;
+
     }
 
     public long getId() {
@@ -74,19 +95,22 @@ public class Concierto {
         this.entradas = entradas;
     }
 
-     //Metodo To String de la clase Conceirto
+    public long getIdGira() {
+        return idGira;
+    }
+
+    public void setIdGira(long idGira) {
+        this.idGira = idGira;
+    }
+
+    //Metodo To String de la clase Conceirto
     @Override
     public String toString() {
-        return "Concierto" + "\nId del concierto:" + id + "\nfecha del concieto:" + diahora + "\nContiene las siguientes actuaciones:" + actuaciones + "\nDispone de estas entradas:" + entradas;
+        return "Concierto{" + "id=" + id + ", diahora=" + diahora + ", actuaciones=" + actuaciones + ", entradas=" + entradas + ", idGira=" + idGira + '}';
     }
-    
-    public String datosconcierto(){
-        return  "\nID del concierto:" + id + "  Fecha del concieto:" + diahora + "  Contiene las siguientes actuaciones:" + actuaciones ;
-    }
-    
-    //Parte Introducida por Jonathan
-          public static ArrayList<Concierto> arrayde(ArrayList<Concierto> lista,int[] ids) {
-       
+
+    public static ArrayList<Concierto> arrayde(ArrayList<Concierto> lista, int[] ids) {
+
         ArrayList<Concierto> ret = new ArrayList<Concierto>();
         for (int i = 0; i < ids.length; i++) {
             for (int j = 0; j < lista.size(); j++) {
@@ -99,6 +123,73 @@ public class Concierto {
         return ret;
     }
 
+    public static Concierto leerConciertoTeclado(ArrayList<Gira> aLGira) {
+        boolean correcto = false;
+        //long idConcierto;
+        Date diahora;
+        Concierto ret = new Concierto();
+        //ID DEL CONCIERTO
+        //idConcierto = Concierto.pedirIdConcierto();
+        //System.out.println("El ID del CONCIERTO será el" + idConcierto);
+        //ret.setId(idConcierto);
+        ret.setId(0);
+        //FECHA DEL CONCIERTO
+        diahora = Concierto.pedirDiaHora();
+        ret.setDiahora(diahora);
+        //ID GIRA
+        Scanner in = new Scanner(System.in);
+        int idGira = 0;
+        Gira gi;
+        do {
+            System.out.println("Introduzca el ID de la GIRA");
+            idGira = in.nextInt();
+            correcto = Gira.validarIdGira(idGira);
+            //que idGira coincide con uno de la BBDD
+            if (correcto) {
+                gi = GiraDAO.buscarGiraById(idGira);
+            } else {
+                gi = null;
+            }
+        } while (gi == null);
+
+        ret.setIdGira(idGira);
+        return ret;
+    }
+
+    public static Date pedirDiaHora() {
+        Scanner in = new Scanner(System.in);
+        String strFecha;
+        Date ret = new Date();
+        Boolean valido = false;
+        do {
+            System.out.println("Introduzca la FECHA del CONCIERTO con el formato dd/MM/yyyy: ");
+            strFecha = in.nextLine();
+            valido = Validacion.validarFecha(strFecha.trim());
+            if (valido) {
+                ret = Validacion.ParseFecha(strFecha);
+            }
+        } while (!valido);
+        return ret;
+    }
+
+    public static long pedirIdGira(ArrayList<Gira> gira) {
+        Scanner in = new Scanner(System.in);
+        boolean valido = false;
+        long ret = 0;
+        do {
+            System.out.println("Introduzca el ID DE LA GIRA: ");
+            //validar que es numero
+            ret = in.nextLong();
+            //que este dentro de los validos
+            for (int i = 0; i < gira.size(); i++) {
+                if (ret == gira.get(i).getId()) {
+                    valido = true;
+                }
+            }
+        } while (!valido);
+        return ret;
+    }
+
     public static ArrayList<Concierto> convertir(Concierto[] array) {
         ArrayList<Concierto> ret = new ArrayList<Concierto>();
         for (Concierto c : array) {
@@ -106,155 +197,28 @@ public class Concierto {
         }
         return ret;
     }
-    //Hasta aqui
- 
 
+    public static long pedirIdConciertoArraylist() {
+        long masalto = 0;
+        if (Utilidades.CONCIERTOS.length == 0) {
 
-    public static Concierto nuevoConcierto() throws ParseException {
-        Concierto ret = new Concierto();
-        Scanner in = new Scanner(System.in);
-        long idconcierto;
-        do {
-            System.out.println("Introduzca el id del concierto:");
-            idconcierto = in.nextLong();
-            ret.setId(idconcierto);
-            if (idconcierto <= 0) {
-                System.out.println("El id introducido no es válido, introduzcalo de nuevo:");
-            }
-        } while (idconcierto <= 0);
-        /*ret.setId(Utilidades.numConciertos + 1);*/
-
-        java.util.Date fecha = (java.util.Date) Fecha.dameFecha();
-        return ret;
-
-    }
-
-    public static ArrayList<Concierto> todosconciertos() {
-        ArrayList<Concierto> todosconciertos = new ArrayList<Concierto>();
-        for (int i = 0; i < Utilidades.CONCIERTOS.length; i++) {
-            todosconciertos.add(Utilidades.CONCIERTOS[i]);
-        }
-        return todosconciertos;
-    }
-    
-    
-    /*  Parte hecha por Jonathan
-    
-      
-        public static Concierto buscarConciertos(ArrayList<Concierto> conciertos) {
-        Concierto deseado;
-        ArrayList<Concierto> encontrados;
-        Scanner in;
-        int option = -1;
-    
-        do {
-            deseado = null;
-            encontrados = new ArrayList<Concierto>();
-            in = new Scanner(System.in, "Elija una de estas opciones segun sus preferencias");
-            System.out.println("Pulse 1 para buscar el Concierto por su ID.");
-            System.out.println("Pulse 2 para buscar el Concierto por su Día de realización.");
-            System.out.println("Pulse 3 para buscar el Concierto por sus Actuaciones.");
-            System.out.println("Pulse 0 para VOLVER.");
-              option = in.nextInt();
-            if (option < 0 || option > 3) {
-                System.out.println("Opción incorrecta.");
-                continue;
-        }
-            
-            in = new Scanner(System.in, "Elija una de estas opciones segun sus preferencias");
-             switch (option) {
-                case 0:
-                    break;
-                    
-                case 1:
-                     System.out.println("Introduzca el ID del concierto que desee encontrar:");
-                    int idConcierto = in.nextInt();
-                    deseado = Concierto.buscarConciertoPorId(idConcierto, conciertos);
-                    if (deseado != null) {
-                        System.out.print("Concierto localizado: ");
-                        System.out.println(deseado.getId() + ". " + deseado.getDiahora());
-                    } else {
-                        System.out.println("Empleado con id:" + idConcierto + " NO ENCONTRADO.");
-                    }
-                    break;
-    
-    
-                    
-                    // Este caso lo comento, puesto que estoy haciendo este ejemplo con conciertos por quie tengo que buscarlos yo junto con las giras
-                      y no se como hacer para pedir una fecha.
-                    
-                case 2:
-                        System.out.println("Introduzca el día del concierto que desee encontrar:");
-                    Date diaConcierto = in.n();
-                    deseado = Concierto.buscarConciertoPorId(idConcierto, conciertos);
-                    if (deseado != null) {
-                        System.out.print("Concierto localizado: ");
-                        System.out.println(deseado.getId() + ". " + deseado.getDiahora());
-                    } else {
-                        System.out.println("Empleado con id:" + idConcierto + " NO ENCONTRADO.");
-                    }
-                    break;
-                   // 
-    
-    
-                    
-                case 3:
-                        System.out.println("Introduzca la Actuación del concierto que desee encontrar:");
-                    int actConcierto = in.nextInt();
-                    deseado = Concierto.buscarConciertoPorId(actConcierto, conciertos);
-                    if (deseado != null) {
-                        System.out.print("Actuacion Encontrada: ");
-                        System.out.println(deseado.getId() + ". " + deseado.getActuaciones());
-                    } else {
-                        System.out.println("Actuacion:" + actConcierto + " NO ENCONTRADa.");
-                    }
-                    break;
-    
-         
-                default:
-                    break;
-            }
-        } while (option != 0);
-        
-       }   
-    
-    
-      
-    public static Concierto buscarConciertoPorId(int idConcierto, ArrayList<Concierto> conciertos) {
-        Concierto ret = null;
-        for (Concierto c : conciertos) {
-            if (c.getId() == idConcierto) {
-                ret = c;
-                break;
+        } else {
+            for (int i = 0; i < Utilidades.CONCIERTOS.length; i++) {
+                if (Utilidades.CONCIERTOS[i].getId() > masalto) {
+                    masalto = Utilidades.CONCIERTOS[i].getId();
+                }
             }
         }
-        return ret;
+        masalto++;
+        return masalto;
     }
-    
-      
-    public static Concierto buscarConciertoPorDia(Date diaConcierto, ArrayList<Concierto> conciertos) {
-        Concierto ret = null;
-        for (Concierto c : conciertos) {
-            if (c.getDiahora() == diaConcierto) {
-                ret = c;
-                break;
-            }
-        }
-        return ret;
-    }
-    
-    */
-    /**
-     * Metodo para copiar todos los objetos de utilidades en un arraylist para
-     * poder manipularlo
-     *
-     * @return Un array con todos los conciertos de nuestra base de datos
-     */
+
     public static ArrayList<Concierto> cargarConciertos() {
-        ArrayList<Concierto> conciertos = new ArrayList<Concierto>();//Creamos un array vacio llamado usaurios
-        for (int i = 0; i < Utilidades.CONCIERTOS.length; i++) { //Recorremos el array encontrado en la clase utilidades
-            conciertos.add(Utilidades.CONCIERTOS[i]);//Y vamos añadiendo cada entrada a nuestro nuevo array vacio
+        ArrayList<Concierto> conciertos = new ArrayList<Concierto>();
+        for (int i = 0; i < Utilidades.CONCIERTOS.length; i++) {
+            conciertos.add(Utilidades.CONCIERTOS[i]);
         }
-        return conciertos;//Devuelve el array que declaramos al principio de la funcion
+        return conciertos;
     }
+
 }

@@ -22,49 +22,42 @@ import java.util.logging.Logger;
 //Clase y Atributos de la clase Entrada
 public class Entrada {
 
-    //VALORES VALIDOS: Long mayores que 0.
-    //VALORES INVALIDOS: Todo lo que no sea long y que el long sea menor igual que 0.
     private long id;
-    //VALORES VÁLIDOS: solo se aceptan los valores con formato 0.00, correspondiendo al precio de las entradas en euros.
-    //VALORES INVÁLIDOS: aquellos valores que no sean introducidos con el fomato 0.00, y el valor del precio de las entradas no sea en euros.
     private double precio;
     private boolean VIP = false;
+    private int existencias;
     private boolean disponible = true;
-
     private long idConcierto;
-    private long idReserva;
     private long idCompra;
-    
+    private long idReserva;
+
     public Entrada() {
     }
 
-    public Entrada(long id, double precio, boolean VIP) {
-        this.id = id;
-        this.precio = precio;
-        this.VIP = VIP;
-    }
-
-    public Entrada(long id, double precio, boolean VIP, boolean disponible) {
-        this.id = id;
-        this.precio = precio;
-        this.VIP = VIP;
-        this.disponible = disponible;
-    }
-    
-    public Entrada(long id, double precio, boolean VIP, boolean disponible,long idConcierto,long idReserva,long idCompra) {
+    public Entrada(long id, double precio, boolean VIP, boolean disponible, long idConcierto, long idCompra, long idReserva) {
         this.id = id;
         this.precio = precio;
         this.VIP = VIP;
         this.disponible = disponible;
         this.idConcierto = idConcierto;
-        this.idReserva = idReserva;
         this.idCompra = idCompra;
+        this.idReserva = idReserva;
+    }
+
+    public Entrada(long id, double precio, boolean VIP, int existencias) {
+        this.id = id;
+        this.precio = precio;
+        this.VIP = VIP;
+        this.existencias = existencias;
+
     }
 
     public Entrada(Entrada e) {
         this.id = e.id;
         this.precio = e.precio;
         this.VIP = e.VIP;
+        this.existencias = e.existencias;
+
     }
 
     public long getId() {
@@ -83,7 +76,7 @@ public class Entrada {
         this.precio = precio;
     }
 
-    public boolean isVIP() {
+    public boolean getVIP() {
         return VIP;
     }
 
@@ -91,7 +84,15 @@ public class Entrada {
         this.VIP = VIP;
     }
 
-    public boolean isDisponible() {
+    public int getExistencias() {
+        return existencias;
+    }
+
+    public void setExistencias(int existencias) {
+        this.existencias = existencias;
+    }
+
+    public boolean getDisponible() {
         return disponible;
     }
 
@@ -99,16 +100,34 @@ public class Entrada {
         this.disponible = disponible;
     }
 
+    public long getIdConcierto() {
+        return idConcierto;
+    }
+
+    public void setIdConcierto(long idConcierto) {
+        this.idConcierto = idConcierto;
+    }
+
+    public long getIdCompra() {
+        return idCompra;
+    }
+
+    public void setIdCompra(long idCompra) {
+        this.idCompra = idCompra;
+    }
+
+    public long getIdReserva() {
+        return idReserva;
+    }
+
+    public void setIdReserva(long idReserva) {
+        this.idReserva = idReserva;
+    }
+
     /*Método toString de la clase Entrada*/
     @Override
     public String toString() {
-        String devuelto;
-        if (VIP) {
-            devuelto = "ID de la entrada:" + id + " Precio de la entrada:" + precio + "€ ENTRADA VIP";
-        } else {
-            devuelto = "ID de la entrada:" + id + " Precio de la entrada:" + precio + "€  ENTRADA NO VIP";
-        }
-        return devuelto;
+        return "Entrada nº " + id + "; " + "cuyo precio es " + precio + "€" + ", tiene una disponibilidad de " + existencias + " entradas";
     }
 
     public static ArrayList<Entrada> convertir(Entrada[] array) {
@@ -173,16 +192,24 @@ public class Entrada {
      *
      * @return Un array con todas las entradas de nuestra base de datos
      */
-    public static ArrayList<Entrada> cargarEntradas() {
-        ArrayList<Entrada> entradas = new ArrayList<Entrada>();//Creamos un array vacio llamado usaurios
-        for (int i = 0; i < Utilidades.ENTRADAS.length; i++) { //Recorremos el array encontrado en la clase utilidades
-            entradas.add(Utilidades.ENTRADAS[i]);//Y vamos añadiendo cada entrada a nuestro nuevo array vacio
+    public static Entrada getEntradaById(long id) {
+        for (int i = 0; i < Utilidades.numEntradas; i++) {
+            if (Utilidades.ENTRADAS[i].getId() == id) {
+                return Utilidades.ENTRADAS[i];
+            }
         }
-        return entradas;//Devuelve el array que declaramos al principio de la funcion
+        return null;
     }
-    
-    
-     public String data() {
+
+    public static ArrayList<Entrada> cargarEntradas() {
+        ArrayList<Entrada> entradas = new ArrayList<Entrada>();
+        for (int i = 0; i < Utilidades.ENTRADAS.length; i++) {
+            entradas.add(Utilidades.ENTRADAS[i]);
+        }
+        return entradas;
+    }
+
+    public String data() {
         return this.id + "|" + this.precio + "|" + this.VIP + "|" + this.disponible;
     }
 
@@ -368,6 +395,10 @@ public class Entrada {
         }
         return ret;
 
+    }
+
+    public boolean isDisponible() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
